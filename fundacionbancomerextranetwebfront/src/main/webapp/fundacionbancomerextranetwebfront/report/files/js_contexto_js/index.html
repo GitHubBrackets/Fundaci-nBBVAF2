@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\contexto.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\contexto.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">36.15</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">175</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">5.74</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.80</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">var scholar = {
+    &quot;studentID&quot;: -1,
+	&quot;personalData&quot;: {
+        &quot;username&quot;: &quot;:null:&quot;,
+		&quot;name&quot;: &quot;:null:&quot;,
+		&quot;lastName&quot;: &quot;:null:&quot;,
+		&quot;secondLastName&quot;: &quot;:null:&quot;,
+        &quot;originRegion&quot;: &quot;:null:&quot;,
+        &quot;originState&quot;: &quot;:null:&quot;,
+        &quot;cdOriginState&quot; : &quot;:null:&quot;,
+        &quot;originMunicipality&quot; : &quot;:null:&quot;,
+        &quot;cdOriginMunicipality&quot;: &quot;:null:&quot;,
+        &quot;curp&quot;: &quot;:null:&quot;,
+        &quot;birthdate&quot;: &quot;:null:&quot;,
+        &quot;age&quot;: -6,
+        &quot;gender&quot;: &quot;:null:&quot;,
+        &quot;cdAssignedCR&quot;: &quot;:null:&quot;,
+        &quot;assignedCR&quot;: &quot;:null:&quot;,
+        &quot;accountNumber&quot;: &quot;:null:&quot;,
+        &quot;scholarNumber&quot;: &quot;:null:&quot;,
+        &quot;profilePicture&quot;: &quot;:null:&quot;,
+        &quot;base64ProfilePicture&quot;: &quot;&quot;,
+	},
+	&quot;scholarship&quot;: {
+        &quot;statusDispersion&quot;: &quot;:null:&quot;,
+		&quot;programName&quot;: &quot;:null:&quot;,
+        &quot;programType&quot;: &quot;:null:&quot;,
+        &quot;modalityParticipation&quot;: &quot;:null:&quot;,
+        &quot;confirmDispersion&quot;: []
+	},
+    &quot;schoolData&quot;: {
+        &quot;name&quot; : &quot;:null:&quot;,
+        &quot;domicile&quot;: &quot;:null:&quot;,
+        &quot;type&quot;: &quot;:null:&quot;,
+        &quot;initials&quot;: &quot;:null:&quot;,
+        &quot;control&quot;: &quot;:null:&quot;,
+        &quot;cct&quot;: &quot;:null:&quot;,
+        &quot;state&quot;: &quot;:null:&quot;,
+        &quot;cdState&quot;: &quot;:null:&quot;,
+        &quot;municipality&quot;: &quot;:null:&quot;,
+        &quot;cdMunicipality&quot;: &quot;:null:&quot;,
+        &quot;typeCareer&quot;: &quot;:null:&quot;,
+        &quot;nameCareer&quot;: &quot;:null:&quot;,
+        &quot;area&quot;: &quot;:null:&quot;,
+        &quot;turn&quot;: &quot;:null:&quot;,
+        &quot;duration&quot;: &quot;:null:&quot;
+    },
+    &quot;domicile&quot;: {
+        &quot;street&quot;: &quot;:null:&quot;,
+        &quot;numExterior&quot;: &quot;:null:&quot;,
+        &quot;numInterior&quot;: &quot;:null:&quot;,
+        &quot;codePostal&quot;: &quot;:null:&quot;,
+        &quot;state&quot;: &quot;:null:&quot;,
+        &quot;cdState&quot;: &quot;:null:&quot;,
+        &quot;municipality&quot;: &quot;:null:&quot;,
+        &quot;cdMunicipality&quot;: &quot;:null:&quot;,
+        &quot;locality&quot;: &quot;:null:&quot;,
+        &quot;colony&quot;: &quot;:null:&quot;,
+        &quot;betweenStreet&quot;: &quot;:null:&quot;,
+        &quot;typeOfRoad1&quot;: &quot;:null:&quot;,
+        &quot;andTheStreet&quot;: &quot;:null:&quot;,
+        &quot;typeOfRoad2&quot;: &quot;:null:&quot;,
+        &quot;behindStreet&quot;: &quot;:null:&quot;,
+        &quot;typeOfRoad3&quot;: &quot;:null:&quot;,
+        &quot;particularReferences&quot;: &quot;:null:&quot;
+    },
+    &quot;contactData&quot;: {
+        &quot;homePhone&quot;: &quot;:null:&quot;,
+        &quot;cellPhone&quot;: &quot;:null:&quot;,
+        &quot;messagePhone&quot;: &quot;:null:&quot;,
+        &quot;email&quot;: &quot;:null:&quot;,
+        &quot;email1&quot;: &quot;:null:&quot;,
+        &quot;email2&quot;: &quot;:null:&quot;
+    },
+    &quot;tutorData&quot;: {
+        &quot;name&quot;: &quot;:null:&quot;,
+        &quot;lastName&quot;: &quot;:null:&quot;,
+        &quot;secondLastName&quot;: &quot;:null:&quot;,
+        &quot;kinship&quot;: &quot;:null:&quot;,
+        &quot;kinshipType&quot;: &quot;:null:&quot;
+    },
+    &quot;statusQualifications&quot;: {
+    	&quot;schoolCycle&quot;: &quot;&quot;,
+    	&quot;schoolGrade&quot;: &quot;&quot;,
+    	&quot;averageSchoolGrade&quot;: -10,
+        &quot;schoolLevels&quot;: [
+                         {
+                             &quot;scholarLevel&quot;: &quot;Secundaria&quot;,
+                             &quot;scholarGrades&quot;: [
+                                 {
+                                     &quot;scholarGrade&quot;: &quot;1er año de secundaria&quot;
+                                 },
+                                 {
+                                     &quot;scholarGrade&quot;: &quot;2o año de secundaria&quot;
+                                 },
+                                 {
+                                     &quot;scholarGrade&quot;: &quot;3er año de secundaria&quot;
+                                 }
+                             ]
+                          }
+                         ],
+       &quot;averagesScholarLevel&quot;: [/*
+                                 {
+                                 	&quot;isMissing&quot;: false,
+						        	&quot;folio&quot;: &quot;IMX0000231040328785166&quot;,
+						        	&quot;qualification&quot;: 9.28,
+						        	&quot;scholarLevel&quot;: &quot;Secundaria&quot;,
+						        	&quot;schoolGrade&quot;: &quot;1er año de secundaria&quot;,
+						        	&quot;schoolPeriod&quot;: &quot;1er bimestre&quot;
+						        },
+						        {
+						        	&quot;isMissing&quot;: true,
+						            &quot;scholarLevel&quot;: &quot;Secundaria&quot;,
+						            &quot;schoolGrade&quot;: &quot;1er año de secundaria&quot;,
+						            &quot;schoolPeriod&quot;: &quot;2o bimestre&quot;,
+						            &quot;qualification&quot;: 0
+						        }
+						       */ ],
+        &quot;averagesSchoolGrade&quot;: [
+                                {
+                                    &quot;scholarLevel&quot;: &quot;Secundaria&quot;,
+                                    &quot;averageScholarLevel&quot;: 0,
+                                    &quot;averagesSchoolGrade&quot;: [
+                                        {
+                                            &quot;schoolGrade&quot;: &quot;1er año de secundaria&quot;,
+                                            &quot;averageSchoolGrade&quot;: 8.1,
+                                            &quot;folio&quot;: &quot;IMX0000406785819487474&quot;
+                                        },
+                                        {
+                                            &quot;schoolGrade&quot;: &quot;2o año de secundaria&quot;,
+                                            &quot;averageSchoolGrade&quot;: 9.69,
+                                            &quot;folio&quot;: &quot;IMX0000406785819487474&quot;
+                                        },
+                                        {
+                                            &quot;schoolGrade&quot;: &quot;3er año de secundaria&quot;,
+                                            &quot;averageSchoolGrade&quot;: 8.87,
+                                            &quot;folio&quot;: &quot;IMX0000406785819487474&quot;
+                                        }
+                                    ]
+                                 }
+                                ],
+        &quot;constancyFolio&quot;: &quot;&quot;,
+        &quot;constancyNextGrade&quot;: &quot;&quot;,
+        &quot;indicatorMissingConstancy&quot;: 0
+    },
+    &quot;program&quot;: [
+            	/*{
+                    &quot;status&quot;: &quot;Seleccionado&quot;,
+                    &quot;modalityParticipation&quot;: &quot;Fundación Bancomer&quot;,
+                    &quot;generation&quot;: &quot;2015-2020&quot;,
+                    &quot;originResources&quot;: &quot;Fundación Bancomer&quot;,
+                    &quot;projectSEPNumber&quot;: &quot;0&quot;,
+                    &quot;numberNMDP&quot;: &quot;0&quot;,
+                    &quot;schoolGrade&quot;: &quot;3er año de universidad&quot;,
+                    &quot;resultImpactEvaluation&quot;: &quot;Tratamiento 3&quot;
+                }*/
+            ],
+	&quot;alerts&quot;: [
+                /*{&quot;message&quot;: &quot;Aqu&amp;iacute; aparecen los mensajes para el becario (:&quot;},
+                {&quot;message&quot;: &quot;Aqu&amp;iacute; aparece la segunda alerta&quot;},
+                {&quot;message&quot;: &quot;Aqu&amp;iacute; aparecen la tercer alerta&quot;},
+                {&quot;message&quot;: &quot;Aqu&amp;iacute; aparece la cuarta alerta&quot;}*/
+    ],
+	&quot;confirm&quot;: []
+};
+var statesTransactions = [];
+
+var currentStateMunicipality = {municipalityTransactions:[]};
+
+var combos = {
+		&quot;gender&quot;: [],
+		&quot;typeOfViality&quot;: [],
+		&quot;kindship&quot;: [],
+		&quot;cdRB&quot;: []
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

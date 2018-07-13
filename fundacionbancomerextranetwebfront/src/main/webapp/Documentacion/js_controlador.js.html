@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js/controlador.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkBoxConfirm">checkBoxConfirm</a></li><li><a href="global.html#findParentElementByClass">findParentElementByClass</a></li><li><a href="global.html#getRootPath">getRootPath</a></li><li><a href="global.html#loadTemplate">loadTemplate</a></li><li><a href="global.html#requerido">requerido</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">js/controlador.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Carga un template dentro de un elemento de la página y al terminar ejecuta la función onload() definida dentro de plantillas.conf.js
+ * @param {string} idDOM        Id del elemento donde se inserta el template
+ * @param {object} templateData JSON del template a insertar desde plantillas.conf.js
+ * @param {object} data         JSON que contiene la información dinámica a pintar en el template
+ */
+function loadTemplate(idDOM, templateData, data) {
+    strTemplate = dojo.cache(templateData.workspace, templateData.html);
+    varsTemplate = strTemplate.match(/\u0024\u007B[a-zA-Z0-9_]*\u007D/g);
+    for (it = 0; it &lt; varsTemplate.length; it++) {
+        tempData = varsTemplate[it];
+        strTemplate = strTemplate.replace(tempData, data[tempData.substring(2, tempData.length - 1)]);
+    }
+    dojo.byId(idDOM).innerHTML = strTemplate;
+    templateData.onload();
+}
+
+/**
+ * Obtiene la ruta raíz de la página
+ * @returns {string} url con la ruta
+ */
+function getRootPath() {
+    _url = window.location.href;
+    if (_url.charAt(_url.length - 1) === "/") {
+        return _url;
+    }
+    return _url.substring(0, _url.lastIndexOf("/"));
+}
+
+/**
+ * Contiene todas las funciones que se ejecutan al terminar de cargar la página
+ * @param {function} function ( Grupo de funciones a ejecutar al cargar la página
+ */
+dojo.addOnLoad(function () {
+	var req = new XMLHttpRequest();
+	req.open('GET', document.location, false);
+	req.send(null);
+	var headers = req.getAllResponseHeaders().toLowerCase();
+	console.log(headers);
+	console.log(document.cookie);
+	
+    dojo.registerModulePath("vistas", getRootPath() + "fundacionbancomerextranetwebfront/vistas");
+    
+
+    loadTemplate("templateInicio", templates.principal, {
+        becario_nombre : becario.datos.nombre,
+        grado_actual : becario.grado.a_grado,
+        periodo_calificacion : becario.grado.evaluacion,
+        programa_beca : becario.beca.programa,
+        grado_escolar : becario.grado.grado
+
+    });
+    
+  //********************************Home   ********************************//
+
+    $("#btnHome").click(function (event) {
+    	event.preventDefault();
+        $("#btnMisCalificaciones, #btnMisDatos, #btnMisTutores, #btnMiBeca").removeClass("active");
+        loadTemplate("templateInicio", templates.principal, {
+            becario_nombre : becario.datos.nombre,
+            grado_actual : becario.grado.a_grado,
+            periodo_calificacion : becario.grado.evaluacion,
+            programa_beca : becario.beca.programa,
+            grado_escolar : becario.grado.grado
+        });
+	});
+
+    //********************************Mi Beca ********************************//
+
+    $("#btnMiBeca").click(function (event) {
+    	event.preventDefault();
+        $("#btnMiBeca").addClass("active");
+        $("#btnMisCalificaciones, #btnMisDatos, #btnMisTutores").removeClass("active");
+        loadTemplate("templateInicio", templates.miBeca, {
+            saludoMiBeca : "Sitio en construcci&amp;oacute;n"
+        });
+	});
+
+
+    //********************************Mis Calificaciones ********************************//
+
+    $("#btnMisCalificaciones").click(function (event) {
+    	event.preventDefault();
+        $("#btnMisCalificaciones").addClass("active");
+        $("#btnMiBeca, #btnMisDatos, #btnMisTutores").removeClass("active");
+        loadTemplate("templateInicio", templates.misCalificaciones, {
+            becario_nombre : becario.datos.nombre,
+            grado_actual : becario.grado.a_grado,
+            periodo_calificacion : becario.grado.evaluacion,
+            programa_beca : becario.beca.programa,
+            grado_escolar : becario.grado.grado
+        });
+    });
+
+    //*************************************Mis Datos ***********************************//
+
+    $("#btnMisDatos").click(function (event) {
+    	event.preventDefault();
+        $("#btnMisDatos").addClass("active");
+        $("#btnMiBeca, #btnMisCalificaciones, #btnMisTutores").removeClass("active");
+        loadTemplate("templateInicio", templates.misDatos, {
+            saludoMisDatos: "Sitio en contrucci&amp;oacute;n",
+            becario_nombre : becario.datos.nombre
+        });
+    });
+
+    //********************************Mis tutores ********************************//
+
+    $("#btnMisTutores").click(function (event) {
+    	event.preventDefault();
+        $("#btnMisTutores").addClass("active");
+        $("#btnMiBeca, #btnMisCalificaciones, #btnMisDatos").removeClass("active");
+        loadTemplate("templateInicio", templates.misTutores, {
+            saludoMisTutores : "Sitio en construcci&amp;oacute;n"
+        });
+    });
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

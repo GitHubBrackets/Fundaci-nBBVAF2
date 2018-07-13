@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:jee="http://www.springframework.org/schema/jee" 
+xmlns:tx="http://www.springframework.org/schema/tx" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd   
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<!--
+		This will automatically locate any and all property files you have
+		within your classpath, provided they fall under the META-INF/spring
+		directory. The located property files are parsed and their values can
+		then be used within application context files in the form of
+		${propertyKey}.
+	-->
+
+	<bean id="propertyPlaceholder" class="com.bbva.jee.arq.spring.core.contexto.ArqSpringPropertyPlaceHolder"  init-method="init">
+    	<property name="locations">
+            <list>
+                <value>classpath*:/META-INF/spring/*.properties</value>
+            </list>
+        </property>
+    </bean>
+    	
+    
+    <!--  Properties Util ASO URLs -->
+ 	<bean id="urlASO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.UrlASOUtilsDTO" scope="singleton" >
+ 		<property name="urlGrantingTicketClient" value="${VAR.CONFIGURACION.URL.SERVICIO.CLIENT.GRANTINGTICKET}"></property>
+ 		<property name="urlGrantingTicketNoClient" value="${VAR.CONFIGURACION.URL.SERVICIO.NOCLIENT.GRANTINGTICKET}"></property>    
+ 		<property name="urlValidateScholar" value="${VAR.CONFIGURACION.URL.SERVICIO.VALIDATE.SCHOLAR}"></property>
+ 		<property name="urlModUploadScholar" value="${VAR.CONFIGURACION.URL.SERVICIO.MOD.UPLOAD.SCHOLAR}"></property>
+ 		<property name="urlConsultLevelAndGradeCholar" value="${VAR.CONFIGURACION.URL.SERVICIO.CONSULT.LEVEL.AND.GRADE.SCHOLAR}"></property>
+ 		<property name="urlUploadQualification" value="${VAR.CONFIGURACION.URL.SERVICIO.UPLOAD.QUALIFICATION}"></property>
+ 		<property name="urlQualificationQuery" value="${VAR.CONFIGURACION.URL.SERVICIO.QUALIFICATION.QUERY}"></property>
+ 		<property name="urlAveragesQuery" value="${VAR.CONFIGURACION.URL.SERVICIO.AVERAGES.QUERY}"></property>
+ 		<property name="urlDetailScholar" value="${VAR.CONFIGURACION.URL.SERVICIO.DETAIL.SCHOLAR}"></property>
+ 		<property name="urlUploadImageFolio" value="${VAR.CONFIGURACION.URL.SERVICIO.UPLOAD.IMAGE.FOLIO}"></property>
+ 		<property name="urlDepositQuery" value="${VAR.CONFIGURACION.URL.DEPOSIT.QUERY}"></property>
+ 		<property name="urlModifDeposit" value="${VAR.CONFIGURACION.URL.MODIF.DEPOSIT}"></property>
+ 		<property name="urlListArchivingDocuments" value="${VAR.CONFIGURACION.URL.LIST.ARCHIVING.DOCUMENTS}"></property>
+ 		<property name="urlSendArchivingDocuments" value="${VAR.CONFIGURACION.URL.SEND.ARCHIVING.DOCUMENTS}"></property>
+ 		<property name="urlConsultParameters" value="${VAR.CONFIGURACION.URL.CONSULT.PARAMETERS}"></property>
+ 		<property name="urlListState" value="${VAR.CONFIGURACION.URL.LIST.STATE}"></property>
+ 		<property name="urlListMunicipality" value="${VAR.CONFIGURACION.URL.LIST.MUNICIPALITY}"></property>
+ 		<property name="urlAlerts" value="${VAR.CONFIGURACION.URL.ALERT}"></property>
+ 		<property name="urlLdapCreateScholar" value="${VAR.CONFIGURACION.URL.LDAP.CREATE.SCHOLAR}"></property>
+ 		<property name="urlLdapGetStatusScholar" value="${VAR.CONFIGURACION.URL.LDAP.GETSTATUS.SCHOLAR}"></property>
+ 		<property name="urlLdapReactivationScholar" value="${VAR.CONFIGURACION.URL.LDAP.REACTIVATION.SCHOLAR}"></property>
+ 		<property name="urlUpdatePasswordScholar" value="${VAR.CONFIGURACION.URL.LDAP.UPDATE.PASSWORD.SCHOLAR}"></property>
+ 	</bean> 
+ 		
+ 	
+	<bean id="valoresGrantingTicketClient" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinclient.GrantingTicketAuxClientInDTO" scope="singleton" > 
+<!--  	    <property name="userID" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.USERID}"></property> -->
+ 	    <property name="consumerID" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.CONSUMERID}"></property> 
+   	    <property name="authenticationType" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.AUTHENTICATIONTYPE}"></property> 
+   	    <property name="idAuthenticationData" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.IDAUTHENTICATIONDATA}"></property> 
+<!--    	    <property name="authenticationData" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.AUTHENTICATIONDATA}"></property>  -->
+   	    <property name="userId" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.USERID.BACKEND}"></property> 
+   	    <property name="accessCode" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.ACCESSCODE}"></property> 
+   	    <property name="dialogId" value="${VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.DIALOGID}"></property> 
+ 	</bean>		
+ 	
+	<bean id="valuesGrantingTicketNoClient" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinnoclient.GrantingTicketAuxNoClientInDTO" scope="singleton" > 
+ 	    <property name="userID" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.USERID}"></property>
+ 	    <property name="consumerID" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.CONSUMERID}"></property> 
+   	    <property name="authenticationType" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.AUTHENTICATIONTYPE}"></property> 
+   	    <property name="idAuthenticationData" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.IDAUTHENTICATIONDATA}"></property> 
+   	    <property name="authenticationData" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.AUTHENTICATIONDATA}"></property> 
+   	    <property name="userId" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.USERID.BACKEND}"></property> 
+   	    <property name="accessCode" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.ACCESSCODE}"></property> 
+   	    <property name="dialogId" value="${VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.DIALOGID}"></property> 
+ 	</bean>		
+	
+	
+	
+	
+								<!-- D e p e n d e n c i a s-->
+	<!-- ObjectMapper -->
+	<bean id="objMapper" class="org.codehaus.jackson.map.ObjectMapper" scope="singleton">	</bean>
+	<!-- HttpHeaders -->
+	<bean id="httpHeaders" class="org.springframework.http.HttpHeaders" scope="singleton"> </bean>
+	
+	
+	<!-- ErrorDTO -->
+	<bean id="ErrorDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ErrorDTO" scope="singleton"> </bean>
+	<!-- AsoUtil -->
+	<bean id="asoUtils" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.utils.AsoUtils" scope="singleton"> </bean>
+	<!-- ConsumerService -->
+	<bean id="ConsumerService" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestconsumer.impl.ConsumerServiceImpl" scope="singleton"> </bean>
+	<!-- GrantingTicketClient -->
+	<bean id="GrantingTicketServiceClient" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialClientGrantingTicketServiceImpl" scope="singleton"> </bean>
+	<!-- GrantingTicketNoClient -->
+	<bean id="GrantingTicketServiceNoClient" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialNoClientGrantingTicketServiceImpl" scope="singleton"> </bean>
+	
+
+	<!-- A v e r a g e   Q u e r y  -  C o n s u l t a  d e  P r o m e d i o s -->
+	<bean id="averageQueryInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.AveragesQueryInDTO" scope="singleton">	</bean>
+	<bean id="averagQueryServCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialAverageQueryServiceImpl" scope="singleton">	</bean>
+	<bean id="averageQueryBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.AverageQueryBackImpl" scope="singleton">	</bean>
+	
+	<!-- L i s t  A r c h i v i n g  D o c u m e n t s  -  L i s t a  d e  D o c u m e n t o s  A r c h i v i n g -->
+	<bean id="listArchDocuInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ListArchivingDocumentsInDTO" scope="singleton">	</bean>
+	<bean id="listArchDocuServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialListArchivingDocumentsServiceImpl" scope="singleton">	</bean>
+	<bean id="listArchDocuBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ListArchivingDocumentsBackImpl" scope="singleton">	</bean>
+	
+	<!-- S e n d  A r c h i v i n g  D o c u m e n t s  -  E n v i o  d e  D o c u m e n t o s  A r c h i v i n g -->
+	<bean id="uploadImgFolAndSendArchInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.UploadImageFolioAndSendArchivingInDTO" scope="singleton">	</bean>
+	<bean id="sendArchDocuUploImgBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.SendArchDocuUploImageBackImpl" scope="singleton">	</bean>
+	<bean id="SendArchDocuOutDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.SendArchivingDocumentsOutDTO" scope="singleton">	</bean>
+	<bean id="sendArchDocuBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.SendArchivingDocumentsBackImpl" scope="singleton">	</bean>
+	<bean id="sendArchDocuServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialSendArchivingDocumentsServiceImpl" scope="singleton">	</bean>
+	<bean id="sendArchDocuInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.SendArchivingDocumentsInDTO" scope="singleton">	</bean>
+	
+										
+	
+	<!-- U p l o a d  I m a g e  -  A c t u a l i z a  I m a g e n -->
+	<bean id="uploadImgFolServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialUploadImageFolioServiceImpl" scope="singleton">	</bean>
+	<bean id="uploadImgFolBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.UploadImageFolioBackImpl" scope="singleton">	</bean>
+	<bean id="UploadImagFolInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.UploadImageFolioInDTO" scope="singleton">	</bean>
+	
+	
+	<!-- C o n s u l t  p a r a m e t e r s  -  C o n s u l t a  d e  p a r a m e t r o s-->
+	<bean id="consultParametersInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ConsultParametersInDTO" scope="singleton"> </bean>
+	<bean id="consultParamServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialConsultParametersServiceImpl" scope="singleton">	</bean>
+	<bean id="consultParametersBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ConsultParametersBackImpl" scope="singleton">	</bean>
+	
+	<!-- C o n s u l t  l e v e l/G r a d e  S c h o l a r  -  C o n s u l t a  n i v e l  y  g r a d o  e s c o l a r-->
+	<bean id="consultLevGradSchoServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialConsultLevelGradeScholarServiceImpl" scope="singleton">	</bean>
+	<bean id="consultLevAndGradSchInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ConsultLevelAndGradeScholarInDTO" scope="singleton">	</bean>
+	<bean id="consultLevGradSchooBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ConsultLevelGradeSchoolarBackImpl" scope="singleton">	</bean>
+	
+	<!-- D e p o s i t  m o d i f i c a t i o n / M o d i f i c a c i o n  D e p o s i t o-->
+	<bean id="depositModifServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialDepositModificationServiceImpl" scope="singleton">	</bean>
+										     
+	<!-- C o n s u l t   D e p o s i t / C o n s u l t a   d e   D e p o s i t o-->
+	<bean id="depositQuerServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialDepositQueryServiceImpl" scope="singleton">	</bean>
+	<bean id="depositQueryInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.DepositQueryInDTO" scope="singleton">	</bean>
+	<bean id="depositQueryBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.DepositQueryBackImpl" scope="singleton">	</bean>
+	
+	<!-- D e t a i l  S c h o ol a r  /  D e t a l l e   d e   B e c a r i o -->
+	<bean id="detailSchoServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialDetailScholarServiceImpl" scope="singleton">	</bean>
+	<bean id="detailScholarInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.DetailScholarInDTO" scope="singleton">	</bean>
+	<bean id="detailScholarBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.DetailScholarBackImpl" scope="singleton">	</bean>
+	
+	
+	<!-- M o d U p l o a d  S c h o o l a r  /  M o d i f i c a c i o n  y  a c t u a l i z a c i o n   d e  B e c a r i o -->
+	<bean id="modUplSchoServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialModUploadScholarServiceImpl" scope="singleton">	</bean>
+	
+	<!-- U d a t e  /  p a s s w o r d  S c h o l a r -->
+	<bean id="UpdatePassSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.UpdatePasswordScholarBackImpl" scope="singleton">	</bean>
+	
+	<!-- Q u a l i f i c a t i o n  Q u e r y  /  C o n s u l t a  d e  C a l i f i c a c i o n -->
+	<bean id="qualifQuerServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialQualificationQueryServiceImpl" scope="singleton">	</bean>
+	<bean id="qualifQuerInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.QualificationsQueryInDTO" scope="singleton">	</bean>
+	<bean id="qualifQueryBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.QualificationQueryBackImpl" scope="singleton">	</bean>
+	
+	<!-- U p l o a d  Q u a l i f i c a t i o n  /  A l t a d e  C a l i f i c a c i o n e s -->
+	<bean id="uploadQualifServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialUploadQualificationServiceImpl" scope="singleton">	</bean>
+	<bean id="uploadQualifInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.UploadQualificationsInDTO" scope="singleton">	</bean>
+	<bean id="uploadQualifBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.UploadQualificationBackImpl" scope="singleton">	</bean>
+	
+	
+	<!-- V a l i d a t i o n  S c h o o l a r  /  V a l i d a c i o n  d e  B e c a r i o -->
+	<bean id="validSchoServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialValidationScholarServiceImpl" scope="singleton">	</bean>
+	<bean id="validSchoInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ValidationscholarInDTO" scope="singleton">	</bean>
+	<bean id="ValidSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.ldap.impl.ValidationScholarBackImpl" scope="singleton">	</bean>
+	
+	
+	
+	<!--p a r a m e t r o s  G r a n t i n g  T i c k e t  C l i e n t-->
+<!-- 	<bean name="validGT" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ValidGrantingTicketImpl" scope="singleton"> </bean> -->
+	<bean name="gTCliService" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialClientGrantingTicketServiceImpl" scope="singleton"> </bean>
+	<bean name="gTClientDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.GrantingTicketClientInDTO" scope="singleton"> </bean>
+	<bean name="gTUtils" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.utils.GrantingTicketUtils" scope="singleton"> </bean>
+	<bean name="gTAuthenCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinclient.GrantingTicketAuthenticationClientInDTO" scope="singleton"> </bean>
+	<bean name="gTAuthenDataCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinclient.GrantingTicketAuthenticationDataClientInDTO" scope="singleton"> </bean>
+	<bean name="gTUserReqCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinclient.GrantingTicketBackendUserRequestClientInDTO" scope="singleton"> </bean>
+
+	<!--p a r a m e t r o s  G r a n t i n g  T i c k e t  N o C l i e n t-->
+	<bean name="gTNoCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.GrantingTicketNoClientInDTO" scope="singleton"> </bean>
+	<bean name="gTAuthenNoCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinnoclient.GrantingTicketAuthenticationNoClientInDTO" scope="singleton"> </bean>
+	<bean name="gTAuthenDataNoCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinnoclient.GrantingTicketAuthenticatonDataNoClientInDTO" scope="singleton"> </bean>
+	<bean name="gTUserReqNoCliInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.grantingticketinnoclient.GrantingTicketBackendUserRequestNoClientInDTO" scope="singleton"> </bean>
+	
+	<!--A l e r t -->
+	<bean name="initAlertService" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialAlertServiceImpl" scope="singleton"> </bean>
+	<bean name="alertBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.AlertBackImpl" scope="singleton"> </bean>
+	
+	<!--M u n i c i p a l i t y -->
+	<bean name="listMunicipalBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ListMunicipalityBackImpl" scope="singleton"> </bean>
+	<bean name="listMunicipalService" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialListMunicipalityServiceImpl" scope="singleton"> </bean>
+	
+	<!--D e p o s i t  M o d i f i c a t i o n -->
+	<bean name="DeposModifInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.DepositModificationInDTO" scope="singleton"> </bean>
+	<bean name="DepostModifBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.DepositModificationBackImpl" scope="singleton"> </bean>
+	
+	<!--L i s t  S t a t e -->
+	<bean name="lisStateBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ListStateBackImpl" scope="singleton"> </bean>
+	<bean name="listStateService" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialListStateServiceImpl" scope="singleton"> </bean>
+	
+	<!--M o d i f i c a t i o n  U p l o a d  D a t a  S c h o l a r -->
+	<bean name="ModUplDatSchoInDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.ModUploadDataScholarInDTO" scope="singleton"> </bean>
+	<bean name="ModUplSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ModUploadSchoolarBackImpl" scope="singleton"> </bean>
+	
+	<!--L D A P  C r e a t e  S c h o l a r -->
+	<bean name="ldapCreaSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.ldap.impl.LdapCreateScholarBackImpl" scope="singleton"> </bean>
+	<bean name="ldapCreaScho" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialLdapCreateScholarServiceImpl" scope="singleton"> </bean>
+	
+	<!--L D A P  G e t  S t a t u s  S c h o l a r -->
+	<bean name="ldapGetStatSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.ldap.impl.LdapGetStatusScholarBackImpl" scope="singleton"> </bean>
+	<bean name="ldapGetStatusScho" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialLdapGetStatusScholarServiceImpl" scope="singleton"> </bean>
+	
+	<!--L D A P  R e a c t i v a t i o n  S c h o l a r -->
+	<bean name="ldapReactivaSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.ldap.impl.LdapReactivationScholarBackImpl" scope="singleton"> </bean>
+	<bean name="ldapReactivaScho" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialLdapReactivationScholarServiceImpl" scope="singleton"> </bean>
+	
+	<!--L D A P  U p d a t e  P a s s w o r d  S c h o l a r -->
+	<bean name="ldapUpdatePassSchoBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.ldap.impl.LdapUpdatePasswordScholarBackImpl" scope="singleton"> </bean>
+	<bean name="ldapUpdateScho" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialLdapUpdateScholarServiceImpl" scope="singleton"> </bean>
+	
+	<bean name="DocDTO" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebdto.sendArchivingDocumentsIn.DocumentDTO" scope="singleton"> </bean>
+	
+	
+	<!--
+		Turn on AspectJ @Configurable support. As a result, any time you
+		instantiate an object, Spring will attempt to perform dependency
+		injection on that object. This occurs for instantiation via the "new"
+		keyword, as well as via reflection. This is possible because AspectJ
+		is used to "weave" Roo-based applications at compile time. In effect
+		this feature allows dependency injection of any object at all in your
+		system, which is a very useful feature (without @Configurable you'd
+		only be able to dependency inject objects acquired from Spring or
+		subsequently presented to a specific Spring dependency injection
+		method). Roo applications use this useful feature in a number of
+		areas, such as @PersistenceContext injection into entities.
+	-->
+	<context:spring-configured/>
+
+	<!--
+		This declaration will cause Spring to locate every @Component,
+		@Repository and @Service in your application. In practical terms this
+		allows you to write a POJO and then simply annotate the new POJO as an
+		@Service and Spring will automatically detect, instantiate and
+		dependency inject your service at startup time. Importantly, you can
+		then also have your new service injected into any other class that
+		requires it simply by declaring a field for your service inside the
+		relying class and Spring will inject it. Note that two exclude filters
+		are declared. The first ensures that Spring doesn't spend time
+		introspecting Roo-specific ITD aspects. The second ensures Roo doesn't
+		instantiate your @Controller classes, as these should be instantiated
+		by a web tier application context. Refer to web.xml for more details
+		about the web tier application context setup services.
+		
+		Furthermore, this turns on @Autowired, @PostConstruct etc support. These 
+		annotations allow you to use common Spring and Java Enterprise Edition 
+		annotations in your classes without needing to do any special configuration. 
+		The most commonly used annotation is @Autowired, which instructs Spring to
+		dependency inject an object into your class.
+	-->
+	
+	                                   
+	<context:component-scan base-package="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront.ldap.impl, com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront.impl, com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront.session.impl">
+		<context:exclude-filter expression=".*_Roo_.*" type="regex"/>
+		<context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+	</context:component-scan>
+	
+	
+	<aop:aspectj-autoproxy/>
+
+</beans>

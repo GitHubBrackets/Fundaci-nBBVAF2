@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\controlador.min.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\controlador.min.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">73.63</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">1</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">50.49</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">3.92</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">dojoConfig={isDebug:!0,parseOnLoad:!1},dojo.require(&quot;dijit._Templated&quot;),dojo.require(&quot;dojo.fx&quot;);var app_conf={writeLog:!1},servOrigin=window.location.origin;(-1!=servOrigin.indexOf(&quot;localhost&quot;)||-1!=servOrigin.indexOf(&quot;150.250.238.172&quot;)||-1!=servOrigin.indexOf(&quot;150.250.238.173&quot;))&amp;&amp;(app_conf.writeLog=!0);var writeLog=function(){try{app_conf.writeLog&amp;&amp;console.log.apply(this,writeLog.arguments)}catch(a){}};function loadTemplate(a,b,c){if(!b)return void console.error(&quot;loadTemplate: templateData is undefined [&quot;+a+&quot;]&quot;);if(strTemplate=dojo.cache(b.workspace,b.html),!c)console.warn(&quot;loadTemplate: data is null [&quot;+b.html+&quot;]&quot;);else if(varsTemplate=strTemplate.match(/\u0024\u007B[a-zA-Z0-9_]*\u007D/g),varsTemplate)for(it=0;it&lt;varsTemplate.length;it++)varsTemplate[it].substring(2,varsTemplate[it].length-1),tempData=varsTemplate[it],nameData=tempData.substring(2,tempData.length-1),&quot;undefined&quot;==typeof c[nameData]?console.warn(&quot;loadTemplate: &quot;+nameData+&quot; is null [&quot;+b.html+&quot;]&quot;):strTemplate=strTemplate.replace(tempData,c[nameData]);return node=dojo.byId(a),node?void(node.innerHTML=strTemplate,b.onload()):void console.error(&quot;loadTemplate: Node &quot;+a+&quot; doesn&#039;t exist [&quot;+b.html+&quot;]&quot;)}function getRootPath(){return _url=window.location.href,&quot;#&quot;===_url.charAt(_url.length-1)&amp;&amp;(_url=_url.substring(0,_url.length-1)),&quot;/&quot;===_url.charAt(_url.length-1)?_url:_url.substring(0,_url.lastIndexOf(&quot;/&quot;))}function showModals(a,b,c){$(&quot;.modal.show&quot;).each(function(){($(this).data(&quot;bs.modal&quot;)||{})._isShown&amp;&amp;$(this).modal(&quot;hide&quot;)}),$(&quot;#&quot;+c).find(&quot;h2&quot;).text(a),$(&quot;#&quot;+c).find(&quot;p&quot;).text(b),$(&quot;#&quot;+c).modal(&quot;show&quot;)}function loadScholarHeader(){loadTemplate(&quot;scholarheader&quot;,templates.scholarheader,{scholarName:scholar.personalData.name,schoolGrade:scholar.statusQualifications.schoolGrade,program:scholar.scholarship.programName,actLevel:scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel})}function loadIndex(){loadTemplate(&quot;templateInicio&quot;,templates.principal,{})}dojo.addOnLoad(function(){var a=getRootPath();dojo.registerModulePath(&quot;vistas&quot;,a+&quot;fundacionbancomerextranetwebfront/vistas&quot;),dojo.registerModulePath(&quot;home&quot;,a+&quot;fundacionbancomerextranetwebfront/vistas/home&quot;),dojo.registerModulePath(&quot;beca&quot;,a+&quot;fundacionbancomerextranetwebfront/vistas/mibeca&quot;),dojo.registerModulePath(&quot;calificaciones&quot;,a+&quot;fundacionbancomerextranetwebfront/vistas/miscalificaciones&quot;),dojo.registerModulePath(&quot;datos&quot;,a+&quot;fundacionbancomerextranetwebfront/vistas/misdatos&quot;);var b=function(){showModals(&quot;Cerrando sesi\xF3n&quot;,&quot;Espera un momento&quot;,SCONFIG.getMessage(&quot;wait&quot;).idModal),setTimeout(function(){restExec({service:&quot;TERMINATE_SESSION&quot;,async:!1,data:{},success:function(){writeLog(&quot;se cerr\xF3 sesi\xF3n en back end&quot;)},error:function(){writeLog(&quot;no se cerr\xF3 sesi\xF3n en back end&quot;)}}),$.ajax({type:&quot;GET&quot;,dataType:&quot;html&quot;,contentType:&quot;application/json; charset=utf-8&quot;,url:window.location.origin+&quot;/pkmslogout.form&quot;,async:!0,success:function(){$(&quot;.index&quot;).css({display:&quot;none&quot;}),$(&quot;#templateInicio&quot;).css({display:&quot;none&quot;}),showModals(&quot;Tu sesi\xF3n ha terminado&quot;,&quot;&quot;,&quot;savedFile&quot;),$(&quot;#savedFile&quot;).find(&quot;button.btn-primary&quot;).click(function(){location.reload()})},error:function(){writeLog(&quot;error&quot;,data),$(&quot;#savedFile&quot;).modal(&quot;hide&quot;)}})},400)};_modal=SCONFIG.getMessage(&quot;wait&quot;);var c=!1,d=0,e=[function(){return{service:&quot;DETAILS_SCHOLAR&quot;,data:{userScholar:ivUser},success:rest_fnDetailsScholar,finallyError:function(){c=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}},function(){return{service:&quot;DEPOSIT_QUERY&quot;,data:{userCurrent:scholar.studentID,studentID:scholar.studentID,programType:scholar.scholarship.programType,statusScholarshipReceived:&quot;&quot;},success:rest_fnDepositQuery,finallyError:function(){c=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}},function(){return{service:&quot;CONSULT_LEVELGRADE&quot;,data:{studentID:scholar.studentID,scholarLevel:&quot;&quot;},success:rest_fnConsultLevelGrade,finallySuccess:function(a){writeLog(&quot;CONSULT_LEVELGRADE&quot;,a)},finallyError:function(){c=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}},function(){return{service:&quot;AVERAGE_QUERY&quot;,data:{studentID:scholar.studentID,scholarLevel:&quot;&quot;,schoolGrade:&quot;&quot;},success:rest_fnAverageQuery,finallySuccess:function(a){writeLog(&quot;AVERAGE_QUERY&quot;,a)},finallyError:function(){c=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}},function(){return{service:&quot;CONSULT_PARAMETERS&quot;,data:{parameterType:&quot;CDRB&quot;},success:rest_fnConsultParameters,finallyError:function(){c=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}},function(){return{service:&quot;GET_ALERTS&quot;,data:{userScholar:scholar.personalData.username},error:function(a){console.error(&quot;GET_ALERTS&quot;,a)},success:rest_fnAlerts}},function(){return{service:&quot;QUALIFICATION_QUERY&quot;,data:{studentID:scholar.studentID,scholarLevel:&quot;&quot;,schoolGrade:&quot;&quot;,schoolPeriod:&quot;&quot;},success:rest_fnQualificationQuery,finallyError:function(){hasError=!0,$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)},finallySuccess:function(a){scholar.personalData.profilePicture.trim()&amp;&amp;rest_fnUploadedPhoto({folio:scholar.personalData.profilePicture},!0),writeLog(&quot;QUALIFICATION_QUERY&quot;,a),loadScholarHeader(),$(&quot;.index&quot;).removeAttr(&quot;style&quot;),$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;)}}}];do restExec(e[d]()),d++;while(!c&amp;&amp;d&lt;e.length);$(&quot;#secLoading&quot;).remove(),c&amp;&amp;$(&quot;#&quot;+SCONFIG.getMessage(&quot;error&quot;).idModal).find(&quot;button&quot;).on(&quot;click&quot;,b),$(&quot;.exitarea &gt; a&quot;).click(function(a){a.preventDefault(),b()}),$(&quot;#btnHome&quot;).click(function(a){a.preventDefault(),$(&quot;#btnMisCalificaciones, #btnMisDatos, #btnMisTutores, #btnMiBeca&quot;).removeClass(&quot;active&quot;),loadIndex()}),$(&quot;#btnMiBeca&quot;).click(function(a){a.preventDefault(),$(&quot;#btnMiBeca&quot;).addClass(&quot;active&quot;),$(&quot;#btnMisCalificaciones, #btnMisDatos, #btnMisTutores&quot;).removeClass(&quot;active&quot;),loadTemplate(&quot;templateInicio&quot;,templates.miBeca,{name:scholar.personalData.name,schoolGrade:scholar.statusQualifications.schoolGrade,program:scholar.scholarship.programName,actLevel:scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel,status:scholar.scholarship.statusDispersion,programStatus:scholar.program[0].status,program:scholar.scholarship.programName,modality:scholar.scholarship.modalityParticipation,state:scholar.personalData.originState,municipality:scholar.personalData.originMunicipality,region:scholar.personalData.originRegion})}),$(&quot;#btnMisCalificaciones&quot;).click(function(a){a.preventDefault(),$(&quot;#btnMisCalificaciones&quot;).addClass(&quot;active&quot;),$(&quot;#btnMiBeca, #btnMisDatos, #btnMisTutores&quot;).removeClass(&quot;active&quot;),loadTemplate(&quot;templateInicio&quot;,templates.misCalificaciones,{name:scholar.personalData.name,schoolGrade:scholar.statusQualifications.schoolGrade,program:scholar.scholarship.programName,actLevel:scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel})}),$(&quot;#btnMisDatos&quot;).click(function(a){a.preventDefault();var b=!1,c=0,d=[function(){return{service:&quot;CONSULT_PARAMETERS&quot;,data:{parameterType:&quot;SX&quot;},success:rest_fnConsultParameters,finallyError:function(){b=!0}}},function(){return{service:&quot;CONSULT_PARAMETERS&quot;,data:{parameterType:&quot;PAREN&quot;},success:rest_fnConsultParameters,finallyError:function(){b=!0}}},function(){return{service:&quot;CONSULT_PARAMETERS&quot;,data:{parameterType:&quot;TPVIA&quot;},success:rest_fnConsultParameters,finallyError:function(){b=!0}}},function(){return{service:&quot;GET_STATES&quot;,data:{},success:rest_fnStates,finallyError:function(){b=!0},finallySuccess:function(){$(&quot;#waitModal&quot;).modal(&quot;hide&quot;)}}}];&quot;&quot;!=combos.gender&amp;&amp;&quot;&quot;!=combos.typeOfViality&amp;&amp;&quot;&quot;!=combos.kindship&amp;&amp;statesTransactions.length?(loadMisDatos(),fn_afterMisDatos(),fn_afterMisDatos=fn_nothing):(showModals(&quot;Cargando tu informaci\xF3n&quot;,&quot;Espera un momento&quot;,SCONFIG.getMessage(&quot;wait&quot;).idModal),setTimeout(function(){do restExec(d[c]()),c++;while(!b&amp;&amp;c&lt;d.length);loadMisDatos(),fn_afterMisDatos(),fn_afterMisDatos=fn_nothing},400))})});</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

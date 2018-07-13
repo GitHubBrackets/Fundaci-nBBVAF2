@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>   
+   	<parent>
+        <groupId>com.bbva.arq.front.spring.mgbf</groupId>
+        <artifactId>pom-padre_mgbf</artifactId>
+        <version>01</version> 
+	<relativePath></relativePath>      
+    </parent>
+    
+    <groupId>com.bbva.arq.front.spring.mgbf</groupId>
+    <artifactId>mgbf_mult_web</artifactId>
+    <packaging>ear</packaging>
+    <version>01</version>
+    <name>mgbf_mult_web</name> 
+    <url>http://maven.apache.org</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <displayName>mgbf_mult_web</displayName>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    	<modules>
+                        	<webModule>
+                            <groupId>com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront</groupId>
+                            <artifactId>mgbf_mult_web_fundacionbancomerextranetwebfront_01</artifactId>
+                            <bundleFileName>mgbf_mult_web_fundacionbancomerextranetwebfront_01.war</bundleFileName>
+                        	</webModule>
+                    	</modules>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>mgbf_mult_web</finalName>
+    </build>
+<!--        <dependencies> -->
+<!--         <dependency> -->
+<!--             <groupId>com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront</groupId> -->
+<!--             <artifactId>mgbf_mult_web_fundacionbancomerextranetwebfront_01</artifactId> -->
+<!--             <version>01</version> -->
+<!--             <type>war</type> -->
+<!--         </dependency> -->
+<!--       </dependencies> -->
+    <dependencies>
+        <dependency>
+            <groupId>com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront</groupId>
+            <artifactId>mgbf_mult_web_fundacionbancomerextranetwebfront_01</artifactId>
+            <version>01</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+</project>

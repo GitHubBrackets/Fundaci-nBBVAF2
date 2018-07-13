@@ -1,0 +1,245 @@
+
+#To Changue according to the environment values: DEVELOPMENT - TEST - QUALITY - LO - PRODUCTION
+VAR.ENTORNO.MOD = LO
+
+
+####################################################################
+############################ Datos PRODUCTION ############################
+####################################################################
+
+# Ip Service Test first url
+VAR.IP.PRODUCTION = 150.100.210.98
+
+# Ip Service Test first Port
+VAR.PORT.PRODUCTION = 8650
+
+####################################################################
+############################ Datos LO ############################
+####################################################################
+
+# Ip Service Test first url
+VAR.IP.LO = 150.100.210.26
+
+# Ip Service Test first Port
+VAR.PORT.LO = 8050
+
+####################################################################
+############################ Datos Development ############################
+####################################################################
+
+# Ip Service Test first url
+VAR.IP.DEVELOPMENT = 150.250.220.36
+
+# Ip Service Test first Port
+VAR.PORT.DEVELOPMENT = 18500
+
+
+####################################################################
+############################ Datos TEST ############################
+####################################################################
+
+# Ip Service Test first url
+VAR.IP.TEST = 150.250.220.36
+
+# Ip Service Test first Port
+VAR.PORT.TEST = 18500
+
+
+####################################################################
+########################## Datos QUALITY ###########################
+####################################################################
+
+# Ip Service Test first url
+VAR.IP.QUALITY = 150.250.240.138
+
+# Ip Service Test Port
+VAR.PORT.QUALITY = 18000
+
+
+####################################################################
+########################## PATH SERVICIOS ASO ######################
+####################################################################
+
+# Path Service Test GrantingTicket Client
+VAR.PATH.GRANTINGTICKET = /TechArchitecture/mx/grantingTicket/V02
+
+# Path Service Test GrantingTicket No Client
+VAR.PATH.NOGRANTINGTICKET = /TechArchitecture/mx/grantingTicket/V02
+
+# Path Service validate Scholar 
+VAR.PATH.VALIDATE.SCHOLAR = /MGBFTL01/V01
+
+# Path Service Mod Upload data Scholar 
+VAR.PATH.MOD.UPLOAD.SCHOLAR = /MGBFTB02/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.CONSULT.LEVEL.AND.GRADE.SCHOLAR = /MGBFTB04/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.UPLOAD.QUALIFICATION = /MGBFTC01/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.QUALIFICATION.QUERY = /MGBFTC02/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.AVERAGES.QUERY = /MGBFTC03/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.DETAIL.SCHOLAR = /MGBFTB03/V01
+
+# Path Service Consulta Level and Grade Scholar 
+VAR.PATH.UPLOAD.IMAGE.FOLIO = /MGBFTD01/V01
+
+# Path Service Deposit Query 
+VAR.PATH.DEPOSIT.QUERY = /MGBFTH01/V01
+
+# Path Service Deposit Query 
+VAR.PATH.MODIF.DEPOSIT = /MGBFTH02/V01
+
+# Path Service Send archiving Documents
+VAR.PATH.SEND.ARCHIVING.DOCUMENTS = /customerDocuments/V02/sendArchivingDocuments
+
+# Path Service List archiving Documents
+VAR.PATH.LIST.ARCHIVING.DOCUMENTS = /customerDocuments/V02/listArchivingDocuments
+
+# Path Service Consult Parameters
+VAR.PATH.CONSULT.PARAMETERS = /MGBFTP01/V01
+
+# Path Service List State
+VAR.PATH.LIST.STATE = /state/V01/listState
+
+# Path Service List Municipaly
+VAR.PATH.LIST.MUNICIPALITY = /municipality/V01/listMunicipality
+
+# Path Service Alert
+VAR.PATH.ALERT = /MGBFTK01/V01
+
+# Path Service Ldap Create Scholar
+VAR.PATH.LDAP.CREATE.SCHOLAR = /LDAPSecurityUsers/V02/createScholarshipUser
+
+# Path Service Ldap getStatus Scholar
+VAR.PATH.LDAP.GETSTATUS.SCHOLAR = /LDAPSecurityUsers/V02/getStatusScholarshipUser
+
+# Path Service Ldap Reactivation Scholar
+VAR.PATH.LDAP.REACTIVATION.SCHOLAR = /LDAPSecurityUsers/V02/requestReactivationaScholarshipUser
+
+# Path Service Ldap Update Password Scholar
+VAR.PATH.LDAP.UPDATE.PASSWORD.SCHOLAR = /LDAPSecurityUsers/V02/updatePasswordScholarshipUser
+
+
+
+
+
+
+####################################################################
+########################## URLs SERVICIOS ##########################
+####################################################################
+
+# Url for GrantingTicket Client      https://150.250.220.36:18500/TechArchitecture/mx/grantingTicket/V02 
+VAR.CONFIGURACION.URL.SERVICIO.CLIENT.GRANTINGTICKET = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.GRANTINGTICKET} 
+
+# Url for GrantingTicket No Client   https://150.250.220.36:18500/TechArchitecture/mx/grantingTicket/V02
+VAR.CONFIGURACION.URL.SERVICIO.NOCLIENT.GRANTINGTICKET = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.NOGRANTINGTICKET}
+
+# Url for validate Scholar           https://150.250.140.226:8700/MGBFTL01/V01
+VAR.CONFIGURACION.URL.SERVICIO.VALIDATE.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.VALIDATE.SCHOLAR}
+
+# Url for Mod Upload data Scholar    https://150.250.220.36:18500/MGBFTB02/V01
+VAR.CONFIGURACION.URL.SERVICIO.MOD.UPLOAD.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.MOD.UPLOAD.SCHOLAR}
+
+# Url for Consult of level and Grade Scholar      https://150.250.220.36:18500/MGBFTB04/V01
+VAR.CONFIGURACION.URL.SERVICIO.CONSULT.LEVEL.AND.GRADE.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.CONSULT.LEVEL.AND.GRADE.SCHOLAR}
+
+# Url for Upload of calificaion      https://150.250.220.36:18500/MGBFTC01/V01
+VAR.CONFIGURACION.URL.SERVICIO.UPLOAD.QUALIFICATION = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.UPLOAD.QUALIFICATION}
+
+# Url for Qualification query        https://150.250.220.36:18500/MGBFTC02/V01/
+VAR.CONFIGURACION.URL.SERVICIO.QUALIFICATION.QUERY = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.QUALIFICATION.QUERY}
+
+# Url for Averages query             https://150.250.220.36:18500/MGBFTC03/V01
+VAR.CONFIGURACION.URL.SERVICIO.AVERAGES.QUERY = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.AVERAGES.QUERY}
+
+# Url for Detail Scholar             https://150.250.220.36:18500/MGBFTB03/V01
+VAR.CONFIGURACION.URL.SERVICIO.DETAIL.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.DETAIL.SCHOLAR}
+
+# Url for Upload Image Folio         https://150.250.220.36:18500/MGBFTD01/V01
+VAR.CONFIGURACION.URL.SERVICIO.UPLOAD.IMAGE.FOLIO = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.UPLOAD.IMAGE.FOLIO}
+
+# Url for Deposit Query           
+VAR.CONFIGURACION.URL.DEPOSIT.QUERY = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.DEPOSIT.QUERY}
+
+# Url for Modification Deposit
+VAR.CONFIGURACION.URL.MODIF.DEPOSIT = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.MODIF.DEPOSIT}
+
+# Url for List Archiving Documents
+VAR.CONFIGURACION.URL.LIST.ARCHIVING.DOCUMENTS = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LIST.ARCHIVING.DOCUMENTS}
+
+# Url for Send Archiving Documents
+VAR.CONFIGURACION.URL.SEND.ARCHIVING.DOCUMENTS = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.SEND.ARCHIVING.DOCUMENTS}
+
+# Url for Consult Parameters
+VAR.CONFIGURACION.URL.CONSULT.PARAMETERS = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.CONSULT.PARAMETERS}
+
+# Url for List State
+VAR.CONFIGURACION.URL.LIST.STATE = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LIST.STATE}
+								   
+# Url for List Municipality
+VAR.CONFIGURACION.URL.LIST.MUNICIPALITY = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LIST.MUNICIPALITY}
+
+# Url for Alert
+VAR.CONFIGURACION.URL.ALERT = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.ALERT}
+
+# Url for Ldap Create Scholar
+VAR.CONFIGURACION.URL.LDAP.CREATE.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LDAP.CREATE.SCHOLAR}
+
+# Url for Ldap getStatus Scholar
+VAR.CONFIGURACION.URL.LDAP.GETSTATUS.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LDAP.GETSTATUS.SCHOLAR}
+
+# Url for Ldap Reactivation Scholar
+VAR.CONFIGURACION.URL.LDAP.REACTIVATION.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LDAP.REACTIVATION.SCHOLAR}
+
+# Url for Ldap Update Password Scholar
+VAR.CONFIGURACION.URL.LDAP.UPDATE.PASSWORD.SCHOLAR = #{'https://'}${VAR.IP.${VAR.ENTORNO.MOD}}#{':'}${VAR.PORT.${VAR.ENTORNO.MOD}}${VAR.PATH.LDAP.UPDATE.PASSWORD.SCHOLAR}
+
+
+
+# Valores para cargar GrantingTicket Client
+
+#VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.USERID = ext992441000110001006
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.USERID = 
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.CONSUMERID = 10000074
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.AUTHENTICATIONTYPE = 00
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.IDAUTHENTICATIONDATA = iv_ticketService
+
+#VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.AUTHENTICATIONDATA = 0odcm5k3+ITLSMIB80s1V3GHThsR0FDJ4EbqNYVJywmh0us1KWN6mRKMBnJirkee
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.AUTHENTICATIONDATA = 
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.USERID.BACKEND =
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.ACCESSCODE =
+
+VAR.CONFIGURATION.GRANTINGTICKET.CLIENT.DIALOGID =
+
+
+# Valores para cargar GrantingTicket NoClient
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.USERID = ZM10075
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.CONSUMERID = 10000075
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.AUTHENTICATIONTYPE = 04
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.IDAUTHENTICATIONDATA = password
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.AUTHENTICATIONDATA = NmUyOTk1YTVlNzA2
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.USERID.BACKEND  =
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.ACCESSCODE =
+
+VAR.CONFIGURATION.GRANTINGTICKET.NOCLIENT.DIALOGID =
+
+

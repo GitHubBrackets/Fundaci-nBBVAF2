@@ -1,0 +1,28 @@
+<div class="card">
+	<div id="accordion-index${index}" class="card-block accordion" role="tablist" aria-multiselectable="true">
+		<div class="card border-0">
+			<div class="card-header" role="tab" id="heading-${index}">
+			    <a data-toggle="collapse" data-parent="#accordion-${index}" href="#collapse-index${index}" aria-expanded="true" aria-controls="collapse-index${index}">
+			        <span class="icon icon-104"></span> ${periodEval}
+			        <span class="average">Promedio <strong>${average}</strong></span>
+			    </a>
+			</div>
+			<div id="collapse-index${index}" class="collapse  show " role="tabpanel" aria-labelledby="heading-${index}">
+			    <div class="card-block">
+			        <input type="hidden" name="userId" value="123">
+			        <input type="hidden" name="becaId" value="456">
+			        <div class="form-group no-grid">
+			            <label class="form-label" for="score">Calificaci&oacute;n</label>
+			            <input class="form-control inscore" name="score${index}" id="score${index}" placeholder="Sube tu calificación" required type="text" data-grade="${schoolGrade}" data-period="${periodEval}" value="${average}" data-iscore="${average}" data-helpsoce="#helpScore${index}" data-boletaid="#boletaSec-${index}"/>
+			            <a href="#" data-toggle="tooltip" data-placement="top" title="La calificaci&oacute;n debe ser en una escala del 1 al 10 y puede tener hasta 2 decimales" id="helpScore${index}"><i class="icon icon-200"></i></a>
+			        </div>
+			        <div class="form-group border-0" id="boletaSec-${index}" ${showboleta}>
+			            <h5>Boleta de Calificaciones ${periodEval}</h5>
+			            <div id="boleta-area-${index}">
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>

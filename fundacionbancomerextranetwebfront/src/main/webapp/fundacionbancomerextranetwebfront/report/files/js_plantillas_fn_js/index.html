@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\plantillas.fn.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\plantillas.fn.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">61.39</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">1674</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">90.31</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">28.83</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">//***************************************Regular expression******************************************//
+//CURP
+    const expRegCurp = /^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/;
+//Email
+    const expRegEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+//Qualification with 2 decimals
+    const expRegCalif=/10$|^\d(\.\d\d?)?$/;
+//Numbers in ascending order.
+    const expRegAscNum = /01|12|23|34|45|56|67|78|89/;
+//Numbers in descending order.
+    const expRegDesNum = /98|87|76|65|54|43|32|21|10/;
+//Doesn&#039;t allow repeat numbers o letters more than 2 times.
+    const expRegRepeat= /((.+)?)((.)\4\4)((.+)?)/;
+    const expRegHasNumber= /\d/;
+    const expRegHasLetter= /[a-zA-Z]/;
+
+
+/**
+ * Variable doesn&#039;t do anything.
+ */
+var fn_nothing = function () {
+    return;
+};
+
+/**
+ * Function that provides checkbox&#039;s funcionality to confirm deposit.
+ */
+var fn_confirmacion = function () {
+    checkBoxConfirm();
+};
+
+/**
+ * This function get the combo of status received pay.
+ */
+var fn_comboConfirmacionDepo = function (){
+	for(var optionD in combos.cdRB){
+    	$(&quot;select[name=&#039;status&#039;]&quot;).append(&quot;&lt;option value=&quot;+combos.cdRB[optionD]+&quot;&gt;&quot;+combos.cdRB[optionD]+&quot;&lt;/option&gt;&quot;);
+    }
+};
+
+/**
+ * Function of files selection.
+ */
+var fn_selectArchivos = function () {
+    requerido();
+    $(&#039;[data-toggle=&quot;tooltip&quot;]&#039;).tooltip({placement: &quot;top&quot;});
+    var fileIdCont = 0;
+    var errorFileTimer;
+    var allFiles = {};
+
+    $(&#039;#uploadFiles&#039;).on(&#039;hidden.bs.modal&#039;, function (e) {
+        /*var token = $(this).find(&#039;[name=&quot;token&quot;]&#039;).val();
+        $(&#039;#slot_&#039; + becaId + &#039;_&#039; + fileId).val(token);*/
+        myDropzone.removeAllFiles(true);
+        $(&#039;#upload-files&#039;).parent().removeClass(&#039;col-sm-6&#039;);
+        $(&quot;.template-preview-wrapper&quot;).removeAttr(&#039;style&#039;);
+    });
+    $(&#039;#consultFiles&#039;).on(&#039;hidden.bs.modal&#039;, function(e) {
+		$(this).find(&#039;#show_file&#039;).attr(&quot;src&quot;,&quot;&quot;);
+	});
+
+    Dropzone.autoDiscover = false;
+
+    myDropzone = new Dropzone(&quot;#upload-files&quot;, {
+            acceptedFiles: &#039;application/pdf,image/jpeg&#039;,
+            dictFileTooBig: &quot;El archivo supera el tama\u00F1o permitido de {{maxFilesize}} MiB&quot;,
+            dictMaxFilesExceeded: &quot;N\u00FAmero m\u00E1ximo de archivos alcanzado&quot;,
+            dictInvalidFileType: &quot;S\u00F3lo se permiten archivos JPG y PDF&quot;,
+            autoProcessQueue: false,
+            dictDefaultMessage: &#039;&#039;,
+            maxFiles: 2,
+            maxFilesize: 10,
+            clickable: &#039;#uplddFiles&#039;,
+            previewTemplate: (document.getElementById(&#039;template-preview&#039;))
+                ? document.getElementById(&#039;template-preview&#039;).innerHTML : &#039;&#039;,
+            previewsContainer: &quot;#template-preview&quot;,
+            url: &quot;/&quot;,
+            init: function () {
+                this.on(&quot;addedfile&quot;, function (file) {
+                });
+                this.on(&quot;drop&quot;, function () {
+                });
+            },
+            accept: function (file, done) {
+                this.element.classList.remove(&#039;hover&#039;);
+                this.element.parentElement.classList.add(&#039;col-sm-6&#039;);
+                document.querySelector(&#039;.template-preview-wrapper&#039;)
+                        .style.display = &quot;block&quot;;
+                file[&quot;idFile&quot;] = fileIdCont;
+                var button = file.previewTemplate.querySelector(&#039;.btn-delete-file&#039;);
+                var myFile = file;
+                button.addEventListener(&#039;click&#039;, function(){ this.removeFile(myFile) });
+                allFiles[fileIdCont]={
+                    &quot;active&quot;: true,
+                    &quot;base64&quot;: &quot;&quot;
+                };
+                fileIdCont++;
+                done();
+            },
+            removedfile: function(file){
+                file.previewTemplate.remove();
+                if(this.getAcceptedFiles().length==0){
+                    $(&#039;#upload-files&#039;).parent().removeClass(&#039;col-sm-6&#039;);
+                    $(&quot;.template-preview-wrapper&quot;).removeAttr(&#039;style&#039;);
+                }
+            },
+            dragleave: function (event) {
+              this.element.classList.remove(&#039;hover&#039;);
+            },
+            dragover: function (event) {
+              if (!this.element.classList.contains(&#039;hover&#039;)) {
+                this.element.classList.add(&#039;hover&#039;);
+              }
+            },
+            error: function (file, errorMEssage) {
+                if (!file.accepted) {
+                    this.removeFile(file);
+                    this.element.classList.remove(&#039;hover&#039;);
+                    if(errorFileTimer){clearTimeout(errorFileTimer);}
+                    $(&quot;#mssgErrorFile&quot;).children(&quot;span&quot;).text(errorMEssage);
+                    $(&quot;#mssgErrorFile&quot;).slideDown();
+                    errorFileTimer=setTimeout(function(){
+                        $(&quot;#mssgErrorFile&quot;).slideUp();
+                    },3000);
+                }
+            },
+        });
+
+    Dropzone.options.myDropzone = false;
+    $(&#039;#saveallFiles&#039;).on(&#039;click&#039;,function(event){
+        event.preventDefault();
+        var _allFiles = myDropzone.getAcceptedFiles();
+        var _fileData = $(&quot;#uploadFiles&quot;);
+        var _typeDocument = _fileData.attr(&quot;data-document&quot;);
+        var _moduleIndicator = &quot;SE&quot;;
+        showModals(&quot;Guardando tu(s) documento(s)&quot;,&quot;Espera un momento&quot;,SCONFIG.getMessage(&#039;wait&#039;).idModal);
+        var _folioArchiving = &quot;&quot;;
+        function readIndexFile(_i){
+        	if(_i==_allFiles.length){return;}
+        	currentFile = _allFiles[_i];
+        	var reader = new FileReader();
+            reader.onload = function(e) {
+            	if(_i==_allFiles.length){return;}
+                var base64URL = e.target.result;
+                fext = currentFile.name.split(&quot;.&quot;);
+                fext = fext[fext.length-1];
+                writeLog(&quot;Enviando archivo.. &quot;+currentFile.name);
+                var _end_fn = function(resp){
+                	writeLog(&quot;resp&quot;,resp);
+                }
+                if(_i==_allFiles.length-1){//cuando es el &amp;uacute;ltimo archivo
+                	_end_fn = function(data){//guarda el folio con el servicio alta de imagenes
+                		writeLog(&quot;_end_fn&quot;,data);
+                		restExec({
+                			service:&#039;UPLOAD_IMAGE&#039;,
+                			data: {
+                				moduleIndicator: _moduleIndicator,
+                				studentID: scholar.studentID+&quot;&quot;,
+                				programType: scholar.scholarship.programType,
+                				typeDocument: _typeDocument,
+                				schoolGrade: _fileData.attr(&quot;data-grade&quot;),
+                				schoolCycle: scholar.statusQualifications.schoolCycle,
+                				schoolPeriod: _fileData.attr(&quot;data-period&quot;),
+                				folio: data.referenceNumber,
+                				userCurrent: scholar.studentID+&quot;&quot;
+                			},
+                			success: function(data_resp){
+                				if(_typeDocument==&quot;1|Boleta&quot;){
+                					writeLog(&quot;--- subió boleta&quot;);
+                					rest_reloadQualifications();
+                				}else{
+                					writeLog(&quot;--- subió constancia&quot;);
+                					rest_averageQuery();
+                				}
+                				writeLog(&quot;success servicio&quot;,data_resp);
+                				$(&quot;#&quot;+SCONFIG.getMessage(&#039;wait&#039;).idModal).modal(&#039;hide&#039;);
+                	            showModals(&quot;Tu documento se ha guardado satisfactoriamente&quot;,&quot;Gracias por la espera&quot;,&quot;savedFile&quot;);
+                	            $(&quot;#savedFile&quot;).find(&quot;button&quot;).on(&quot;click&quot;,function(){
+                	            	fn_loadStatusQualifications();
+                	            	$($(this)).prop(&#039;onclick&#039;,null).off(&#039;click&#039;);
+                	            });
+                			}
+                		});
+                	}
+            	}
+                pre_fnSendMultiDocument({
+                	ext: fext,
+                	filename: currentFile.name,
+                	typeDocument: _typeDocument,
+                	first: (_i==0)+&quot;&quot;,
+                	last: (_i==_allFiles.length-1)+&quot;&quot;,
+                	base64: (base64URL.split(&quot;;base64,&quot;))[1],
+                	success: _end_fn
+                });
+                readIndexFile(_i+1);
+            };
+            reader.readAsDataURL(currentFile);
+        }
+        readIndexFile(0);
+    });
+    fn_qualificationValidate();
+    loadShowUpdateFile();
+};
+
+/**
+ * Function to select/upload profile picture.
+ */
+var fn_selectProfilePicture = function () {
+    requerido();
+    $(&#039;[data-toggle=&quot;tooltip&quot;]&#039;).tooltip({placement: &quot;top&quot;});
+    var errorPictureTimer;
+    var successPictureTimer;
+    $(&#039;#uploadScholarImage&#039;).on(&#039;hidden.bs.modal&#039;, function (e) {
+        myPicture.removeAllFiles(true);
+    });
+
+    Dropzone.autoDiscover = false;
+    var myPicture = new Dropzone(&quot;#upload-scholarImage&quot;, {
+        acceptedFiles: &#039;image/jpeg&#039;,
+        dictFileTooBig: &quot;El archivo supera el tama\u00F1o permitido de {{maxFilesize}} MiB&quot;,
+        dictMaxFilesExceeded: &quot;S\u00F3lo puedes elegir una foto de perfil&quot;,
+        dictInvalidFileType: &quot;Tu foto debe ser en formato JPG&quot;,
+        autoProcessQueue: false,
+        dictDefaultMessage: &#039;&#039;,
+        maxFiles: 1,
+        maxFilesize: 5,
+        previewTemplate : &#039;&lt;div style=&quot;display:none&quot;&gt;&lt;/div&gt;&#039;,
+        clickable: &#039;#uploadImage&#039;,
+        url: &quot;/&quot;,
+        init: function () {
+            this.on(&quot;addedfile&quot;, function (file) {
+            });
+            this.on(&quot;drop&quot;, function () {
+            });
+        },
+        accept: function (file, done) {
+            this.element.classList.remove(&#039;hover&#039;);
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var base64URL = e.target.result;
+                if(base64URL !== &quot;&quot; ){
+                    $(&quot;#uploadScholarImage&quot;).modal(&#039;hide&#039;);
+                    fext = file.name.split(&quot;.&quot;);
+                    fext = fext[fext.length-1];
+                    pre_fnSendDocument({
+                    	typeDocument: &quot;10|Foto&quot;,
+                    	moduleIndicator: &quot;FB&quot;,
+                    	ext: fext,
+                    	filename: file.name,
+                    	base64: (base64URL.split(&quot;;base64,&quot;))[1],
+                    });
+                }
+            };
+            reader.readAsDataURL(file);
+            done();
+        },
+        dragleave: function (event) {
+          this.element.classList.remove(&#039;hover&#039;);
+        },
+        dragover: function (event) {
+          if (!this.element.classList.contains(&#039;hover&#039;)){
+            this.element.classList.add(&#039;hover&#039;);
+          }
+        },
+        error: function (file, errorMEssage) {
+            if (!file.accepted) {
+                this.removeFile(file);
+                this.element.classList.remove(&#039;hover&#039;);
+                if(errorPictureTimer){clearTimeout(errorPictureTimer);}
+                $(&quot;#mssgError&quot;).children(&quot;span&quot;).text(errorMEssage);
+                $(&quot;#mssgError&quot;).slideDown();
+                errorFileTimer=setTimeout(function(){
+                    $(&quot;#mssgError&quot;).slideUp();
+                },3000);
+            }
+        },
+    });
+};
+
+/**
+ * Function to load qualifications of the scholar.
+ */
+var fn_loadStatusQualifications = function(){
+	writeLog(&quot;fn_loadStatusQualifications&quot;);
+	var selectedScholarLevel = $(&quot;select[name=&#039;cursando&#039;] option:selected&quot;).val();
+	var selectedScholarGrade = $(&quot;select[name=&#039;grado&#039;] option:selected&quot;).val();
+	var i_locationAverage = -1,
+	    j_locationAverage = -1;
+	
+	for(i = 0; i&lt;scholar.statusQualifications.averagesSchoolGrade.length; i++){
+    	if(scholar.statusQualifications.averagesSchoolGrade[i].scholarLevel == selectedScholarLevel){
+    		for(var j in scholar.statusQualifications.averagesSchoolGrade[i].averagesSchoolGrade){
+    			if (scholar.statusQualifications.averagesSchoolGrade[i].averagesSchoolGrade[j].schoolGrade == selectedScholarGrade){
+    				i_locationAverage = i;
+    				j_locationAverage = j;
+    				loadTemplate(&quot;calificacionesBecario&quot;, templates.calificacion , {
+    					actLevel: selectedScholarLevel,
+    					average: scholar.statusQualifications.averagesSchoolGrade[i].averagesSchoolGrade[j].averageSchoolGrade
+    			    });
+    				break;
+    			}
+    		}
+    		break;
+    	}
+    };
+	
+	scholar.statusQualifications.averagesScholarLevel.forEach(function(curr_averageScholarLevel, ind){
+		if(curr_averageScholarLevel.scholarLevel==selectedScholarLevel&amp;&amp;curr_averageScholarLevel.schoolGrade==selectedScholarGrade){
+	        var div1 = document.createElement(&quot;div&quot;);
+	        var att = document.createAttribute(&quot;id&quot;);
+	        att.value = &quot;calif&quot; + ind;
+	        div1.setAttributeNode(att);
+	        document.getElementById(&quot;calificacionA&quot;).appendChild(div1);
+	        Tempstyle=&#039;style=&quot;display:none;&quot;&#039;;
+	        if(curr_averageScholarLevel.folio!=&quot;&quot;||curr_averageScholarLevel.qualification!=0){Tempstyle=&#039;&#039;;}
+	        loadTemplate(&quot;calif&quot;+ind, templates.areaCalificacion , {
+	        	periodEval : curr_averageScholarLevel.schoolPeriod,
+	        	average : curr_averageScholarLevel.qualification,
+	        	schoolGrade: curr_averageScholarLevel.schoolGrade,
+	        	showboleta:Tempstyle,
+	            index : ind
+	        });
+	        tempTemplate = (curr_averageScholarLevel.folio==&quot;&quot;||curr_averageScholarLevel.isMissing)?templates.emptyBoleta:templates.boleta;
+	        
+	        
+	        loadTemplate(&quot;boleta-area-&quot;+ind, tempTemplate , {
+	        	schoolGrade: curr_averageScholarLevel.schoolGrade,
+	        	schoolPeriod: curr_averageScholarLevel.schoolPeriod,
+	            index: ind,
+	            folio: curr_averageScholarLevel.folio
+	        });
+		}
+	});
+	
+	if(i_locationAverage != -1 &amp;&amp; j_locationAverage != -1){
+		constancy = scholar.statusQualifications.averagesSchoolGrade[i_locationAverage].averagesSchoolGrade[j_locationAverage].folio.split(&quot;|&quot;);
+		if(constancy.length == 2){
+			var div1 = document.createElement(&quot;div&quot;);
+	        div1.setAttribute(&quot;id&quot;,&quot;missingConstancy&quot;);
+	        var tempTemplate = templates.constancia;
+			if(constancy[1]==&quot;&quot;){
+				tempTemplate = templates.emptyConstancia;
+			}
+			document.getElementById(&quot;calificacionA&quot;).appendChild(div1);
+	        loadTemplate(&quot;missingConstancy&quot;, tempTemplate , {
+	        	schoolGrade: constancy[0],
+	        	schoolPeriod: &quot;&quot;,
+	        	folio: constancy[1]
+	        });
+		}
+	}
+	fn_selectArchivos();
+	loadShowUpdateFile();
+}
+
+/**
+ * Function that is executed when loading the header is finished, executes the functions of:
+ * Load profile picture, files selection, show alerts and load the principal page.
+ */
+var fn_scholarheader = function(){
+	fn_loadProfilePicture();
+	fn_selectProfilePicture();
+	fn_showAlerts();
+	loadIndex();
+}
+
+/**
+ * Function that executes when principal page is loaded.
+ */
+var fn_home = function () {
+	writeLog(&quot;fn_home&quot;);
+	fn_opcCursandoGrado();
+	loadCardsConfirmHome();
+};
+
+/**
+ * Load the months to be confirmed in the index.
+ */
+function loadCardsConfirmHome() {
+	 loadTemplate(&quot;cardConfirm&quot;, templates.cardConfirmIntership, {
+	        title: &quot;¿Recibiste tu beca?&quot;,
+	        message: &quot;Meses pendientes de confirmar:&quot;
+	    });
+	    if(scholar.confirm.length == 0 &amp;&amp;  $(&quot;#pendingCard &gt; .card&quot;).length == 0) {
+	    	if(scholar.scholarship.confirmDispersion.length != 0){
+	    		loadTemplate(&quot;messageThanks&quot;,templates.confirmAll,{
+	    	           thanks: &quot;Gracias&quot;,
+	    	           message: &quot;Por confirmar tus dep\u00f3sitos&quot;
+	    	    })
+	    	}else {
+	    		loadTemplate(&quot;messageThanks&quot;,templates.confirmAll,{
+	 	           thanks: &quot;¡Bienvenido!&quot;,
+	 	           message: &quot;Aqu\u00ed aparecer\u00e1n tus dep\u00f3sitos por confirmar&quot;
+	    		});
+	    	}
+	    	 $(&quot;#btnSendConfirm&quot;).hide();
+		     $(&quot;p[name=&#039;pending&#039;]&quot;).hide();
+	    }
+	    if(scholar.confirm.length == 0 &amp;&amp;  $(&quot;#pendingCard &gt; .card&quot;).length == 1) $(&quot;#cardConfirm&quot;).hide();
+	    loadPendingCards();
+	    fn_comboConfirmacionDepo();
+}
+
+//********************************My Qualifications ********************************//
+
+/**
+ * Execute the combos of &quot;Cursando&quot; and &quot;Grado&quot; of scholar and qualifications query.
+ */
+var fn_misCalificaciones = function () {
+	fn_opcCursandoGrado();
+};
+
+/**
+ * Dynamically filled combos of &quot;Cursando&quot; and &quot;Grado&quot;.
+ */
+var fn_opcCursandoGrado = function () {
+	isSelec_ = &quot;&quot;;
+	for(i=0;i&lt;scholar.statusQualifications.schoolLevels.length; i++){
+		if (!$(&quot;select[name=&#039;cursando&#039;]&gt;option[value=&quot;+scholar.statusQualifications.schoolLevels[i].scholarLevel+&quot;]&quot;).length){
+			if(i==scholar.statusQualifications.schoolLevels.length-1)isSelec_=&quot;selected&quot;;
+			$(&quot;select[name=&#039;cursando&#039;]&quot;).append(&#039;&lt;option &#039;+isSelec_+&#039; value=&quot;&#039;+scholar.statusQualifications.schoolLevels[i].scholarLevel+&#039;&quot;&gt;&#039;+scholar.statusQualifications.schoolLevels[i].scholarLevel+&#039;&lt;/option&gt;&#039;);
+		}
+	}
+	for(var i in scholar.statusQualifications.schoolLevels){
+		if (scholar.statusQualifications.schoolLevels[i].scholarLevel==$(&quot;select[name=&#039;cursando&#039;] option:selected&quot;).text()){
+			for (var j in scholar.statusQualifications.schoolLevels[i].scholarGrades){
+				$(&quot;select[name=&#039;grado&#039;]&quot;).append(&#039;&lt;option value=&quot;&#039;+scholar.statusQualifications.schoolLevels[i].scholarGrades[j].scholarGrade+&#039;&quot;&gt;&#039;+scholar.statusQualifications.schoolLevels[i].scholarGrades[j].scholarGrade+&#039;&lt;/option&gt;&#039;);
+			}
+		}
+	}
+	$(&quot;select[name=&#039;grado&#039;] option:last&quot;).attr(&quot;selected&quot;, &quot;selected&quot;);
+	fn_consultaCalificacionesAnteriores();
+};
+
+/**
+ * Function to review previous qualifications.
+ */
+var fn_consultaCalificacionesAnteriores = function () {
+    $(&quot;select[name=&#039;cursando&#039;]&quot;).change(function () {
+        $(&quot;select[name=&#039;grado&#039;]&quot;).text(&quot;&quot;);
+        scholar.statusQualifications.schoolLevels.forEach(function(schoolLevels){
+        	if (schoolLevels.scholarLevel == $(&quot;select[name=&#039;cursando&#039;] option:selected&quot;).text()){
+        		for (j=0;j&lt;schoolLevels.scholarGrades.length; j++){
+            		$(&quot;select[name=&#039;grado&#039;]&quot;).append(&#039;&lt;option value=&quot;&#039;+schoolLevels.scholarGrades[j].scholarGrade+&#039;&quot;&gt;&#039;+schoolLevels.scholarGrades[j].scholarGrade+&#039;&lt;/option&gt;&#039;);
+            	}
+        	}
+        });
+        $(&quot;select[name=&#039;grado&#039;] option:last&quot;).attr(&quot;selected&quot;, &quot;selected&quot;);
+    });
+
+    $(&quot;select[name=&#039;cursando&#039;], select[name=&#039;grado&#039;]&quot;).change(function () {
+    	fn_loadStatusQualifications();
+    });
+    fn_loadStatusQualifications();
+};
+
+/**
+ * Function to be executed when My Information is loaded.
+ */
+function loadMisDatos(){
+	$(&quot;#btnMisDatos&quot;).addClass(&quot;active&quot;);
+	$(&quot;#btnMiBeca, #btnMisCalificaciones, #btnMisTutores&quot;).removeClass(&quot;active&quot;);
+	loadTemplate(&quot;templateInicio&quot;, templates.misDatos, {
+		user: scholar.personalData.username,
+		scholarName: scholar.personalData.name,
+		schoolGrade : scholar.statusQualifications.schoolGrade,
+		program : scholar.scholarship.programName,
+		actLevel : scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel,
+		lastName: scholar.personalData.lastName,
+		secondLastName: scholar.personalData.secondLastName,
+		age: scholar.personalData.age,
+		cr: scholar.personalData.assignedCR,
+		accountNumber: &quot;******&quot;+scholar.personalData.accountNumber.toString().slice(-4),
+		status : scholar.scholarship.statusDispersion,
+		programStatus: scholar.program[0].status,
+		modality: scholar.scholarship.modalityParticipation,
+		schoolName: scholar.schoolData.name,
+		schoolDomicile: scholar.schoolData.domicile,
+		schoolType: scholar.schoolData.type,
+		turn: scholar.schoolData.turn,
+		typeCareer: scholar.schoolData.typeCareer,
+		control: scholar.schoolData.control,
+		cct: scholar.schoolData.cct,
+		schoolState: scholar.schoolData.state,
+		schoolMunicipality: scholar.schoolData.municipality
+	});
+}
+
+/**
+ * Varible que ejecuta una serie de funciones al terminar de cargar el template de Mis Datos.
+ */
+var fn_misDatos = function(){
+	actTable();
+
+    //***********************************************Personal Information******************************************************//
+    $(&#039;[data-toggle=&quot;tooltip&quot;]&#039;).tooltip({
+        placement: &quot;top&quot;
+    });
+
+    $(&#039;.input-group.date&#039;).datetimepicker({
+        format: &#039;DD-MM-YYYY&#039;,
+        locale: &#039;es&#039;,
+        minDate: new Date(80,0,1),
+        maxDate: new Date()
+    });
+
+    //Letters of CURP
+    $(&quot;.letrasCurp&quot;).keypress(function (key) {
+    	writeLog(key.charCode);
+        if ((key.charCode &gt;= 48 &amp;&amp; key.charCode &lt;= 57) || (key.charCode &gt;= 65 &amp;&amp; key.charCode &lt;= 90) || (key.charCode &gt;= 97 &amp;&amp; key.charCode &lt;= 122) || key.charCode ==0) return true;
+        return false;
+	});
+
+    $(&quot;input[name=&#039;birthdate&#039;]&quot;).keyup(function () {
+       if($(&quot;input[name=&#039;birthdate&#039;]&quot;).val() !== &quot;&quot;){
+           $(&quot;input[name=&#039;birthdate&#039;]&quot;).parent().parent().removeClass(&quot;has-error&quot;);
+           $(&quot;#nobirthdate&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#nobirthdate&quot;).remove();});
+        }
+    });
+
+    $(&quot;.icon-167&quot;).click(function (event) {
+        event.preventDefault();
+        $(&quot;input[name=&#039;birthdate&#039;]&quot;).parent().parent().removeClass(&quot;has-error&quot;);
+        $(&quot;#nobirthdate&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#nobirthdate&quot;).remove();});
+    });
+
+    $(&quot;.numeros&quot;).keypress(function (key) {
+        if (key.charCode &gt;= 48 &amp;&amp; key.charCode &lt;= 57) return true;
+        return false;
+	});
+
+    $(&quot;#curp2&quot;).keyup(function () {
+	    curpIn = $(&quot;#curp2&quot;).val();
+		validacion = expRegCurp.test(curpIn);
+		if (validacion) {
+			$(&quot;#curp2&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;#noCurp2&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#noCurp2&quot;).remove();});
+		}
+	});
+
+    $(&quot;#principalEmail,#firstOptionalEmail,#secondOptionalEmail&quot;).keyup(function () {
+        pEmail = $(&quot;#principalEmail&quot;).val();
+        email1 = $(&quot;#firstOptionalEmail&quot;).val();
+        email2 = $(&quot;#secondOptionalEmail&quot;).val();
+        validacionPEmail = expRegEmail.test(pEmail);
+        validacionEmail1 = expRegEmail.test(email1);
+        validacionEmail2 = expRegEmail.test(email2);
+        writeLog(validacionPEmail);
+        if (validacionPEmail) {
+            $(&quot;#principalEmail&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;#noPEmail&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#noPEmail&quot;).remove();});
+            $(&quot;#principalEmail&quot;).blur(function () {
+                $(&quot;#principalEmail&quot;).removeClass(&quot;has-error&quot;);
+            });
+        }
+        if (validacionEmail1 || email1 === &quot;&quot;) {
+            $(&quot;#firstOptionalEmail&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;#noEmail1&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#noEmail1&quot;).remove();});
+            $(&quot;#firstOptionalEmail&quot;).blur(function () {
+                $(&quot;#firstOptionalEmail&quot;).removeClass(&quot;has-error&quot;);
+            });
+        }
+        if (validacionEmail2 || email2 === &quot;&quot;) {
+            $(&quot;#secondOptionalEmail&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;#noEmail2&quot;).fadeOut(&quot;fast&quot;,function(){$(&quot;#noEmail2&quot;).remove();});
+            $(&quot;#secondOptionalEmail&quot;).blur(function () {
+                $(&quot;#secondOptionalEmail&quot;).removeClass(&quot;has-error&quot;);
+            });
+        }
+	});
+
+    /**
+     * When button btnSendInfo is clicked this function is executed.
+     * @param {object} event Event object.
+    */
+    $(&quot;input[name=&#039;btnSendInfo&#039;]&quot;).click(function(event){
+    	event.preventDefault();
+    	var misDatosJSON = {
+        			&quot;userCurrent&quot;: scholar.studentID,
+        			&quot;student&quot;:[
+        			           {
+        			        	   &quot;studentId&quot;: scholar.studentID,
+        			        	   &quot;programType&quot;:scholar.scholarship.programType,
+        			        	   &quot;statusDispersion&quot;:scholar.scholarship.statusDispersion,
+        			        	   &quot;cdOriginState&quot;: scholar.personalData.cdOriginState,
+        			        	   &quot;originState&quot;: scholar.personalData.originState,
+        			        	   &quot;cdOriginMunicipality&quot;: scholar.personalData.cdOriginMunicipality,
+        			        	   &quot;originMunicipality&quot;: scholar.personalData.originMunicipality,
+        			        	   &quot;originRegion&quot;: scholar.personalData.originRegion,
+        			        	   &quot;schoolCycle&quot;: scholar.statusQualifications.schoolCycle,
+        			        	   &quot;cdAssignedCR&quot;:scholar.personalData.cdAssignedCR,
+        			        	   &quot;assignedCR&quot;:scholar.personalData.assignedCR,
+        			        	   &quot;scholarNumber&quot;: scholar.personalData.scholarNumber,
+        			        	   &quot;accountNumber&quot;: scholar.personalData.accountNumber,
+        			        	   &quot;folioPhoto&quot;: scholar.personalData.profilePicture,
+        			        	   &quot;name&quot;: scholar.personalData.name,
+        			        	   &quot;firstName&quot;: scholar.personalData.lastName,
+        			        	   &quot;lastName&quot;: scholar.personalData.secondLastName,
+        			        	   &quot;CURP&quot;: scholar.personalData.curp,
+        			        	   &quot;scholarBirthdate&quot;: scholar.personalData.birthdate,
+        			        	   &quot;gender&quot;: scholar.personalData.gender,
+        			        	   &quot;schoolData&quot;:[
+        			        	                 {
+        			        	                	 &quot;duration&quot;: scholar.schoolData.duration,
+        			        	                	 &quot;turn&quot;: scholar.schoolData.turn,
+        			        	                	 &quot;typeCareer&quot;: scholar.schoolData.typeCareer,
+        			        	                	 &quot;nameCareer&quot;: scholar.schoolData.name,
+        			        	                	 &quot;area&quot;: scholar.schoolData.area,
+        			        	                	 &quot;school&quot;:[
+        			        	                	           {
+        			        	                	        	   &quot;cdState&quot;: scholar.schoolData.cdState,
+        			        	                	        	   &quot;state&quot;: scholar.schoolData.state,
+        			        	                	        	   &quot;cdMunicipality&quot;: scholar.schoolData.cdMunicipality,
+        			        	                	        	   &quot;municipality&quot;: scholar.schoolData.municipality,
+        			        	                	        	   &quot;CCT&quot;: scholar.schoolData.cct,
+        			        	                	        	   &quot;control&quot;: scholar.schoolData.control,
+        			        	                	        	   &quot;initials&quot;: scholar.schoolData.initials,
+        			        	                	        	   &quot;type&quot;: scholar.schoolData.type,
+        			        	                	        	   &quot;name&quot;: scholar.schoolData.name,
+        			        	                	        	   &quot;domicile&quot;: scholar.schoolData.domicile
+        			        	                	           }
+        			        	                	          ]
+        			        	                 }
+        			        	                ],
+	        	                   &quot;domicile&quot;:[
+	        	                               {
+	        	                            	   &quot;street&quot;: scholar.domicile.street,
+	        	                            	   &quot;locality&quot;: scholar.domicile.locality,
+	        	                            	   &quot;numExterior&quot;: scholar.domicile.numExterior,
+	        	                            	   &quot;numInterior&quot;: scholar.domicile.numInterior,
+	        	                            	   &quot;codePostal&quot;: scholar.domicile.codePostal,
+	        	                            	   &quot;cdMunicipality&quot;: scholar.domicile.cdMunicipality,
+	        	                            	   &quot;municipality&quot;: scholar.domicile.municipality,
+	        	                            	   &quot;colony&quot;: scholar.domicile.colony,
+	        	                            	   &quot;cdState&quot;: scholar.domicile.cdState,
+	        	                            	   &quot;state&quot;: scholar.domicile.state,
+	        	                            	   &quot;betweenStreet&quot;: scholar.domicile.betweenStreet,
+	        	                            	   &quot;typeOfRoad1&quot;: scholar.domicile.typeOfRoad1,
+	        	                            	   &quot;andTheStreet&quot;: scholar.domicile.andTheStreet,
+	        	                            	   &quot;typeOfRoad2&quot;: scholar.domicile.typeOfRoad2,
+	        	                            	   &quot;behindStreet&quot;: scholar.domicile.behindStreet,
+	        	                            	   &quot;typeOfRoad3&quot;: scholar.domicile.typeOfRoad3,
+	        	                            	   &quot;particularReferences&quot;: scholar.domicile.particularReferences
+	        	                                }
+	        	                               ],
+	        	                   &quot;contactInf&quot;:[
+	        	                                 {
+	        	                                	 &quot;homePhone&quot;: scholar.contactData.homePhone,
+	        	                                	 &quot;cellPhone&quot;: scholar.contactData.cellPhone,
+	        	                                	 &quot;messagePhone&quot;: scholar.contactData.messagePhone,
+	        	                                	 &quot;email&quot;: scholar.contactData.email,
+	        	                                	 &quot;email1&quot;: scholar.contactData.email1,
+	        	                                	 &quot;email2&quot;: scholar.contactData.email2
+	        	                                 }
+	        	                                ],
+	        	                   &quot;tutorData&quot;:[
+	        	                                {
+	        	                                	&quot;tutorName&quot;: scholar.tutorData.name,
+	        	                                	&quot;firstNameTutor&quot;: scholar.tutorData.lastName,
+	        	                                	&quot;lastNameTutor&quot;: scholar.tutorData.secondLastName,
+	        	                                	&quot;kinship&quot;: scholar.tutorData.kinship,
+	        	                                	&quot;kinshipType&quot;: scholar.tutorData.kinshipType
+	        	                                }
+	        	                               ],
+	        	                 &quot;program&quot;: scholar.program
+        			           }
+        			          ]
+        				};
+
+    	btnID=$(this).attr(&quot;id&quot;);
+    	var hasErrorPersonalInfo=false;
+    	switch(btnID){
+    		case &quot;btnPersonalInformation&quot;:
+    			writeLog(&quot;btnPersonalInformation&quot;);
+    	        $(&quot;#nobirthdate&quot;).remove();
+    	        $(&quot;#noCurp2&quot;).remove();
+
+    	        //Fecha de nacimiento
+    	        if ($(&quot;input[name=&#039;birthdate&#039;]&quot;).val() === &quot;&quot; ){
+    	            $(&quot;input[name=&#039;birthdate&#039;]&quot;).parent().parent().addClass(&quot;has-error&quot;);
+    	            $(&quot;.date&quot;).focus().after(&quot;&lt;small style=&#039;color: #c8175e&#039; id=&#039;nobirthdate&#039;&gt;Por favor ingresa tu fecha de nacimiento&lt;/small&gt;&quot;);
+    	            hasErrorPersonalInfo=true;
+    	        }
+
+    	        //CURP
+    	        curp = $(&quot;#curp2&quot;).val();
+    	        validacion = expRegCurp.test(curp);
+    	        if($(&quot;#curp2&quot;).val() !== &quot;&quot;) {
+    	            if (!validacion) {
+    	            	hasErrorPersonalInfo=true;
+    	                $(&quot;#curp2&quot;).addClass(&quot;has-error&quot;);
+    	                $(&quot;#seccCurp&quot;).focus().after(&quot;&lt;span id=&#039;noCurp2&#039;&gt;&lt;br/&gt;&lt;span style=&#039;color: #c8175e; font-size:80%&#039;&gt;Por favor verifica tu CURP&lt;/span&gt;&lt;/span&gt;&quot;);
+    	            }
+    	        }else hasErrorPersonalInfo=true;
+
+    	        if($(&quot;select[name=&#039;gender&#039;] option:selected&quot;).val()==0) hasErrorPersonalInfo=true;
+
+
+    	        writeLog(hasErrorPersonalInfo);
+	        	writeLog(&quot;hasErrorPersonalInfo&quot;);
+	        	misDatosJSON.student[0].CURP=$(&quot;#curp2&quot;).val();
+	        	misDatosJSON.student[0].scholarBirthdate=$(&quot;input[name=&#039;birthdate&#039;]&quot;).val();
+	        	misDatosJSON.student[0].gender=$(&quot;select[name=&#039;gender&#039;] option:selected&quot;).val();
+	        	writeLog(&quot;!hasErrorPersonalInfo  misDatosJSON&quot;,misDatosJSON);
+    			break;
+    		case &quot;btnSendDomicile&quot;:
+    			writeLog(&quot;btnSendDomicile&quot;);
+    	    	if($(&quot;input[name=&#039;street&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;numExterior&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;postalCode&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;localityHouse&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;colonyHouse&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;betweenStreet&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;andTheStreet&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;input[name=&#039;behindStreet&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;textarea[name=&#039;references&#039;]&quot;).val() == &quot;&quot; ||
+    	    	   $(&quot;select[name=&#039;stateHouse&#039;] option:selected&quot;).val() == 0 ||
+    	    	   $(&quot;select[name=&#039;municipalityHouse&#039;] option:selected&quot;).val() == 0 ||
+    	    	   $(&quot;#road1 option:selected&quot;).val() == 0 ||
+    	    	   $(&quot;#road2 option:selected&quot;).val() == 0 ||
+    	    	   $(&quot;#road3 option:selected&quot;).val() == 0) hasErrorPersonalInfo=true;
+
+    	    		misDatosJSON.student[0].domicile[0]={
+        		        &quot;street&quot;: $(&quot;input[name=&#039;street&#039;]&quot;).val(),
+        		        &quot;locality&quot;: $(&quot;input[name=&#039;localityHouse&#039;]&quot;).val(),
+        		        &quot;numExterior&quot;: $(&quot;input[name=&#039;numExterior&#039;]&quot;).val(),
+        		        &quot;numInterior&quot;: $(&quot;input[name=&#039;numInterior&#039;]&quot;).val(),
+        		        &quot;codePostal&quot;: $(&quot;input[name=&#039;postalCode&#039;]&quot;).val(),
+        				&quot;cdMunicipality&quot;:$(&quot;select[name=&#039;municipalityHouse&#039;] option:selected&quot;).val(),
+        				&quot;municipality&quot;: $(&quot;select[name=&#039;municipalityHouse&#039;] option:selected&quot;).text(),
+        				&quot;colony&quot;: $(&quot;input[name=&#039;colonyHouse&#039;]&quot;).val(),
+        				&quot;cdState&quot;:$(&quot;select[name=&#039;stateHouse&#039;] option:selected&quot;).val(),
+        				&quot;state&quot;: $(&quot;select[name=&#039;stateHouse&#039;] option:selected&quot;).text(),
+        				&quot;betweenStreet&quot;: $(&quot;input[name=&#039;betweenStreet&#039;]&quot;).val(),
+        				&quot;typeOfRoad1&quot;: $(&quot;#road1 option:selected&quot;).val(),
+        				&quot;andTheStreet&quot;: $(&quot;input[name=&#039;andTheStreet&#039;]&quot;).val(),
+        				&quot;typeOfRoad2&quot;: $(&quot;#road2 option:selected&quot;).val(),
+        				&quot;behindStreet&quot;: $(&quot;input[name=&#039;behindStreet&#039;]&quot;).val(),
+        				&quot;typeOfRoad3&quot;: $(&quot;#road3 option:selected&quot;).val(),
+        				&quot;particularReferences&quot;: $(&quot;textarea[name=&#039;references&#039;]&quot;).val()
+        			}
+
+
+    			break;
+    		case &quot;btnSaveContactInformation&quot;:
+    			writeLog(&quot;btnSaveContactInformation&quot;);
+    			$(&quot;#noPEmail&quot;).remove();
+    			$(&quot;#noEmail1&quot;).remove();
+    			$(&quot;#noEmail2&quot;).remove();
+    			if ($(&quot;#principalEmail&quot;).val() !== &quot;&quot;) {
+    	            pEmail = $(&quot;#principalEmail&quot;).val();
+    				validacionPEmail = expRegEmail.test(pEmail);
+    	            if (!validacionPEmail){
+    	            	if($(&quot;#principalEmail&quot;).next(&#039;span#noPEmail&#039;).length==0){
+	    	                $(&quot;#principalEmail&quot;).focus().after(&quot;&lt;span id=&#039;noPEmail&#039;&gt;&lt;br/&gt;&lt;span style=&#039;color: #c8175e; font-size:80%&#039;&gt;Por favor verifica el correo&lt;/span&gt;&lt;/span&gt;&quot;);
+	    	                $(&quot;#principalEmail&quot;).blur(function () {
+	    	                    $(&quot;#principalEmail&quot;).addClass(&quot;has-error&quot;);
+	    	                });
+    	            	}
+    	                hasErrorPersonalInfo=true;
+    	            }
+    	        } else hasErrorPersonalInfo=true;
+
+    	        if ($(&quot;#firstOptionalEmail&quot;).val() !== &quot;&quot;) {
+    	            email1 = $(&quot;#firstOptionalEmail&quot;).val();
+    	            validacionEmail1 = expRegEmail.test(email1);
+    	            if (!validacionEmail1){
+    	            	if($(&quot;#firstOptionalEmail&quot;).next(&#039;span#noEmail1&#039;).length==0){
+	    	                $(&quot;#firstOptionalEmail&quot;).focus().after(&quot;&lt;span id=&#039;noEmail1&#039;&gt; &lt;br/&gt; &lt;span style=&#039;color: #c8175e; font-size:80%&#039;&gt;Por favor verifica el correo&lt;/span&gt;&lt;/span&gt;&quot;);
+	    	                $(&quot;#firstOptionalEmail&quot;).blur(function () {
+	    	                    $(&quot;#firstOptionalEmail&quot;).addClass(&quot;has-error&quot;);
+	    	                });
+    	            	}
+    	                hasErrorPersonalInfo=true;
+    	            }
+    	        }
+
+    	        if ($(&quot;#secondOptionalEmail&quot;).val() !== &quot;&quot;){
+    	            email2 = $(&quot;#secondOptionalEmail&quot;).val();
+    	            validacionEmail2 = expRegEmail.test(email2);
+    	            if (!validacionEmail2){
+    	            	if($(&quot;#secondOptionalEmail&quot;).next(&#039;span#noEmail2&#039;).length==0){
+	    	                $(&quot;#secondOptionalEmail&quot;).focus().after(&quot;&lt;span id=&#039;noEmail2&#039;&gt;&lt;br/&gt;&lt;span style=&#039;color: #c8175e; font-size:80%&#039;&gt;Por favor verifica el correo&lt;/span&gt;&quot;);
+	    	                $(&quot;#secondOptionalEmail&quot;).blur(function () {
+	    	                    $(&quot;#secondOptionalEmail&quot;).addClass(&quot;has-error&quot;);
+	    	                });
+	    	            }
+    	                hasErrorPersonalInfo=true;
+    	            }
+    	        }
+    	        $(&quot;input[name=&#039;tCasa&#039;]&quot;).val(parseInt($(&quot;input[name=&#039;tCasa&#039;]&quot;).val(), 10)+&quot;&quot;);
+    	        $(&quot;input[name=&#039;tCel&#039;]&quot;).val(parseInt($(&quot;input[name=&#039;tCel&#039;]&quot;).val()+&quot;&quot;, 10)+&quot;&quot;);
+    	        $(&quot;input[name=&#039;tRecados&#039;]&quot;).val(parseInt($(&quot;input[name=&#039;tRecados&#039;]&quot;).val()+&quot;&quot;, 10)+&quot;&quot;);
+    	        
+    	        $(&quot;input[name=&#039;tCasa&#039;],[name=&#039;tCel&#039;],[name=&#039;tRecados&#039;]&quot;).each(function(){
+    	        	if((typeof $(this).attr(&quot;minLength&quot;) != &quot;undefined&quot; &amp;&amp; $(this).val().length &lt; $(this).attr(&quot;minLength&quot;))||
+    	        	   (typeof $(this).attr(&quot;maxLength&quot;) != &quot;undefined&quot; &amp;&amp; $(this).val().length &gt; $(this).attr(&quot;maxLength&quot;))||
+    	        	   $(this).val() == &quot;&quot;){
+    	        		hasErrorPersonalInfo=true;
+    	        	}
+    	        });
+    	        misDatosJSON.student[0].contactInf[0]={
+     		       &quot;homePhone&quot;: $(&quot;input[name=&#039;tCasa&#039;]&quot;).val(),
+     		       &quot;cellPhone&quot;: $(&quot;input[name=&#039;tCel&#039;]&quot;).val(),
+     		       &quot;messagePhone&quot;: $(&quot;input[name=&#039;tRecados&#039;]&quot;).val(),
+     		       &quot;email&quot;: $(&quot;input[name=&#039;email1&#039;]&quot;).val(),
+     		       &quot;email1&quot;: $(&quot;input[name=&#039;email2&#039;]&quot;).val(),
+     		       &quot;email2&quot;: $(&quot;input[name=&#039;email3&#039;]&quot;).val()
+    	        };
+    			break;
+    		case &quot;btnSendTutorData&quot;:
+    			writeLog(&quot;btnSendTutorData&quot;);
+    			if($(&quot;input[name=&#039;tutorName&#039;]&quot;).val() == &quot;&quot; ||
+    			   $(&quot;input[name=&#039;tutorLastName&#039;]&quot;).val() == &quot;&quot; ||
+	    	       $(&quot;select[name=&#039;relation&#039;] option:selected&quot;).val() == 0) hasErrorPersonalInfo=true;
+
+		    	if($(&quot;select[name=&#039;relation&#039;] option:selected&quot;).val() == &quot;OTRO&quot; &amp;&amp;
+		    	   $(&quot;input[name=&#039;relation_other&#039;]&quot;).val() == &quot;&quot;)hasErrorPersonalInfo=true;
+
+		    	misDatosJSON.student[0].tutorData[0]={
+     		       &quot;tutorName&quot;: $(&quot;input[name=&#039;tutorName&#039;]&quot;).val(),
+     		       &quot;firstNameTutor&quot;: $(&quot;input[name=&#039;tutorLastName&#039;]&quot;).val(),
+     		       &quot;lastNameTutor&quot;: $(&quot;input[name=&#039;tutorSecondLastName&#039;]&quot;).val(),
+     		       &quot;kinship&quot;: $(&quot;select[name=&#039;relation&#039;] option:selected&quot;).val(),
+     		       &quot;kinshipType&quot;: $(&quot;input[name=&#039;relation_other&#039;]&quot;).val()
+		    	};
+    			break;
+    	}
+
+    	if(!hasErrorPersonalInfo){
+    		restExec({
+    			service: &#039;MODIF_UPLOADSCHOLAR&#039;,
+        		data: misDatosJSON,
+        		showWait: true,
+            		customWait: {
+            			title: &quot;Guardando datos&quot;,
+            			message: &quot;Por favor espera.&quot;
+            		},
+	        	success: rest_fnModifUploadScholar,
+	        	finallySuccess: function() {
+	        		loadMisDatos();
+	        		showModals(&quot;Se han modificado tus datos&quot;,&quot;Gracias&quot;,&quot;savedFile&quot;);
+	        	}
+    		});
+    	}
+
+    });
+
+    //*********************************************** BECA ******************************************************//
+    if(scholar.confirm.length !== 0){
+        loadTemplate(&quot;depositosPendientes&quot;, templates.depositosPendientesBeca, {
+            title : &quot;Confirmaciones de dep\u00f3sitos pendientes&quot;
+        });
+    }
+
+    //************************************************ESCUELA****************************************************//
+    if(scholar.statusQualifications.averagesScholarLevel[scholar.statusQualifications.averagesScholarLevel.length-1].scholarLevel == &quot;Universidad&quot;){
+        loadTemplate(&quot;universityData&quot;, templates.uniInformation, {
+            typeOfCareer : scholar.schoolData.typeCareer,
+            careerName : scholar.schoolData.nameCareer,
+            area : scholar.schoolData.area,
+            duration : scholar.schoolData.duration
+        });
+    }
+
+    $(&quot;.letras&quot;).keypress(function (key) {
+    	writeLog(&quot;key.charCode&quot;, key.charCode);
+        if ((key.charCode &lt; 97 || key.charCode &gt; 122)//letras mayusculas
+                    &amp;&amp; (key.charCode &lt; 65 || key.charCode &gt; 90) //letras minusculas
+                    &amp;&amp; (key.charCode !== 241) //enhe
+                    &amp;&amp; (key.charCode !== 209) //ENHE
+                    &amp;&amp; (key.charCode !== 32) //espacio
+                    &amp;&amp; (key.charCode !== 225) //a con acento
+                    &amp;&amp; (key.charCode !== 233) //e con acento
+                    &amp;&amp; (key.charCode !== 237) //i con acento
+                    &amp;&amp; (key.charCode !== 243) //o con acento
+                    &amp;&amp; (key.charCode !== 250) //u con acento
+                    &amp;&amp; (key.charCode !== 193) //A con acento
+                    &amp;&amp; (key.charCode !== 201) //E con acento
+                    &amp;&amp; (key.charCode !== 205) //I con acento
+                    &amp;&amp; (key.charCode !== 211) //O con acento
+                    &amp;&amp; (key.charCode !== 218) //U con acento
+                    &amp;&amp; (key.charCode !== 0) //Borrar
+                    ) return false;
+            return true;
+    });
+
+    $(&#039;select.other-relation&#039;).on(&#039;change&#039;, function() {
+        if ($(this).val() === $(this).find(&#039;.other-relation-op&#039;).attr(&#039;value&#039;)) {
+            $(this).closest(&#039;form&#039;).find(&#039;.other-relation-target&#039;).show();
+            $(this).closest(&#039;form&#039;).find(&#039;.other-relation-target&#039;).find(&#039;input&#039;).val(&#039;&#039;).focus();
+        } else {
+            $(this).closest(&#039;form&#039;).find(&#039;.other-relation-target&#039;).hide();
+        }
+
+        if ($(this).closest(&#039;#new-staff-form&#039;)) {
+            $(&#039;#btn-new-staff&#039;).removeAttr(&#039;disabled&#039;);
+        }
+    });
+
+    $(&quot;#changePassword&quot;).click(function(event){
+        event.preventDefault();
+        loadTemplate(&quot;templateInicio&quot;, templates.newPassword, {
+            title : &quot;Ingresa tu nueva contrase\u00F1a&quot;
+        });
+    });
+
+
+    $(&quot;a[data-toggle=&#039;tooltip&#039;]&quot;).click(function (event) {
+        if ($(this).attr(&quot;href&quot;) === &quot;#&quot;) event.preventDefault();
+    });
+
+    if(scholar.personalData.originRegion != &quot;&quot;) $(&quot;label[name=&#039;originRegion&#039;]&quot;).text(scholar.personalData.originRegion);
+	if(scholar.personalData.originState != &quot;&quot;) $(&quot;label[name=&#039;originState&#039;]&quot;).text(scholar.personalData.originState);
+	if(scholar.personalData.originMunicipality != &quot;&quot;) $(&quot;label[name=&#039;originMunicipality&#039;]&quot;).text(scholar.personalData.originMunicipality);
+	if(scholar.personalData.curp.trim() != &quot;&quot;) $(&quot;input[name=&#039;curp&#039;]&quot;).val(scholar.personalData.curp);
+	if(scholar.personalData.birthdate.trim() != &quot;&quot;) $(&quot;input[name=&#039;birthdate&#039;]&quot;).val(scholar.personalData.birthdate);
+	if(scholar.domicile.street.trim() != &quot;&quot;) $(&quot;input[name=&#039;street&#039;]&quot;).val(scholar.domicile.street);
+	if(scholar.domicile.numExterior.trim() != &quot;&quot;) $(&quot;input[name=&#039;numExterior&#039;]&quot;).val(scholar.domicile.numExterior);
+	if(scholar.domicile.numInterior.trim() != &quot;&quot;) $(&quot;input[name=&#039;numInterior&#039;]&quot;).val(scholar.domicile.numInterior);
+	if(scholar.domicile.codePostal != &quot;&quot;) $(&quot;input[name=&#039;postalCode&#039;]&quot;).val(scholar.domicile.codePostal);
+	if(scholar.domicile.betweenStreet.trim() != &quot;&quot;) $(&quot;input[name=&#039;betweenStreet&#039;]&quot;).val(scholar.domicile.betweenStreet);
+	if(scholar.domicile.andTheStreet.trim() != &quot;&quot;) $(&quot;input[name=&#039;andTheStreet&#039;]&quot;).val(scholar.domicile.andTheStreet);
+	if(scholar.domicile.behindStreet.trim() != &quot;&quot;) $(&quot;input[name=&#039;behindStreet&#039;]&quot;).val(scholar.domicile.behindStreet);
+	if(scholar.domicile.particularReferences.trim() !== &quot;&quot;) $(&quot;textarea[name=&#039;references&#039;]&quot;).val(scholar.domicile.particularReferences);
+	if(scholar.domicile.locality.trim() != &quot;&quot;) $(&quot;input[name=&#039;localityHouse&#039;]&quot;).val(scholar.domicile.locality);
+	if(scholar.domicile.colony.trim() != &quot;&quot;) $(&quot;input[name=&#039;colonyHouse&#039;]&quot;).val(scholar.domicile.colony);
+	if(scholar.contactData.homePhone.trim() != &quot;&quot;) $(&quot;input[name=&#039;tCasa&#039;]&quot;).val(scholar.contactData.homePhone);
+	if(scholar.contactData.cellPhone.trim() !== &quot;&quot;) $(&quot;input[name=&#039;tCel&#039;]&quot;).val(scholar.contactData.cellPhone);
+	if(scholar.contactData.messagePhone.trim() != &quot;&quot;) $(&quot;input[name=&#039;tRecados&#039;]&quot;).val(scholar.contactData.messagePhone);
+	if(scholar.contactData.email.trim() != &quot;&quot;) $(&quot;input[name=&#039;email1&#039;]&quot;).val(scholar.contactData.email);
+	if(scholar.contactData.email1.trim() != &quot;&quot;) $(&quot;input[name=&#039;email2&#039;]&quot;).val(scholar.contactData.email1);
+	if(scholar.contactData.email2.trim() != &quot;&quot;) $(&quot;input[name=&#039;email3&#039;]&quot;).val(scholar.contactData.email2);
+	if(scholar.tutorData.name.trim() !== &quot;&quot;) $(&quot;input[name=&#039;tutorName&#039;]&quot;).val(scholar.tutorData.name);
+	if(scholar.tutorData.lastName.trim() != &quot;&quot;) $(&quot;input[name=&#039;tutorLastName&#039;]&quot;).val(scholar.tutorData.lastName);
+	if(scholar.tutorData.secondLastName.trim() != &quot;&quot;) $(&quot;input[name=&#039;tutorSecondLastName&#039;]&quot;).val(scholar.tutorData.secondLastName);
+
+	for(var i in combos.gender){
+		$(&quot;select[name=&#039;gender&#039;]&quot;).append(&quot;&lt;option value=&quot;+combos.gender[i]+&quot;&gt;&quot;+combos.gender[i]+&quot;&lt;/option&gt;&quot;);
+	}
+
+	for(var i in combos.typeOfViality){
+		$(&quot;select[name=&#039;vialidad&#039;]&quot;).append(&quot;&lt;option value=&quot;+combos.typeOfViality[i]+&quot;&gt;&quot;+combos.typeOfViality[i]+&quot;&lt;/option&gt;&quot;);
+	}
+
+	for(var i in combos.kindship){
+		$(&quot;select[name=&#039;relation&#039;]&quot;).append(&quot;&lt;option value=&quot;+combos.kindship[i]+&quot;&gt;&quot;+combos.kindship[i]+&quot;&lt;/option&gt;&quot;);
+		if($(&quot;select[name=&#039;relation&#039;]&gt;option[value=&#039;OTRO&#039;]&quot;).length == 1) $(&quot;select[name=&#039;relation&#039;]&gt;option[value=&#039;OTRO&#039;]&quot;).addClass(&quot;other-relation-op&quot;);
+	}
+	for(var i in statesTransactions){
+		selectedStr = (statesTransactions[i].state.name == scholar.domicile.state)?&quot;selected&quot;:&quot;&quot;;
+		$(&quot;select[name=&#039;stateHouse&#039;]&quot;).append(&quot;&lt;option value=&quot;+statesTransactions[i].state.code+&quot; &quot;+selectedStr+&quot;&gt;&quot;+statesTransactions[i].state.name+&quot;&lt;/option&gt;&quot;);
+	}
+	if(currentStateMunicipality.municipalityTransactions.length != 0 &amp;&amp; currentStateMunicipality.municipalityTransactions[&quot;0&quot;].municipality.state.name==scholar.domicile.state){
+		fn_listMunicipality(currentStateMunicipality);
+	}else{
+		fn_getMunicipality();
+	}
+
+	if(scholar.personalData.gender.trim() != &quot;&quot;) $(&quot;select[name=&#039;gender&#039;]&gt;option[value=&quot;+scholar.personalData.gender+&quot;]&quot;).attr(&quot;selected&quot;,true);
+	else $(&quot;select[name=&#039;gender&#039;]&gt;option[value=0]&quot;).attr(&quot;selected&quot;,true);
+	if(scholar.domicile.typeOfRoad1.trim() != &quot;&quot;) $(&quot;#road1&gt;option[value=&quot;+scholar.domicile.typeOfRoad1+&quot;]&quot;).attr(&quot;selected&quot;,true);
+	else $(&quot;#road1&gt;option[value=0]&quot;).attr(&quot;selected&quot;,true);
+	if(scholar.domicile.typeOfRoad2.trim() != &quot;&quot;) $(&quot;#road2&gt;option[value=&quot;+scholar.domicile.typeOfRoad2+&quot;]&quot;).attr(&quot;selected&quot;,true);
+	else $(&quot;#road2&gt;option[value=0]&quot;).attr(&quot;selected&quot;,true);
+	if(scholar.domicile.typeOfRoad2.trim() != &quot;&quot;) $(&quot;#road3&gt;option[value=&quot;+scholar.domicile.typeOfRoad3+&quot;]&quot;).attr(&quot;selected&quot;,true);
+	else $(&quot;#road3&gt;option[value=0]&quot;).attr(&quot;selected&quot;,true);
+	if(scholar.tutorData.kinship.trim() != &quot;&quot;){
+		$(&quot;select[name=&#039;relation&#039;]&gt;option[value=&quot;+scholar.tutorData.kinship.replace(&quot;(&quot;,&quot;\\(&quot;).replace(&quot;)&quot;,&quot;\\)&quot;)+&quot;]&quot;).attr(&quot;selected&quot;,true);
+		if(scholar.tutorData.kinship == &quot;OTRO&quot;){
+			$(&#039;select.other-relation&#039;).closest(&#039;form&#039;).find(&#039;.other-relation-target&#039;).show();
+            $(&#039;select.other-relation&#039;).closest(&#039;form&#039;).find(&#039;.other-relation-target&#039;).find(&#039;input&#039;).val(scholar.tutorData.kinshipType.trim()).focus();
+		}
+	}else $(&quot;select[name=&#039;relation&#039;]&gt;option[value=0]&quot;).attr(&quot;selected&quot;,true);
+	if(scholar.scholarship.confirmDispersion==&quot;&quot;)$(&quot;#accordion-deposit&quot;).hide();
+
+
+	$(&quot;select[name=&#039;stateHouse&#039;]&quot;).on(&quot;change&quot;,fn_getMunicipality);
+	requerido();
+};
+
+/**
+ * Funtion that fills municipality&#039;s combo.
+ */
+var fn_getMunicipality = function(){
+	selectedState = $(&quot;select[name=&#039;stateHouse&#039;]&quot;).val();
+	writeLog(&quot;selectedState &quot;,selectedState);
+	$(&quot;select[name=&#039;municipalityHouse&#039;]&quot;).empty();
+	$(&quot;select[name=&#039;municipalityHouse&#039;]&quot;).append(&quot;&lt;option value=\&quot;0\&quot;&gt;Selecciona&lt;/option&gt;&quot;);
+	if(selectedState!=0){
+		rest_getMunicipality(selectedState);
+	}
+}
+
+/**
+ * Upload the list of municipalities.
+ */
+var fn_listMunicipality = function(municipalitys){
+	actualstate = (scholar.domicile.state == municipalitys.municipalityTransactions[&quot;0&quot;].municipality.state.name)?true:false;
+	if(actualstate&amp;&amp;currentStateMunicipality!=municipalitys){
+		currentStateMunicipality = municipalitys
+	}
+	for(var i in municipalitys.municipalityTransactions){
+		actualmunicipalitystr=(actualstate&amp;&amp;municipalitys.municipalityTransactions[i].municipality.name==scholar.domicile.municipality)?&quot;selected&quot;:&quot;&quot;;
+		$(&quot;select[name=&#039;municipalityHouse&#039;]&quot;).append(&quot;&lt;option value=&quot;+municipalitys.municipalityTransactions[i].municipality.code+&quot; &quot;+actualmunicipalitystr+&quot;&gt;&quot;+municipalitys.municipalityTransactions[i].municipality.name+&quot;&lt;/option&gt;&quot;);
+	}
+}
+
+/**
+ * Show the cards of pending months to confirm(My Information).
+ */
+var fn_confirmacionMesesPendientesBeca = function () {
+    for (var i in scholar.confirm) {
+        var div1 = document.createElement(&quot;div&quot;);
+        var att = document.createAttribute(&quot;id&quot;);
+        att.value = &quot;confirmacion&quot; + scholar.confirm[i].idMonth;
+        div1.setAttributeNode(att);
+        document.getElementById(&quot;confirmacion&quot;).appendChild(div1);
+        loadTemplate(att.value, templates.mesesPendientesBeca, {
+            idMonth : scholar.confirm[i].idMonth,
+            month : scholar.confirm[i].month,
+            year : scholar.confirm[i].year
+        });
+    };
+    confirmacionPagoBeca();
+    fn_comboConfirmacionDepo();
+};
+
+/**
+ * Upload a profile picture.
+ */
+var fn_loadProfilePicture = function(){
+	if(scholar.personalData.base64ProfilePicture){
+		$(&#039;[data-target=&quot;#uploadScholarImage&quot;]&#039;).css(&quot;background-image&quot;, &quot;url(&quot;+scholar.personalData.base64ProfilePicture+&quot;)&quot;, &quot;background-size&quot;, &quot;10px 10px&quot;);
+		$(&quot;#iconoBecario&quot;).removeClass(&quot;icon-49&quot;);
+	}
+}
+
+/**
+ * Function to validate the quealifications.
+ */
+var fn_qualificationValidate = function  () {
+    $(&quot;input[name=&#039;score&#039;]&quot;).keypress(function (key) {
+        if (key.charCode &gt;= 48 &amp;&amp; key.charCode &lt; 58 || key.charCode == 46) return true;
+        return false;
+    });
+
+    $(&#039;#btnSaveDocs&#039;).click(function(event){
+        event.preventDefault();
+        scores=$(&quot;.inscore&quot;);
+        scoresToSend=[];
+        score_HasError = false;
+        scores.each(function(){
+        	$iScore = $(this);
+        	old_score = $iScore.attr(&quot;data-iscore&quot;);
+        	in_score = $iScore.val();
+        	writeLog(&quot;in_score &quot;,in_score);
+        	writeLog(&quot;old score &quot;,old_score);
+        	
+        	if(in_score!=old_score){
+        		in_grade = $iScore.attr(&quot;data-grade&quot;);
+            	in_period = $iScore.attr(&quot;data-period&quot;);
+            	if(in_score !== &quot;&quot; &amp;&amp; expRegCalif.test(in_score) &amp;&amp; in_score !== &quot;0&quot;){
+            		scoresToSend.push({
+            			studentID: scholar.studentID+&quot;&quot;,
+						programType: scholar.scholarship.programType,
+						schoolGrade: in_grade,
+						schoolCycle: scholar.statusQualifications.schoolCycle,
+						schoolPeriod: in_period,
+						qualification: in_score,
+						userCurrent: scholar.studentID+&quot;&quot;
+            		});
+            	}else{
+            		score_HasError = true;
+            		$(&quot;#e&quot;+$iScore.attr(&quot;id&quot;)).remove();
+            		$($iScore.attr(&quot;data-helpsoce&quot;)).focus().after(&quot;&lt;span id=&#039;e&quot;+$iScore.attr(&quot;id&quot;)+&quot;&#039;&gt;&lt;br/&gt;&lt;span style=&#039;color: #c8175e; font-size:80%; margin-left:87px&#039;&gt;Ingresa una calificaci&amp;oacute;n valida&lt;/span&gt;&quot;);
+            		$iScore.parent(&quot;.form-group.no-grid&quot;).addClass(&quot;has-error&quot;);
+                    $iScore.blur();
+            	}
+        	}
+        });
+        if(scoresToSend.length &amp;&amp; !score_HasError){
+        	_modal = SCONFIG.getMessage(&#039;wait&#039;);
+    		showModals(_modal.title,_modal.message,_modal.idModal);
+    		setTimeout(function () {
+    			_hasErrorScore = false;
+    			_scoreInd = 0;
+    			do{
+    				writeLog(&quot;guardando&quot;,scoresToSend[_scoreInd]);
+    				restExec({
+                		service:&#039;UPDATE_QUALIFICATION&#039;,
+                		data: scoresToSend[_scoreInd],
+                		finallyError: function(){
+                			_hasErrorScore = true;
+                		}
+                	});
+    				_scoreInd++;
+    			}while(!_hasErrorScore&amp;&amp;_scoreInd&lt;scoresToSend.length);
+    			if(!_hasErrorScore){
+    				rest_averageQuery();
+    				rest_reloadQualifications();
+        			showModals(&quot;Tu calificaci\u00F3n se ha guardado satisfactoriamente&quot;,&quot;Gracias por la espera&quot;,&quot;savedFile&quot;);
+        			$(&quot;#savedFile&quot;).find(&quot;button&quot;).on(&quot;click&quot;,function(){
+        				writeLog(&quot;reload calification&quot;);
+    	            	fn_loadStatusQualifications();
+    	            	$($(this)).prop(&#039;onclick&#039;,null).off(&#039;click&#039;);
+    	            });
+    			}
+    	    }, 400);
+        }
+    });
+
+    $(&quot;input.inscore&quot;).keyup(function(){
+    	inputScore = $(this);
+        score=inputScore.val();
+        validateScore = expRegCalif.test(score);
+        if(validateScore&amp;&amp;score!=&quot;0&quot;){
+            $(&quot;#e&quot;+inputScore.attr(&quot;id&quot;)).fadeOut();
+            inputScore.parent(&quot;.form-group.no-grid&quot;).removeClass(&quot;has-error&quot;);
+            inputScore.blur(function () {
+            	inputScore.parent(&quot;.form-group.no-grid&quot;).removeClass(&quot;has-error&quot;);
+            });
+            if(!($(inputScore.attr(&quot;data-boletaid&quot;)).is(&quot;:visible&quot;)))$(inputScore.attr(&quot;data-boletaid&quot;)).fadeIn(&quot;slow&quot;);
+        }
+    });
+}
+
+/**
+ * Funtion that validates a passwords.
+ */
+var fn_validatePasswords = function () {
+	$(&quot;button[href=&#039;#&#039;]&quot;).click(function(event){
+        event.preventDefault();
+    });
+    const abcdario = &quot;ABCDEFGHIJKLMN\u00D1OPQRSTUVWXYZ&quot;;//debe estar en mayusculas
+    var arrabc = new Array(),
+        arrcba = new Array();
+        longi = 5;
+    for(i=0;i&lt;abcdario.length-longi+1;i++){
+        sect = abcdario.substring(i,i+longi);
+        arrabc.push(sect);
+        arrcba.push(sect.split(&quot;&quot;).reverse().join(&quot;&quot;));
+    }
+    function isIncreasing(pass){
+        itIs=false;
+        passUP=pass.toUpperCase();
+        for(i=0;i&lt;arrabc.length;i++){
+            if(passUP.indexOf(arrabc[i])!=-1||passUP.indexOf(arrcba[i])!=-1){
+                itIs = true;
+                break;
+            }
+        }
+        return itIs;
+    }
+
+    $(&quot;#btnChangePassword&quot;).click(function(event) {
+        event.preventDefault();
+        writeLog(&quot;btnChangePassword&quot;);
+		$(&quot;#diffPass&quot;).remove();
+		$(&quot;#numSequences&quot;).remove();
+        $(&quot;#repeatChar&quot;).remove();
+        $(&quot;#abcdario&quot;).remove();
+        $(&quot;#nullPass&quot;).remove();
+        $(&quot;#elongPass&quot;).remove();
+        $(&quot;#notHasN&quot;).remove();
+        $(&quot;#notHasL&quot;).remove();
+        pass1 = $(&quot;input[name=&#039;newPassword&#039;]&quot;).val();
+        pass2 = $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).val();
+        errorPW = false;
+        //Contrasenhas no nulas
+		if ((pass1 !== &quot;&quot;) &amp;&amp; (pass2 !== &quot;&quot;)) {
+			if (pass1.length != 10 || pass2.length != 10 ) {
+		    	$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;elongPass&#039; style=&#039;font-size:80%&#039;&gt;Contrase\u00F1as deben tener longitud de 10 caracteres \n &lt;/span&gt;&quot;);
+				$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+		    	$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+					$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+					$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+				});
+                errorPW=true;
+			}
+			if (!expRegHasNumber.test(pass1)) {
+		    	$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;notHasN&#039; style=&#039;font-size:80%&#039;&gt;Debe contener al menos un n\u00FAmero \n &lt;/span&gt;&quot;);
+				$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+		    	$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+					$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+					$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+				});
+                errorPW=true;
+			}
+			if (!expRegHasLetter.test(pass1)) {
+		    	$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;notHasL&#039; style=&#039;font-size:80%&#039;&gt;Debe contener al menos una letra \n &lt;/span&gt;&quot;);
+				$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+		    	$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+					$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+					$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+				});
+                errorPW=true;
+			}
+			//Contrasenhas diferentes
+			if (pass1 !== pass2) {
+		    	$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;diffPass&#039; style=&#039;font-size:80%&#039;&gt;Contrase\u00F1as diferentes, por favor verificalas \n &lt;/span&gt;&quot;);
+				$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+		    	$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+					$(&quot;input[name=&#039;newPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+					$(&quot;input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+				});
+                errorPW=true;
+			}
+            if (expRegAscNum.test(pass1) || expRegDesNum.test(pass1)) {
+            //Contienen numeros en forma ascendente o descendente
+                $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;numSequences&#039; style=&#039;font-size:80%&#039;&gt;No se permiten n\u00FAmeros de forma ascendente y/o descendente &lt;br /&gt; &lt;/span&gt;&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                });
+                errorPW=true;
+            }
+            if (expRegRepeat.test(pass1)){
+                //Se repiten mas de 2 veces algun caracter
+                $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;repeatChar&#039; style=&#039;font-size:80%&#039;&gt;No se permiten m\u00E1s de 2 letras y/o n\u00FAmeros iguales de forma consecutiva &lt;br /&gt;&lt;/span&gt;&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+                    $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                });
+                errorPW=true;
+            }
+
+            if(isIncreasing(pass1)){
+                $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;abcdario&#039; style=&#039;font-size:80%&#039;&gt;No se permiten m\u00E1s de 2 letras y/o n\u00FAmeros iguales de forma consecutiva &lt;br /&gt;&lt;/span&gt;&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+                    $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+                });
+                errorPW=true;
+            }
+            if(!errorPW){
+            	writeLog(&quot;!errorPW&quot;);
+            	restExec({
+					service: &#039;SCHOLAR_UPDATEPASSWORD&#039;,
+					data: {
+						alias: scholar.personalData.username,
+						password: $(&quot;#newPassword&quot;).val()
+					},
+					showWait: true,
+					customWait:{
+						title: &quot;Actualizando tu contrase\u00f1a&quot;,
+						message: &quot;Espera un momento&quot;
+					},
+					success: rest_fnUpdatePassword
+				});
+            }
+        } else {
+            $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).focus().after(&quot;&lt;span class=&#039;text-danger&#039; id=&#039;nullPass&#039; style=&#039;font-size:80%&#039;&gt;Por favor llena los campos&lt;br /&gt;&lt;/span&gt;&quot;);
+            $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+            $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).addClass(&quot;has-error&quot;);
+            });
+            errorPW=true;
+        }
+
+    });
+
+	$(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).keyup(function () {
+        pass1 = $(&quot;input[name=&#039;newPassword&#039;]&quot;).val();
+        pass2 = $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).val();
+        if(pass1 !== &quot;&quot; &amp;&amp; pass2 !== &quot;&quot;) $(&quot;#nullPass&quot;).fadeOut();
+        if (pass1.length == 10 &amp;&amp; pass2.length == 10 ) $(&quot;#elongPass&quot;).fadeOut();
+        if(expRegHasNumber.test(pass1))$(&quot;#notHasN&quot;).fadeOut();
+        if(expRegHasLetter.test(pass1))$(&quot;#notHasL&quot;).fadeOut();
+        if (pass1 === pass2) $(&quot;#diffPass&quot;).fadeOut();
+        
+        if (!expRegAscNum.test(pass1) &amp;&amp; !expRegDesNum.test(pass1) &amp;&amp; !expRegAscNum.test(pass2) &amp;&amp; !expRegDesNum.test(pass2)) $(&quot;#numSequences&quot;).fadeOut();
+        
+        if (!expRegRepeat.test(pass1) &amp;&amp; !expRegRepeat.test(pass1) &amp;&amp; !expRegRepeat.test(pass2) &amp;&amp; !expRegRepeat.test(pass2))         $(&quot;#repeatChar&quot;).fadeOut();
+
+        if(!isIncreasing(pass1)) $(&quot;#abcdario&quot;).fadeOut();
+
+        if(pass1 === pass2 &amp;&amp;
+            !expRegAscNum.test(pass1) &amp;&amp;
+            !expRegDesNum.test(pass1) &amp;&amp;
+            !expRegRepeat.test(pass1) &amp;&amp;
+            !expRegRepeat.test(pass1) &amp;&amp;
+            pass1.length == 10 &amp;&amp; 
+            pass2.length == 10 &amp;&amp;
+            expRegHasNumber.test(pass1) &amp;&amp;
+            expRegHasLetter.test(pass1)&amp;&amp;
+            !isIncreasing(pass1)){
+            $(&quot;input[name=&#039;newPassword&#039;]&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;input[name=&#039;confirmPassword&#039;]&quot;).removeClass(&quot;has-error&quot;);
+            $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).blur(function () {
+                $(&quot;input[name=&#039;newPassword&#039;], input[name=&#039;confirmPassword&#039;]&quot;).removeClass(&quot;has-error&quot;);
+            });
+        }
+	});
+	$(&quot;#btnCancelsChangePassword&quot;).click(function(event){
+		event.preventDefault();
+		$(&quot;#btnMisDatos&quot;).click();
+		writeLog(&quot;btnCancelsChangePassword&quot;);
+	});
+};
+
+/**
+ * Load the alert&#039;s template.
+ */
+var fn_showAlerts = function() {
+    if(scholar.alerts.length !=0) {
+        if(scholar.alerts.length == 1){
+            loadTemplate(&quot;alertMessage&quot;, templates.alertScholar, {
+                alertText : scholar.alerts[0].message
+            });
+        } else {
+            loadTemplate(&quot;alertMessage&quot;, templates.multipleAlertScholar, {
+                btnPrev : &quot;Previous&quot;,
+                btnNext : &quot;Next&quot;
+            });
+        }
+    }
+}
+
+/**
+ * This function gets the alerts to show them in the alert&#039;s carousel.
+ */
+var fn_carouselItemAlert = function () {
+    for (var i in scholar.alerts) {
+        var div1 = document.createElement(&quot;div&quot;);
+        div1.setAttribute(&quot;class&quot;,&quot;carousel-item&quot;);
+        div1.innerHTML=&quot;&lt;div style=&#039;margin:0px 30px&#039;&gt;&lt;i class=&#039;icon icon-72&#039;&gt;&lt;/i&gt;&quot;+scholar.alerts[i].message+&quot;&lt;/div&gt;&quot;;
+        document.getElementById(&quot;carouselInner&quot;).appendChild(div1);
+        if(i == 0) $(&quot;div .carousel-item&quot;).addClass(&quot;active&quot;);
+    }
+};
+
+/**
+ * Load the template about status of deposit incompletes or not received.
+ */
+function loadPendingCards() {
+    var contador = 0;
+    for (var i in scholar.scholarship.confirmDispersion) {
+        if (scholar.scholarship.confirmDispersion[i].statusReview === &quot;Resuelto&quot; ||
+            scholar.scholarship.confirmDispersion[i].statusReview === &quot;En proceso&quot;) {
+            if ($(&quot;#pendingCard &gt; .card&quot;).length == 0) {
+                loadTemplate(&quot;pendingCard&quot;, templates.cardPendientes, {
+                    subtitle: &quot;Respuestas a dep\u00f3sitos pendientes&quot;
+                });
+                $(&quot;.showAllAnswers&quot;).click(function(event){
+                    event.preventDefault();
+                    fn_afterMisDatos=fn_scroll;
+                    $(&quot;#btnMisDatos&quot;).click();
+                });
+            }
+            if (scholar.scholarship.confirmDispersion[i].statusReview === &quot;Resuelto&quot;) {
+                contador++;
+                var div1 = document.createElement(&quot;div&quot;);
+                var att = document.createAttribute(&quot;id&quot;);
+                att.value = &quot;responses&quot; + scholar.scholarship.confirmDispersion[i].idMonth;
+                div1.setAttributeNode(att);
+                document.getElementById(&quot;responses&quot;).appendChild(div1);
+                loadTemplate(att.value,templates.confirmSolved, {
+                    month: scholar.scholarship.confirmDispersion[i].monthConfirm,
+                    year: scholar.scholarship.confirmDispersion[i].yearConfirm,
+                    response: scholar.scholarship.confirmDispersion[i].statusScholarshipReceived
+                });
+            }else if (scholar.scholarship.confirmDispersion[i].statusReview === &quot;En proceso&quot;) {
+                var div1 = document.createElement(&quot;div&quot;);
+                var att = document.createAttribute(&quot;id&quot;);
+                att.value = &quot;responses&quot; + scholar.scholarship.confirmDispersion[i].monthConfirm +&quot;&quot;+scholar.scholarship.confirmDispersion[i].yearConfirm;
+                div1.setAttributeNode(att);
+                document.getElementById(&quot;responses&quot;).appendChild(div1);
+                loadTemplate(att.value,templates.confirmInProgress, {
+                    month: scholar.scholarship.confirmDispersion[i].monthConfirm,
+                    year: scholar.scholarship.confirmDispersion[i].yearConfirm,
+                    response: scholar.scholarship.confirmDispersion[i].statusScholarshipReceived
+                });
+            }
+        }
+    }
+    $(&quot;a[href=&#039;#&#039;]&quot;).click(function(event){
+       event.preventDefault();
+    });
+    if (contador == 0) $(&quot;a[class=&#039;showAnswers&#039;]&quot;).hide()
+    else fn_showAnswers();
+}
+
+/**
+ * Load the pending months of deposits.
+ */
+var fn_loadConfirmCardsHome = function() {
+	if(scholar.confirm.length !=0){
+		for (var i in scholar.confirm) {
+	        var div1 = document.createElement(&quot;div&quot;);
+	        //var att = document.createAttribute(&quot;id&quot;);
+	        //att.value = &quot;confirmacion&quot; + scholar.confirm[i].idMonth;
+	        div1.setAttribute(&quot;id&quot;,&quot;confirmacion&quot; + scholar.confirm[i].idMonth);
+	        document.getElementById(&quot;confirmacion&quot;).appendChild(div1);
+	        loadTemplate(&quot;confirmacion&quot; + scholar.confirm[i].idMonth, templates.confirmacion, {
+	            idMonth : scholar.confirm[i].idMonth,
+	            month : scholar.confirm[i].month,
+	            year : scholar.confirm[i].year
+	        });
+	    }
+	}
+    confirmacionPago();
+    loadPendingCards();
+}
+
+/**
+ * Function to confirm pending months.
+ */
+function confirmacionPago() {
+    if ($(&quot;#btnSendConfirm&quot;).attr(&quot;data-fn&quot;) == &quot;1&quot;)return;
+    $(&quot;#btnSendConfirm&quot;).attr(&quot;data-fn&quot;, &quot;1&quot;);
+    $(&quot;#btnSendConfirm&quot;).click(function(event){
+        event.preventDefault();
+        meses=[];
+        anhios=[];
+        confirms=[];
+        respuesta=[];
+        if ($(&quot;input:checkbox:checked&quot;).length!=0){
+        	var arr_confSuccess=[];
+        	var _iConfirm=0;
+        	$(&quot;input:checkbox:checked&quot;).each(function () {
+        		var mes=&quot;&quot;;
+				var anhio=&quot;&quot;;
+				var respuesta=&quot;&quot;;
+        		respuesta=$(&quot;#confirmacion&quot;+$(this).attr(&quot;data-month&quot;)+$(this).attr(&quot;data-year&quot;)).find($(&quot;select[name=&#039;status&#039;] option:selected&quot;)).val();
+        		if(respuesta != 0){
+        			mes=$(this).attr(&quot;data-month&quot;);
+        			anhio=$(this).attr(&quot;data-year&quot;);
+        			meses.push(mes);
+    				anhios.push(anhio);
+        			confirms.push({
+	            		service:&#039;DEPOSIT_MODIFICATION&#039;,
+	            		showWait: false,
+	                	data: {
+	                	    &quot;userCurrent&quot; : scholar.studentID,
+	                	    &quot;studentID&quot; : scholar.studentID,
+	                	    &quot;monthConfirm&quot; : mes,
+	                	    &quot;yearConfirm&quot; : anhio,
+	                	    &quot;programType&quot; : scholar.scholarship.programType,
+	                	    &quot;scholarCycle&quot; : scholar.statusQualifications.schoolCycle,
+	                	    &quot;scholarLevel&quot; : scholar.statusQualifications.averagesScholarLevel[scholar.statusQualifications.averagesScholarLevel.length-1].scholarLevel,
+	                	    &quot;scholarGrade&quot; : scholar.statusQualifications.averagesScholarLevel[scholar.statusQualifications.averagesScholarLevel.length-1].schoolGrade,
+	                	    &quot;statusScholarshipReceived&quot; : respuesta,
+	                	    &quot;statusReview&quot; : &quot;&quot;,
+	                	    &quot;staffAnswer&quot; : &quot;&quot;
+	                	},
+	        			success: rest_fnDepositModification,
+	        			finallySuccess: function(){
+	        				arr_confSuccess.push(_iConfirm);
+	        				$(&quot;#confirmacion&quot;+meses[_iConfirm]+&quot;&quot;+anhios[_iConfirm]).hide();
+	        				_iConfirm++;
+	        			}
+	            	});
+        		}
+    		});
+        	if(confirms.length){
+        		showModals(&quot;Enviando tus confirmaciones&quot;,&quot;Por favor espera&quot;,SCONFIG.getMessage(&#039;wait&#039;).idModal);
+        		writeLog(&quot;confirms&quot;,confirms);
+        		setTimeout(function(){
+        			confirms.forEach(function(curr_confirm,_iConfirm){
+        				restExec(curr_confirm);
+        			});
+        			$(&quot;#waitModal&quot;).modal(&quot;hide&quot;);
+        			if(arr_confSuccess.length !=0){
+	    				loadTemplate(&quot;messageSuccess&quot;, templates.successConfirm, {
+	                        thanks: &quot;Gracias&quot;
+	                    });
+	    				for(var i_meses in meses){
+	    					$(&quot;p[name=&#039;confirm&#039;]&quot;).append(&quot;&lt;span&gt;&quot;+meses[i_meses]+&quot; &quot;+anhios[i_meses]+&quot;&lt;/span&gt;&lt;br/&gt;&quot;);
+	    				}
+	    				writeLog(&quot;meses&quot;,meses,&quot;años&quot;,anhios);
+	    				setTimeout(function() {
+	                        $(&quot;#messageSuccess &gt; .card-block&quot;).slideUp(&quot;slow&quot;, function(){
+	                        	scholar.confirm=[];
+	            				scholar.scholarship.confirmDispersion=[];
+	                            restExec({
+	    	            			service:&#039;DEPOSIT_QUERY&#039;,
+	    	            			data: {
+	    	            				userCurrent : scholar.studentID,
+	    	            			    studentID : scholar.studentID,
+	    	            			    programType : scholar.scholarship.programType,
+	    	            			    statusScholarshipReceived : &quot;&quot;
+	    	            			},
+	    	            			success: rest_fnDepositQuery,
+	    	            			finallySuccess: function() {
+	    	            				loadCardsConfirmHome();
+	    	            			}
+	    	            		});
+	                        });
+
+	                    },2000);
+        			}
+        		},400);
+        	}
+        } else showModals(&quot;Por favor selecciona el dep\u00f3sito a confirmar&quot;,&quot;Gracias&quot;,&quot;errorFile&quot;);
+    });
+}
+
+/**
+ * Function to confirm pending months on My Information &gt; scholarship.
+ */
+function confirmacionPagoBeca() {
+    $(&quot;#btnSendConfirm&quot;).click(function(event){
+        event.preventDefault();
+            meses=[];
+            anhios=[];
+            confirms=[];
+            respuesta=[];
+            if ($(&quot;input:checkbox:checked&quot;).length!=0){
+            	var arr_confSuccess=[];
+            	var _iConfirm=0;
+            	$(&quot;input:checkbox:checked&quot;).each(function () {
+            		var mes=&quot;&quot;;
+    				var anhio=&quot;&quot;;
+    				var respuesta=&quot;&quot;;
+            		respuesta=$(&quot;#confirmacion&quot;+$(this).attr(&quot;data-month&quot;)+$(this).attr(&quot;data-year&quot;)).find($(&quot;select[name=&#039;status&#039;] option:selected&quot;)).val();
+            		if(respuesta != 0){
+            			mes=$(this).attr(&quot;data-month&quot;);
+            			anhio=$(this).attr(&quot;data-year&quot;);
+            			meses.push(mes);
+        				anhios.push(anhio);
+            			confirms.push({
+    	            		service:&#039;DEPOSIT_MODIFICATION&#039;,
+    	            		showWait: false,
+    	                	data: {
+    	                	    &quot;userCurrent&quot; : scholar.studentID,
+    	                	    &quot;studentID&quot; : scholar.studentID,
+    	                	    &quot;monthConfirm&quot; : mes,
+    	                	    &quot;yearConfirm&quot; : anhio,
+    	                	    &quot;programType&quot; : scholar.scholarship.programType,
+    	                	    &quot;scholarCycle&quot; : scholar.statusQualifications.schoolCycle,
+    	                	    &quot;scholarLevel&quot; : scholar.statusQualifications.averagesScholarLevel[scholar.statusQualifications.averagesScholarLevel.length-1].scholarLevel,
+    	                	    &quot;scholarGrade&quot; : scholar.statusQualifications.averagesScholarLevel[scholar.statusQualifications.averagesScholarLevel.length-1].schoolGrade,
+    	                	    &quot;statusScholarshipReceived&quot; : respuesta,
+    	                	    &quot;statusReview&quot; : &quot;&quot;,
+    	                	    &quot;staffAnswer&quot; : &quot;&quot;
+    	                	},
+    	        			success: rest_fnDepositModification,
+    	        			finallySuccess: function(){
+    	        				arr_confSuccess.push(_iConfirm);
+    	        				$(&quot;#confirmacion&quot;+meses[_iConfirm]+&quot;&quot;+anhios[_iConfirm]).hide();
+    	        				_iConfirm++;
+    	        			}
+    	            	});
+            		}
+        		});
+            	if(confirms.length){
+            		showModals(&quot;Enviando tus confirmaciones&quot;,&quot;Por favor espera&quot;,SCONFIG.getMessage(&#039;wait&#039;).idModal);
+            		writeLog(&quot;confirms&quot;,confirms);
+            		setTimeout(function(){
+            			confirms.forEach(function(curr_confirm,_iConfirm){
+            				writeLog(&quot;curr_confirm,_iConfirm&quot;);
+            				writeLog(curr_confirm,_iConfirm);
+            				restExec(curr_confirm);
+            			});
+            			$(&quot;#waitModal&quot;).modal(&quot;hide&quot;);
+            			writeLog(&quot;arr_confSuccess&quot;,arr_confSuccess.length);
+            			if(arr_confSuccess.length != 0){
+	            			showModals(&quot;Gracias por confimar el dep\u00f3sito de:&quot;,&quot;&quot;,&quot;savedFile&quot;);
+	        				for(var i_meses in meses){
+	        					$(&quot;#messageSuccessModal&quot;).append(&quot;&lt;span&gt;&quot;+meses[i_meses]+&quot; &quot;+anhios[i_meses]+&quot;&lt;/span&gt;&lt;br/&gt;&quot;);
+	        				}
+	        				scholar.confirm=[];
+            				scholar.scholarship.confirmDispersion=[];
+                            restExec({
+    	            			service:&#039;DEPOSIT_QUERY&#039;,
+    	            			data: {
+    	            				userCurrent : scholar.studentID,
+    	            			    studentID : scholar.studentID,
+    	            			    programType : scholar.scholarship.programType,
+    	            			    statusScholarshipReceived : &quot;&quot;
+    	            			},
+    	            			success: rest_fnDepositQuery,
+    	            			finallySuccess: function() {
+    	            				actTable();
+    	            				if(scholar.confirm.length != 0){
+		            					$(&quot;#depositosPendientes&quot;).html(&quot;&quot;);
+		            					loadTemplate(&quot;depositosPendientes&quot;, templates.depositosPendientesBeca, {
+		            						title : &quot;Confirmaciones de dep\u00f3sitos pendientes&quot;
+		            					});
+		            				}else $(&quot;#depositosPendientes&quot;).html(&quot;&quot;);
+    	            			}
+    	            		});
+            			}
+            		},400);
+            	}
+            } else showModals(&quot;Por favor selecciona el dep\u00f3sito a confirmar&quot;,&quot;Gracias&quot;,&quot;errorFile&quot;);
+        });
+}
+
+/**
+ * Function to show staff&#039;s answer about incomplete months.
+ */
+var fn_showAnswers = function() {
+    $(&quot;.showAnswers&quot;).click(function(event){
+        event.preventDefault();
+        fn_afterMisDatos=fn_scroll;
+        $(&quot;#btnMisDatos&quot;).click();
+
+    });
+}
+
+var fn_afterMisDatos = fn_nothing;
+
+/**
+ * Function to move the scroll on My Information.
+ */
+var fn_scroll = function(){
+	$(&quot;#becaAcordion&quot;).click();
+    var altura = $(&quot;#detalleDeposito&quot;).offset().top;
+    $(&quot;html,body&quot;).animate({scrollTop:altura+&quot;px&quot;},&quot;slow&quot;);
+}
+
+/**
+ * Function to create and show the table of deposit&#039;s details.
+ */
+function actTable() {
+	if(scholar.scholarship.confirmDispersion != &quot;&quot;){
+		$(&quot;#accordion-deposit&quot;).parent().show();
+		$(&quot;#accordion-deposit&quot;).show();
+		$(&quot;#tableConfirm &gt; tbody tr td&quot;).remove();
+
+	    scholar.scholarship.confirmDispersion.forEach(function (confirms){
+	        $(&quot;#tableConfirm &gt; tbody tr:last&quot;).after(&#039;&lt;tr&gt;&lt;td class=&quot;text-center&quot;&gt;&#039;+confirms.monthConfirm+&quot; &quot;+confirms.yearConfirm+&#039;&lt;/td&gt;&#039;);
+
+	        if (confirms.statusScholarshipReceived === &quot;Incompleta&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center warning&quot;&gt;Dep&amp;oacute;sito incompleto&lt;/td&gt;&#039;);
+	        else if (confirms.statusScholarshipReceived === &quot;No&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center error&quot;&gt;Sin dep&amp;oacute;sito&lt;/td&gt;&#039;);
+	        else if (confirms.statusScholarshipReceived === &quot;Sí&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center success&quot;&gt;&#039;+&quot;Dep&amp;oacute;sito completo&quot;+&#039;&lt;/td&gt;&#039;);
+
+	        if (confirms.statusReview === &quot;En proceso&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center warning&quot;&gt;&#039;+confirms.statusReview+&#039;&lt;/td&gt;&#039;);
+	        else $(&quot;td:last&quot;).after(&#039;&lt;td&gt;&#039;+confirms.statusReview+&#039;&lt;/td&gt;&#039;);
+
+	        if (confirms.staffAnswer === &quot;En proceso&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center warning&quot;&gt;&#039;+confirms.staffAnswer+&#039;&lt;/td&gt;&#039;);
+	        else if (confirms.staffAnswer === &quot;Resuelto&quot;) $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center success&quot;&gt;&#039;+confirms.staffAnswer+&#039;&lt;/td&gt;&#039;);
+	        else $(&quot;td:last&quot;).after(&#039;&lt;td class=&quot;text-center&quot;&gt;&#039;+confirms.staffAnswer+&#039;&lt;/td&gt;&#039;);
+
+	    });
+	}else {
+		$(&quot;#accordion-deposit&quot;).parent().hide();
+		$(&quot;#accordion-deposit&quot;).hide();
+	}
+}
+
+/**
+ * Function to show files on IMAX visor.
+ */
+function loadShowUpdateFile(){
+	$(&#039;a[data-tar=&quot;consultFile&quot;][data-loaded=&quot;0&quot;]&#039;).each(function(){
+		$(this).on(&#039;click&#039;,function(e){
+			e.preventDefault();
+			pre_fnloadFile($(this).attr(&quot;data-folio&quot;));
+			$(this).attr(&quot;data-loaded&quot;,&quot;1&quot;);
+		})
+	});
+	$(&#039;[data-btn=&quot;uploadFiles&quot;][data-loaded=&quot;0&quot;]&#039;).each(function(){
+		$(this).on(&#039;click&#039;,function(e){
+			$(&quot;#uploadFiles&quot;).attr(&quot;data-grade&quot;,$(this).attr(&quot;data-grade&quot;))
+							 .attr(&quot;data-period&quot;,$(this).attr(&quot;data-period&quot;))
+							 .attr(&quot;data-document&quot;,$(this).attr(&quot;data-document&quot;));
+		});
+		$(this).attr(&quot;data-loaded&quot;,&quot;1&quot;);
+	});
+}
+
+/*Shutdown window*/
+$(window).bind(&#039;beforeunload&#039;, function(){
+	$.ajax({
+		type : &#039;GET&#039;,
+		dataType : &#039;html&#039;,
+		contentType : &quot;application/json; charset=utf-8&quot;,
+		url : window.location.origin+&quot;/pkmslogout.form&quot;,
+		async: false
+	});
+});</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

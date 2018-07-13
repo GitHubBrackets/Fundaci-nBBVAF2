@@ -1,0 +1,292 @@
+// BBVArqSpring log opened at 2017-08-02 16:50:38
+arqspring crearAplicacion --nombreAplicacion mgbf --modulos FundacionBancomerExtranetWebFront,FundacionBancomerExtranetWebBack,FundacionBancomerExtranetWebDto,FundacionBancomerExtranetWebRestClient,FundacionBancomerExtranetWebRestConsumer,FundacionBancomerExtranetWebException   --paqueteBase com.bbva.arq.front.spring.mgbf
+exit
+// BBVArqSpring log closed at 2017-08-02 17:22:30
+// BBVArqSpring log opened at 2017-08-02 17:22:56
+exit
+// BBVArqSpring log closed at 2017-08-02 19:43:54
+// BBVArqSpring log opened at 2017-08-03 13:59:50
+// BBVArqSpring log opened at 2017-08-03 14:00:10
+exit
+// BBVArqSpring log closed at 2017-08-03 14:00:33
+// BBVArqSpring log opened at 2017-08-22 10:11:15
+quit
+// BBVArqSpring log closed at 2017-08-22 10:11:28
+// BBVArqSpring log opened at 2017-08-22 10:27:54
+arqspring generarEAR
+arqspring generarEAR
+exit
+// BBVArqSpring log closed at 2017-08-22 10:44:47
+// BBVArqSpring log opened at 2017-08-22 14:52:53
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-08-22 14:53:38
+// BBVArqSpring log opened at 2017-08-22 15:47:28
+arqspring generarEAR --despliegue false
+quit
+// BBVArqSpring log closed at 2017-08-22 15:48:03
+// BBVArqSpring log opened at 2017-09-04 11:40:56
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-09-04 11:41:13
+// BBVArqSpring log opened at 2017-09-04 11:46:01
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-09-04 11:46:17
+// BBVArqSpring log opened at 2017-09-05 15:28:27
+arqspring generarEAR
+// BBVArqSpring log opened at 2017-10-09 16:27:43
+arqspring generarEAR
+arqspring generarEAR --despliegue true
+arqspring generarEAR
+exit
+// BBVArqSpring log closed at 2017-10-09 17:30:43
+// BBVArqSpring log opened at 2017-10-10 01:10:59
+exit
+// BBVArqSpring log closed at 2017-10-10 01:11:42
+// BBVArqSpring log opened at 2017-10-10 01:14:20
+arqspring generarEAR
+arqspring generarEAR
+arqspring generarEAR
+exit
+// BBVArqSpring log closed at 2017-10-10 01:19:11
+// BBVArqSpring log opened at 2017-10-10 19:05:31
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:06:21
+// BBVArqSpring log opened at 2017-10-10 19:19:42
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:20:24
+// BBVArqSpring log opened at 2017-10-10 19:29:48
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:30:21
+// BBVArqSpring log opened at 2017-10-10 19:30:46
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:31:19
+// BBVArqSpring log opened at 2017-10-10 19:34:49
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:35:26
+// BBVArqSpring log opened at 2017-10-10 19:43:04
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:43:49
+// BBVArqSpring log opened at 2017-10-10 19:46:50
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:47:37
+// BBVArqSpring log opened at 2017-10-10 19:50:47
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:51:37
+// BBVArqSpring log opened at 2017-10-10 19:54:12
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 19:55:01
+// BBVArqSpring log opened at 2017-10-10 19:59:18
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 20:00:08
+// BBVArqSpring log opened at 2017-10-10 20:04:28
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 20:05:16
+// BBVArqSpring log opened at 2017-10-10 20:07:31
+// BBVArqSpring log opened at 2017-10-10 20:07:44
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 20:08:16
+// BBVArqSpring log opened at 2017-10-10 20:12:23
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 20:13:07
+// BBVArqSpring log opened at 2017-10-10 20:17:07
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-10 20:17:53
+// BBVArqSpring log opened at 2017-10-11 15:50:10
+arqspring generarEAR --despliegue true
+// [failed] quit
+// BBVArqSpring log opened at 2017-10-11 15:54:36
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 15:55:11
+// BBVArqSpring log opened at 2017-10-11 16:16:29
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:17:10
+// BBVArqSpring log opened at 2017-10-11 16:19:35
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:20:08
+// BBVArqSpring log opened at 2017-10-11 16:31:42
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:32:18
+// BBVArqSpring log opened at 2017-10-11 16:43:23
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:44:00
+// BBVArqSpring log opened at 2017-10-11 16:51:21
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:51:56
+// BBVArqSpring log opened at 2017-10-11 16:56:14
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 16:56:52
+// BBVArqSpring log opened at 2017-10-11 17:03:31
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 17:04:09
+// BBVArqSpring log opened at 2017-10-11 17:10:47
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 17:11:27
+// BBVArqSpring log opened at 2017-10-11 17:14:35
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 17:15:09
+// BBVArqSpring log opened at 2017-10-11 17:31:25
+arqspring generarEAR
+hint
+// BBVArqSpring log opened at 2017-10-11 17:46:16
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 17:46:49
+// BBVArqSpring log opened at 2017-10-11 17:51:41
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 17:52:14
+// BBVArqSpring log opened at 2017-10-11 19:01:46
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 19:02:18
+// BBVArqSpring log opened at 2017-10-11 19:11:43
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-11 19:12:19
+// BBVArqSpring log opened at 2017-10-25 10:53:14
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-25 11:01:06
+// BBVArqSpring log opened at 2017-10-25 11:39:36
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+// BBVArqSpring log opened at 2017-10-25 13:05:52
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-25 17:04:39
+// BBVArqSpring log opened at 2017-10-26 10:58:39
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-26 11:11:51
+// BBVArqSpring log opened at 2017-10-26 11:24:38
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-26 11:37:34
+// BBVArqSpring log opened at 2017-10-26 11:37:44
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-26 12:54:06
+// BBVArqSpring log opened at 2017-10-26 13:01:02
+arqspring generarEAR --despliegue true
+arqspring generarEAR --despliegue true
+exit
+// BBVArqSpring log closed at 2017-10-26 16:16:03
+// BBVArqSpring log opened at 2017-10-27 17:39:42
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 17:39:51
+// BBVArqSpring log opened at 2017-10-27 18:57:46
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 18:57:57
+// BBVArqSpring log opened at 2017-10-27 18:59:48
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 18:59:57
+// BBVArqSpring log opened at 2017-10-27 20:07:23
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 20:07:35
+// BBVArqSpring log opened at 2017-10-27 22:20:51
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 22:21:03
+// BBVArqSpring log opened at 2017-10-27 23:40:56
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-27 23:41:08
+// BBVArqSpring log opened at 2017-10-28 01:50:42
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-28 01:50:54
+// BBVArqSpring log opened at 2017-10-28 02:05:41
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-10-28 02:05:54
+// BBVArqSpring log opened at 2017-11-02 17:55:38
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-02 17:55:53
+// BBVArqSpring log opened at 2017-11-03 12:24:35
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-03 12:24:45
+// BBVArqSpring log opened at 2017-11-10 13:08:25
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-10 13:08:35
+// BBVArqSpring log opened at 2017-11-13 22:16:04
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-13 22:16:17
+// BBVArqSpring log opened at 2017-11-13 22:29:05
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-13 22:29:19
+// BBVArqSpring log opened at 2017-11-13 22:45:25
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-13 22:45:40
+// BBVArqSpring log opened at 2017-11-22 19:26:40
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-22 19:26:47
+// BBVArqSpring log opened at 2017-11-22 19:49:44
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-22 19:49:52
+// BBVArqSpring log opened at 2017-11-22 20:08:55
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-22 20:09:04
+// BBVArqSpring log opened at 2017-11-22 20:09:54
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-22 20:10:01
+// BBVArqSpring log opened at 2017-11-22 20:13:23
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-11-22 20:13:30
+// BBVArqSpring log opened at 2017-12-04 17:39:48
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-12-04 17:39:57
+// BBVArqSpring log opened at 2017-12-04 18:19:23
+arqspring generarEAR --despliegue true
+quit
+// BBVArqSpring log closed at 2017-12-04 18:19:43
+// BBVArqSpring log opened at 2018-01-08 09:25:08
+arqspring addModulos --modulos fundacionbancomerextranetutils
+exit
+// BBVArqSpring log closed at 2018-01-08 09:43:25

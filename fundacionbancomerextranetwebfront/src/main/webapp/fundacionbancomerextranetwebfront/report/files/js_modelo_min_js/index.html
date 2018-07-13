@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\modelo.min.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\modelo.min.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">67.82</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">1</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">58.93</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">7.06</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">function restExec(a){var b={service:a.service,data:a.data||{},async:a.async||!1,success:a.success||rest_fnNothig,error:a.error||rest_fnShowError,showWait:a.showWait||!1,finallySuccess:a.finallySuccess||rest_fnNothig,finallyError:a.finallyError||rest_fnNothig},c=b.showWait?SCONFIG.getMessage(&quot;wait&quot;):void 0;writeLog(&quot;datos a enviar: &quot;,b.data),writeLog(&quot;string &quot;,JSON.stringify(b.data)),rest_execute=function(){$.ajax({type:&quot;POST&quot;,dataType:&quot;json&quot;,contentType:&quot;application/json; charset=utf-8&quot;,url:SCONFIG.get(b.service),data:JSON.stringify(b.data),async:b.async,cache:!1,success:function(a){writeLog(&quot;RESPUESTA &quot;+b.service,a),b.showWait&amp;&amp;$(&quot;#&quot;+SCONFIG.getMessage(&quot;wait&quot;).idModal).modal(&quot;hide&quot;),b.success(a),b.finallySuccess(a)},error:function(a){return writeLog(&quot;ERROR EN SERVICIO &quot;+b.service,a),&quot;undefined&quot;!=typeof a.responseText&amp;&amp;-1!=a.responseText.indexOf(&quot;&lt;title&gt;Login&lt;/title&gt;&quot;)?void location.reload():void(b.showWait&amp;&amp;$(&quot;#&quot;+SCONFIG.getMessage(&quot;wait&quot;).idModal).modal(&quot;hide&quot;),b.error(a),b.finallyError(a))}})},b.showWait?($(&quot;#&quot;+c.idModal).modal(),a.customWait?rest_fnShowWait({idModal:c.idModal,title:a.customWait.title,message:a.customWait.message}):rest_fnShowWait(c),setTimeout(function(){rest_execute()},400)):(writeLog(&quot;else&quot;),rest_execute())}var rest_fnNothig=function(){writeLog(&quot;nothing&quot;)},rest_fnShowError=function(a){return modal=SCONFIG.getMessage(&quot;error&quot;),showModals(modal.title,modal.message,modal.idModal),&quot;undefined&quot;==typeof a.responseJSON&amp;&amp;(a.responseJSON={message:&quot;SIN DETALLE DEL ERROR&quot;}),spn=$(&quot;&lt;small&gt;&lt;/small&gt;&quot;).text(a.responseJSON.message),pAlert=$(&quot;#&quot;+modal.idModal).find(&quot;p.alert-danger&quot;),0==pAlert.length?$(&quot;#&quot;+modal.idModal).find(&quot;p&quot;).after($(&quot;&lt;p&gt;&lt;/p&gt;&quot;).addClass(&quot;alert alert-danger&quot;).append(spn)):pAlert.html(spn),void(&quot;No tienes privilegios para accesar&quot;==a.responseJSON.message&amp;&amp;$(&quot;#&quot;+SCONFIG.getMessage(&quot;error&quot;).idModal).find(&quot;button&quot;).on(&quot;click&quot;,function(){location.reload()}))},rest_fnShowWait=function(a){showModals(a.title,a.message,a.idModal)},rest_fnAverageQuery=function(a){writeLog(&quot;Average Query&quot;),writeLog(a),scholar.statusQualifications.averagesSchoolGrade=a.averagesScholarLevel,scholar.statusQualifications.constancyNextGrade=a.constancyNextGrade,scholar.statusQualifications.indicatorMissingConstancy=a.indicatorMissingConstancy},rest_fnConsultLevelGrade=function(a){writeLog(&quot;Consult Level &amp; Grade&quot;),scholar.statusQualifications.schoolLevels=a.schoolLevels},rest_fnDepositModification=function(a){writeLog(&quot;Deposit Modification&quot;),writeLog(a)},rest_fnDepositQuery=function(a){for(var b in writeLog(&quot;Deposit Query&quot;),writeLog(a),a.student[0].confirmDisp)&quot;Pendiente&quot;==a.student[0].confirmDisp[b].statusScholarshipReceived?scholar.confirm.push({idMonth:a.student[0].confirmDisp[b].monthConfirm+&quot;&quot;+a.student[0].confirmDisp[b].yearConfirm,month:a.student[0].confirmDisp[b].monthConfirm,year:a.student[0].confirmDisp[b].yearConfirm}):scholar.scholarship.confirmDispersion.push(a.student[0].confirmDisp[b])},rest_fnDetailsScholar=function(a){writeLog(&quot;Detail Scholar&quot;),writeLog(a),scholar.studentID=a.student[0].studentID,scholar.personalData.username=a.userScholar,scholar.personalData.name=a.student[0].name,scholar.personalData.lastName=a.student[0].firstName,scholar.personalData.secondLastName=a.student[0].lastName,scholar.personalData.originRegion=a.student[0].originRegion,scholar.personalData.originState=a.student[0].originState,scholar.personalData.cdOriginState=a.student[0].cdOriginState,scholar.personalData.originMunicipality=a.student[0].originMunicipality,scholar.personalData.cdOriginMunicipality=a.student[0].cdOriginMunicipality,scholar.personalData.curp=a.student[0].CURP,scholar.personalData.birthdate=a.student[0].scholarBirthdate,scholar.personalData.age=a.student[0].age,scholar.personalData.gender=a.student[0].gender,scholar.personalData.assignedCR=a.student[0].assignedCR,scholar.personalData.cdAssignedCR=a.student[0].cdAssignedCR,scholar.personalData.scholarNumber=a.student[0].scholarNumber,scholar.personalData.accountNumber=a.student[0].accountNumber,scholar.personalData.profilePicture=a.student[0].folioPhoto,scholar.scholarship.statusDispersion=a.student[0].statusDispersion,scholar.scholarship.programName=a.student[0].programName,scholar.scholarship.programType=a.student[0].programKey,scholar.scholarship.modalityParticipation=a.student[0].programScholar[0].modalityParticipation,scholar.schoolData.name=a.student[0].schoolData[0].school[0].name,scholar.schoolData.domicile=a.student[0].schoolData[0].school[0].domicile,scholar.schoolData.type=a.student[0].schoolData[0].school[0].type,scholar.schoolData.initials=a.student[0].schoolData[0].school[0].initials,scholar.schoolData.control=a.student[0].schoolData[0].school[0].control,scholar.schoolData.cct=a.student[0].schoolData[0].school[0].CCT,scholar.schoolData.state=a.student[0].schoolData[0].school[0].state,scholar.schoolData.cdState=a.student[0].schoolData[0].school[0].cdState,scholar.schoolData.municipality=a.student[0].schoolData[0].school[0].municipality.trim(),scholar.schoolData.cdMunicipality=a.student[0].schoolData[0].school[0].cdMunicipality,scholar.schoolData.typeCareer=a.student[0].schoolData[0].typeCareer,scholar.schoolData.nameCareer=a.student[0].schoolData[0].nameCareer,scholar.schoolData.area=a.student[0].schoolData[0].area,scholar.schoolData.turn=a.student[0].schoolData[0].turn,scholar.schoolData.duration=a.student[0].schoolData[0].duration,scholar.domicile=a.student[0].domicile[0],scholar.contactData=a.student[0].contactInf[0],scholar.statusQualifications.schoolGrade=a.student[0].programScholar[0].schoolGrade,scholar.statusQualifications.schoolCycle=a.student[0].schoolCycle,scholar.tutorData.name=a.student[0].tutorData[0].tutorName,scholar.tutorData.lastName=a.student[0].tutorData[0].firstNameTutor,scholar.tutorData.secondLastName=a.student[0].tutorData[0].lastaNameTutor,scholar.tutorData.kinship=a.student[0].tutorData[0].kinship,scholar.tutorData.kinshipType=a.student[0].tutorData[0].kinshipType,scholar.program=a.student[0].programScholar},rest_fnModifUploadScholar=function(){writeLog(&quot;Modif &amp; Upload Scholar&quot;),restExec({service:&quot;DETAILS_SCHOLAR&quot;,data:{userScholar:scholar.personalData.username},success:rest_fnDetailsScholar})},rest_fnQualificationQuery=function(a){writeLog(&quot;Qualification Query&quot;,a),scholar.statusQualifications.averagesScholarLevel=[],scholar.statusQualifications.schoolLevels.forEach(function(b){b.scholarGrades.forEach(function(c){for(i=0;20&gt;i;i++)a.qualifications&amp;&amp;a.qualifications.forEach(function(a){a.scholarLevel==b.scholarLevel&amp;&amp;c.scholarGrade==a.schoolGrade&amp;&amp;a.schoolPeriod.substring(0,i.toString().length)==i.toString()&amp;&amp;(a.isMissing=!1,scholar.statusQualifications.averagesScholarLevel.push(a))}),a.missingQualifications&amp;&amp;a.missingQualifications.forEach(function(a){a.scholarLevel==b.scholarLevel&amp;&amp;c.scholarGrade==a.schoolGrade&amp;&amp;a.schoolPeriod.substring(0,i.toString().length)==i.toString()&amp;&amp;(a.isMissing=!0,a.folio=&quot;&quot;,scholar.statusQualifications.averagesScholarLevel.push(a))})})})},rest_fnUpdateQualification=function(a){writeLog(&quot;Update Qualification&quot;),writeLog(a),scholar.statusQualifications.averageSchoolGrade=a.qualification},rest_fnValidationScholar=function(a){writeLog(&quot;Validation Scholar&quot;),writeLog(a)},rest_fnConsultParameters=function(a){switch(writeLog(&quot;rest_fnConsultParameters&quot;,a.parameters[0].parameterType),a.parameters[0].parameterType){case&quot;SX&quot;:for(var b in a.parameters)combos.gender[b]=a.parameters[b].parameterDescription;break;case&quot;PAREN&quot;:for(var b in a.parameters)combos.kindship[b]=a.parameters[b].parameterDescription;break;case&quot;TPVIA&quot;:for(var b in a.parameters)combos.typeOfViality[b]=a.parameters[b].parameterDescription;break;case&quot;CDRB&quot;:for(var b in writeLog(&quot;Entra a CDRB&quot;),a.parameters)combos.cdRB[b]=a.parameters[b].parameterDescription,writeLog(a.parameters[b].parameterDescription);}},rest_fnUploadedPhoto=function(a,b){writeLog(&quot;rest_fnUploadedPhoto&quot;,a),restExec({service:&quot;GET_DOCUMENT&quot;,async:!b,data:{aplicationName:&quot;BECAS&quot;,listReferenceNumber:[a.folio],features:[{id:&quot;opcion&quot;,name:&quot;base64&quot;}]},error:function(a){console.error(&quot;Error al consultar foto &quot;,a)},success:function(a){&quot;undefined&quot;!=typeof a.listDocuments[0]&amp;&amp;&quot;undefined&quot;!=typeof a.listDocuments[0].document&amp;&amp;&quot;undefined&quot;!=typeof a.listDocuments[0].document.data&amp;&amp;(writeLog(&quot;GET_DOCUMENT&quot;,a),scholar.personalData.base64ProfilePicture=&quot;data:image/jpeg;base64,&quot;+a.listDocuments[0].document.data,!b&amp;&amp;fn_loadProfilePicture())}})},pre_fnSendDocument=function(a){tDoc=a.typeDocument.split(&quot;|&quot;),restExec({service:&quot;SEND_DOCUMENT&quot;,showWait:!0,customWait:{title:&quot;Guardando tu foto de perfil&quot;,message:&quot;Espera un momento por favor&quot;},data:{imagen:{moduleIndicator:a.moduleIndicator,studentID:scholar.studentID,programType:scholar.scholarship.programType,typeDocument:a.typeDocument,schoolGrade:scholar.statusQualifications.schoolGrade,schoolCycle:scholar.statusQualifications.schoolCycle,schoolPeriod:&quot;&quot;,userCurrent:scholar.studentID},archiving:{aplicationName:&quot;becas&quot;,features:[{id:&quot;numeroCliente&quot;,name:scholar.personalData.scholarNumber},{id:&quot;numeroCuenta&quot;,name:scholar.personalData.accountNumber+&quot;&quot;},{id:&quot;cr&quot;,name:scholar.personalData.cdAssignedCR+&quot;&quot;},{id:&quot;nombreBeca&quot;,name:scholar.scholarship.programType},{id:&quot;nombreDoc&quot;,name:tDoc[1]},{id:&quot;cveDoc&quot;,name:tDoc[0]},{id:&quot;ciclo&quot;,name:scholar.statusQualifications.schoolCycle},{id:&quot;extension&quot;,name:a.ext},{id:&quot;nombreArchivo&quot;,name:a.filename},{id:&quot;usuario&quot;,name:scholar.studentID+&quot;&quot;},{id:&quot;primera&quot;,name:&quot;true&quot;},{id:&quot;ultima&quot;,name:&quot;true&quot;}],document:{data:a.base64}}},success:function(a){rest_fnUploadedPhoto(a,!1)},finallyError:function(a){writeLog(&quot;error &quot;,a)},finallySuccess:function(){showModals(&quot;Tu foto se ha cargado satisfacotiamente&quot;,&quot;Gracias por la espera&quot;,&quot;savedFile&quot;)}})},pre_fnSendMultiDocument=function(a){tDoc=a.typeDocument.split(&quot;|&quot;),restExec({service:&quot;SEND_MULT_DOCUMENT&quot;,data:{aplicationName:&quot;becas&quot;,features:[{id:&quot;numeroCliente&quot;,name:scholar.personalData.scholarNumber},{id:&quot;numeroCuenta&quot;,name:scholar.personalData.accountNumber+&quot;&quot;},{id:&quot;cr&quot;,name:scholar.personalData.cdAssignedCR},{id:&quot;nombreBeca&quot;,name:scholar.scholarship.programType},{id:&quot;nombreDoc&quot;,name:tDoc[1]},{id:&quot;cveDoc&quot;,name:tDoc[0]},{id:&quot;ciclo&quot;,name:scholar.statusQualifications.schoolCycle},{id:&quot;extension&quot;,name:a.ext},{id:&quot;nombreArchivo&quot;,name:a.filename},{id:&quot;usuario&quot;,name:scholar.studentID+&quot;&quot;},{id:&quot;primera&quot;,name:a.first},{id:&quot;ultima&quot;,name:a.last}],document:{data:a.base64}},success:a.success,error:a.error})},pre_fnloadFile=function(a){$(&quot;#show_file&quot;).attr(&quot;src&quot;,SCONFIG.getVisor(a)),$(&quot;#consultFiles&quot;).modal(&quot;show&quot;)},rest_reloadQualifications=function(){restExec({service:&quot;QUALIFICATION_QUERY&quot;,async:!1,data:{studentID:scholar.studentID,scholarLevel:&quot;&quot;,schoolGrade:&quot;&quot;,schoolPeriod:&quot;&quot;},success:rest_fnQualificationQuery,error:rest_fnNothig})},rest_averageQuery=function(){restExec({service:&quot;AVERAGE_QUERY&quot;,async:!1,data:{studentID:scholar.studentID,scholarLevel:&quot;&quot;,schoolGrade:&quot;&quot;},success:rest_fnAverageQuery})},rest_fnAlerts=function(a){scholar.alerts=a.alertMessages,writeLog(&quot;guarda alertas: &quot;,a.alertMessages)},rest_fnStates=function(a){statesTransactions=a.stateTransactions},rest_getMunicipality=function(a){restExec({service:&quot;GET_MUNICIPALITY&quot;,showWait:!0,customWait:{title:&quot;Consultando datos&quot;,message:&quot;Por favor espera&quot;},data:{state:a},success:fn_listMunicipality})},rest_fnUpdatePassword=function(a){writeLog(&quot;rest_fnUpdatePassword&quot;),writeLog(a);var b={responseJSON:{message:a.statusDescription+&quot;.&quot;},serviceName:a.statusCode};&quot;MDO_000&quot;==a.statusCode?(showModals(&quot;Tu contrase\xF1a se ha actualizado correctamente&quot;,&quot;&quot;,&quot;savedFile&quot;),$(&quot;#btnCancelsChangePassword&quot;).click()):&quot;MDO_003&quot;==a.statusCode||&quot;MDO_008&quot;==a.statusCode||&quot;MDO_013&quot;==a.statusCode||&quot;MDO_015&quot;==a.statusCode||&quot;MDO_017&quot;==a.statusCode||&quot;MDO_020&quot;==a.statusCode||&quot;MDO_021&quot;==a.statusCode?rest_fnShowError(b):rest_fnShowError(&quot;Ocurri\xF3 un problema, por favor intentalo m\xE1s tarde&quot;)};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

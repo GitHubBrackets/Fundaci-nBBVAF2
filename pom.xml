@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+<modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.bbva.arq.front.spring</groupId>
+        <artifactId>pom-padre-frontend</artifactId>
+        <version>15.3.0</version>
+    </parent>
+    <groupId>com.bbva.arq.front.spring.mgbf</groupId>
+    <artifactId>pom-padre_mgbf</artifactId>
+    <version>01</version>
+    <packaging>pom</packaging>
+    <name>pom-padre_mgbf</name>
+    <url>http://maven.apache.org</url>
+    <modules>
+        <module>fundacionbancomerextranetutils</module>
+        <module>fundacionbancomerextranetwebexception</module>
+        <module>fundacionbancomerextranetwebrestconsumer</module>
+        <module>fundacionbancomerextranetwebrestclient</module>
+        <module>fundacionbancomerextranetwebdto</module>
+        <module>fundacionbancomerextranetwebback</module>
+        <module>fundacionbancomerextranetwebfront</module>
+        <module>EAR</module>
+    </modules>
+</project>

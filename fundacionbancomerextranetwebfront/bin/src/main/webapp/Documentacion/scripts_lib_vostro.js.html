@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>scripts/lib/vostro.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkBoxConfirm">checkBoxConfirm</a></li><li><a href="global.html#findParentElementByClass">findParentElementByClass</a></li><li><a href="global.html#getRootPath">getRootPath</a></li><li><a href="global.html#loadTemplate">loadTemplate</a></li><li><a href="global.html#requerido">requerido</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">scripts/lib/vostro.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var o = olivajs;
+
+var radios = document.querySelectorAll('input[type=radio]');
+var forms = document.querySelectorAll('.validate-form');
+var errorMessageTxt = 'Por favor llena este campo';
+
+/**
+ * Busca el padre del nodo indicado que contiene la clase indicada
+ * @param {object} nodeElement El objeto DOM al que se le desea encontrar el padre
+ * @param {string} className   Nombre de la clase a buscar en el padre
+ */
+function findParentElementByClass(nodeElement, className) {
+    var element = nodeElement;
+    while (element) {
+        if (element.classList &amp;&amp; element.classList.contains(className)) {
+            return element;
+        }
+        element = element.parentNode;
+    }
+    return null;
+}
+
+/**
+ * Agrega la funcionalidad de los checkbox para que de forma visual al marcarlo el div padre cambie el color del borde para mostrar una selecci&amp;oacute;n
+ */
+function checkBoxConfirm() {
+    var checkboxes = document.querySelectorAll('input[type=checkbox]');
+    o.DOMUtils.syncForEach((function (checkbox) {
+        if (checkbox.parentElement.getAttribute("class").indexOf("custom-checkbox") === -1) {
+            var checkboxWrapper = new o.DOMElement('div');
+
+            if (checkbox.checked) {
+                checkboxWrapper.addClasses(['checked']);
+            }
+            checkboxWrapper.addClasses(['custom-checkbox']);
+            checkboxWrapper.renderBefore(checkbox.parentElement, 0);
+            checkboxWrapper.getElement().appendChild(checkbox);
+
+            checkboxWrapper.addEvents([{callback: (function () {
+                if (!checkbox.disabled) {
+                    checkbox.checked = !checkbox.checked;
+
+                    if (checkbox.checked) {
+                        checkboxWrapper.addClasses(['checked']);
+
+                        if (findParentElementByClass(checkbox, 'card')) {
+                            findParentElementByClass(checkbox, 'card').classList.add('active');
+                        }
+                    } else {
+                        checkboxWrapper.removeClasses(['checked']);
+                        if (findParentElementByClass(checkbox, 'card')) {
+                            findParentElementByClass(checkbox, 'card').classList.remove('active');
+                        }
+                    }
+                }
+            }), name: 'click'}]);
+        }
+    }), checkboxes);
+}
+
+/**
+ * Agrega la funcionalidad de validaci&amp;oacute;n a los formularios que contengan la clase 'validate-form'
+ */
+function requerido () {
+    var forms = document.querySelectorAll('.validate-form');
+    o.DOMUtils.syncForEach((function (form) {
+        var submitButton = form.querySelector('[type=submit]');
+        var inputs = form.querySelectorAll('input[type=text], input[type=number], input[type=password]');
+
+        o.DOMUtils.syncForEach((function (input) {
+            input.addEventListener('keyup', () => {
+            var smallElements = input.parentElement.querySelectorAll('small');
+            o.DOMUtils.removeElements(smallElements);
+            o.DOMUtils.removeClass(input.parentElement, 'has-error');
+            });
+        }), inputs);
+
+    submitButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      o.DOMUtils.syncForEach((function (input) {
+        if (input.required &amp;&amp; input.value.length === 0) {
+          var errorMessage = new o.DOMElement('small');
+
+          if (!input.parentElement.classList.contains('has-error')) {
+            o.DOMUtils.addClass(input.parentElement, 'has-error');
+            errorMessage.setContent(errorMessageTxt);
+            errorMessage.render(input.parentElement);
+          }
+        }
+      }), form.elements);
+    });
+  }), forms);
+}
+
+window.onload = function () {
+    checkBoxConfirm();
+
+    requerido();
+
+  o.DOMUtils.syncForEach((function (radio) {
+    var radioWrapper = new o.DOMElement('div');
+
+    if (radio.checked) {
+      radioWrapper.addClasses(['checked']);
+    }
+
+    radioWrapper.addClasses(['custom-radio']);
+    radioWrapper.render(radio.parentElement);
+    radioWrapper.getElement().appendChild(radio);
+
+    radioWrapper.addEvents([{
+      callback: (function () {
+        if (!radio.disabled) {
+          radio.checked = !radio.checked;
+
+          if (radio.checked) {
+            radioWrapper.addClasses(['checked']);
+          } else {
+            radioWrapper.removeClasses(['checked']);
+          }
+        }
+      }),
+      name: 'click'
+    }]);
+  }), radios);
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

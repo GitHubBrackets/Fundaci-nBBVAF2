@@ -1,0 +1,70 @@
+
+/* --- TREETABLE --- */
+
+/* Con esta linea nuestro CSS es independiente: */
+.treeTable .Nivel1 {text-indent: 0px} .treeTable .Nivel2 {text-indent: 22px} .treeTable .Nivel3 {text-indent: 44px} .treeTable .Nivel4 {text-indent: 66px} .treeTable .Nivel5 {text-indent: 88px} .treeTable .Nivel6 {text-indent: 110px} .treeTable .Nivel7 {text-indent: 132px} .treeTable .Nivel8 {text-indent: 154px} .treeTable .Nivel9 {text-indent: 176px} .treeTable .Nivel10 {text-indent: 198px} .treeTable .Nivel11 {text-indent: 220px} .treeTable .Nivel12 {text-indent: 242px} .treeTable .Nivel13 {text-indent: 264px} .treeTable .Nivel14 {text-indent: 286px} .treeTable .Nivel15 {text-indent: 308px} .treeTable .Nivel16 {text-indent: 330px} .treeTable .Nivel17 {text-indent: 352px} .treeTable .Nivel18 {text-indent: 374px} .treeTable .Nivel19 {text-indent: 396px} .treeTable .Nivel20 {text-indent: 418px} .treeTable .Nivel21 {text-indent: 440px} .treeTable .Nivel22 {text-indent: 462px} .treeTable .Nivel23 {text-indent: 484px} .treeTable .Nivel24 {text-indent: 506px} .treeTable .Nivel25 {text-indent: 528px}
+
+
+.treeTable tr td .expander {background-position: left center; background-repeat: no-repeat; cursor: pointer; padding-right: 5px; zoom: 1; /* IE7 Hack */ }
+.treeTable tr.collapsed td .expander {background-image: url(../images/customtags/iconomas.gif)}
+.treeTable tr.expanded td .expander {background-image: url(../images/customtags/iconomenos.gif)}
+.treeTable .ImagenDerechaCheckSizeTreeTable {background-image: url(../images/customtags/derecha.gif); background-repeat: no-repeat;background-position:right;padding-right:13px}
+.treeTable img{cursor: pointer}
+.treeTable p{display: inline}
+.treeTable .Nivel1 div{left:20}
+.treeTable .parent .Nivel1 div{left:0}
+.treeTable .Nivel2 span.expander a, .treeTable .Nivel2 span.expander p, .treeTable .Nivel2 span.expander img {
+	position:relative; left:0; *left:-22px}
+.treeTable .Nivel3 span.expander a, .treeTable .Nivel3 span.expander p, .treeTable .Nivel3 span.expander img {
+	position:relative; left:0; *left:-44px}
+.treeTable .Nivel4 span.expander a, .treeTable .Nivel4 span.expander p, .treeTable .Nivel4 span.expander img {
+	position:relative; left:0; *left:-66px}
+.treeTable .Nivel5 span.expander a, .treeTable .Nivel5 span.expander p, .treeTable .Nivel5 span.expander img {
+	position:relative; left:0; *left:-88px}
+.treeTable .Nivel6 span.expander a, .treeTable .Nivel6 span.expander p, .treeTable .Nivel6 span.expander img {
+	position:relative; left:0; *left:-110px}
+.treeTable .Nivel7 span.expander a, .treeTable .Nivel7 span.expander p, .treeTable .Nivel7 span.expander img {
+	position:relative; left:0; *left:-132px}
+.treeTable a, .treeTable p {
+	position:relative; left: 8px}
+.treeTable .Nivel1 span.expander a, .treeTable .Nivel1 span.expander p, .treeTable .Nivel1 span.expander img {
+	position:relative; left:0px; *left:0px}
+.treeTable .Nivel2 div, .treeTable .Nivel3 div, .treeTable .Nivel4 div, .treeTable .Nivel5 div, .treeTable .Nivel6 div, .treeTable .Nivel7 div {
+	left:20px}
+.treeTable .parent .Nivel2 div, .treeTable .parent .Nivel3 div, .treeTable .parent .Nivel4 div, .treeTable .parent .Nivel5 div, .treeTable .parent .Nivel6 div, .treeTable .parent .Nivel7 div {
+	left:0px}
+	
+		
+.TablaDatos{
+	width:100%;
+}
+.CabeceraTabla {
+    background-color: #E1F0F6;
+    font-weight: bold;
+    height: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.TituloTabla{
+    font-weight: bold;
+    text-align: left;
+    vertical-align: top;
+}
+.Pijama1 {
+    background-color: #F9F9F9;
+}
+.Pijama2 {
+    background-color: #EDEDED;
+}
+
+.TextoTablaCenN{
+	text-align:center;
+}
+.TextoTablaIzqN {
+	text-align:left;
+}
+.TituloTable{
+  font-weight: bold;
+}
+

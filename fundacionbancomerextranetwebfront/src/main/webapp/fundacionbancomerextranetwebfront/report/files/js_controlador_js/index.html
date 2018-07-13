@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\controlador.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\controlador.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">70.48</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">429</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">44.37</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">3.96</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">//****************************************Dojo&#039;s settings.**************************************//
+dojoConfig = {
+    isDebug: true,
+    parseOnLoad: false
+};
+//***************************Dojo&#039;s functions.************************//
+//Enable templates.
+dojo.require(&quot;dijit._Templated&quot;);
+//Enable wipe functions.
+dojo.require(&quot;dojo.fx&quot;);
+
+//Enviroment configuration to enable logs.
+var app_conf = {
+		writeLog : false
+}
+var servOrigin = window.location.origin;
+if(servOrigin.indexOf(&quot;localhost&quot;)!=-1||
+	servOrigin.indexOf(&quot;150.250.238.172&quot;)!=-1||
+	servOrigin.indexOf(&quot;150.250.238.173&quot;)!=-1){
+		app_conf.writeLog = true;
+}
+/**
+ * writeLog allows to write console logs only on local, develop and test server, this can be changed by the object app_conf.writeLog value.
+ */
+var writeLog = function(){
+	try{
+		if(app_conf.writeLog){
+			console.log.apply(this,writeLog.arguments);
+		}
+	}catch(err){}
+}
+ /*
+ *This function load a template in specific id/element of html, after that execute onload function(defined within plantillas.conf.js).
+ * @param {string} idDOM        Id of the element where the template is inserted.
+ * @param {object} templateData JSON of the template to insert from templates.conf.js.
+ * @param {object} data         JSON that contains a dinamic data to show on templete.
+ */
+function loadTemplate(idDOM, templateData, data) {
+    if(!templateData){console.error(&quot;loadTemplate: templateData is undefined [&quot;+idDOM+&quot;]&quot;);return;}
+    strTemplate = dojo.cache(templateData.workspace, templateData.html);
+    if(data){
+        varsTemplate = strTemplate.match(/\u0024\u007B[a-zA-Z0-9_]*\u007D/g);
+        if(varsTemplate){
+        	for (it = 0; it &lt; varsTemplate.length; it++) {
+                varsTemplate[it].substring(2, varsTemplate[it].length - 1)
+                tempData = varsTemplate[it];
+                nameData = tempData.substring(2, tempData.length - 1);
+                if(typeof data[nameData] != &quot;undefined&quot;){strTemplate = strTemplate.replace(tempData, data[nameData]);}
+                else{console.warn(&quot;loadTemplate: &quot;+nameData+&quot; is null [&quot;+templateData.html+&quot;]&quot;);}
+            }
+        }
+    }else{console.warn(&quot;loadTemplate: data is null [&quot;+templateData.html+&quot;]&quot;);}
+    node = dojo.byId(idDOM);
+    if(!node){console.error(&quot;loadTemplate: Node &quot;+idDOM+&quot; doesn&#039;t exist [&quot;+templateData.html+&quot;]&quot;);return;}
+    node.innerHTML = strTemplate;
+    templateData.onload();
+}
+
+/**
+ * Get root path of page.
+ * @returns {string} URL.
+ */
+function getRootPath() {
+    _url = window.location.href;
+    if (_url.charAt(_url.length - 1) === &quot;#&quot;) {
+        _url=_url.substring(0,_url.length-1);
+    }
+    if (_url.charAt(_url.length - 1) === &quot;/&quot;) {
+        return _url;
+    }
+    return _url.substring(0, _url.lastIndexOf(&quot;/&quot;));
+}
+
+/**
+ * Function to show modals.
+ * @param {string} asunto  Principal text.
+ * @param {string} mensaje Reason/message.
+ * @param {string} modalId Id of modal that you want to show.
+ */
+function showModals (asunto, mensaje, modalId) {
+	$(&quot;.modal.show&quot;).each(function(index) {
+		if(($(this).data(&#039;bs.modal&#039;) || {})._isShown)	$(this).modal(&#039;hide&#039;);
+	});
+    $(&quot;#&quot;+modalId).find(&quot;h2&quot;).text(asunto);
+    $(&quot;#&quot;+modalId).find(&quot;p&quot;).text(mensaje);
+    $(&quot;#&quot;+modalId).modal(&#039;show&#039;);
+}
+
+/**
+ * Function to load the header with scholar&#039;s personal information.
+ */
+function loadScholarHeader(){
+	loadTemplate(&quot;scholarheader&quot;, templates.scholarheader, {
+        scholarName : scholar.personalData.name,
+        schoolGrade : scholar.statusQualifications.schoolGrade,
+        program : scholar.scholarship.programName,
+        actLevel : scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel
+    });
+}
+
+/**
+ * Function to load principal page(Index).
+ */
+function loadIndex(){
+    loadTemplate(&quot;templateInicio&quot;, templates.principal,{});
+}
+
+/**
+ * It contains all functions that are executed when load the page finished.
+ * @param {function} function (Group of functions to execute when page is loading).
+ */
+dojo.addOnLoad(function () {
+	var l_rootPath = getRootPath();
+    dojo.registerModulePath(&quot;vistas&quot;, l_rootPath + &quot;fundacionbancomerextranetwebfront/vistas&quot;);
+    dojo.registerModulePath(&quot;home&quot;, l_rootPath + &quot;fundacionbancomerextranetwebfront/vistas/home&quot;);
+    dojo.registerModulePath(&quot;beca&quot;, l_rootPath + &quot;fundacionbancomerextranetwebfront/vistas/mibeca&quot;);
+    dojo.registerModulePath(&quot;calificaciones&quot;, l_rootPath + &quot;fundacionbancomerextranetwebfront/vistas/miscalificaciones&quot;);
+    dojo.registerModulePath(&quot;datos&quot;, l_rootPath + &quot;fundacionbancomerextranetwebfront/vistas/misdatos&quot;);
+    /**
+     * Function to shutdown session.
+     */
+    var logout = function(){
+        showModals(&quot;Cerrando sesi\u00F3n&quot;,&quot;Espera un momento&quot;,SCONFIG.getMessage(&#039;wait&#039;).idModal);
+        setTimeout(function () {
+        	restExec({
+    			service:&#039;TERMINATE_SESSION&#039;,
+    			async: false,
+    			data: {
+    			},
+    			success: function(resp){
+    				writeLog(&quot;se cerró sesión en back end&quot;);
+    			},
+    			error: function(error){
+    				writeLog(&quot;no se cerró sesión en back end&quot;);
+    			}
+    		});
+        	$.ajax({
+    			type : &#039;GET&#039;,
+    			dataType : &#039;html&#039;,
+    			contentType : &quot;application/json; charset=utf-8&quot;,
+    			url : window.location.origin+&quot;/pkmslogout.form&quot;,
+    			async: true,
+    			success : function(data) {
+    				$(&quot;.index&quot;).css({display: &quot;none&quot;});
+    				$(&quot;#templateInicio&quot;).css({display: &quot;none&quot;});
+    				showModals(&quot;Tu sesi\u00F3n ha terminado&quot;,&quot;&quot;,&quot;savedFile&quot;);
+    				$(&quot;#savedFile&quot;).find(&quot;button.btn-primary&quot;).click(function (){
+    					location.reload();
+    				})
+    			},
+    			error : function(error) {
+    				writeLog(&quot;error&quot;,data);
+    				$(&quot;#savedFile&quot;).modal(&quot;hide&quot;);
+    			}
+    		});
+	    }, 400);
+    }
+    
+    _modal = SCONFIG.getMessage(&#039;wait&#039;);
+    var hasErrorIndex=false;
+    var contListServicesRest = 0;
+    var listServicesRest = [
+        /**
+        * Function that contains the data to execute the service: MGBFTB03-Detail of scholar.
+        * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+        */
+		function(){return {
+			service:&#039;DETAILS_SCHOLAR&#039;,
+			data: {
+				userScholar : ivUser
+			},
+			success: rest_fnDetailsScholar,
+			finallyError: function(error){
+				hasErrorIndex = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTH01-Deposit query.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			service:&#039;DEPOSIT_QUERY&#039;,
+			data: {
+				userCurrent : scholar.studentID,
+			    studentID : scholar.studentID,
+			    programType : scholar.scholarship.programType,
+			    statusScholarshipReceived : &quot;&quot;
+			},
+			success: rest_fnDepositQuery,
+			finallyError: function(error){
+				hasErrorIndex = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTB04-Level and school grade query.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			service:&#039;CONSULT_LEVELGRADE&#039;,
+			data: {
+				studentID: scholar.studentID,
+				scholarLevel:&quot;&quot;
+			},
+			success: rest_fnConsultLevelGrade,
+			finallySuccess: function(res_){
+				writeLog(&quot;CONSULT_LEVELGRADE&quot;,res_);
+			},
+			finallyError: function(error){
+				hasErrorIndex = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTC03-Average query.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			&quot;service&quot;:&#039;AVERAGE_QUERY&#039;,
+			data: {
+				studentID: scholar.studentID,
+				scholarLevel:&quot;&quot;,
+				schoolGrade:&quot;&quot;
+			},
+			success: rest_fnAverageQuery,
+			finallySuccess: function(res_){
+				writeLog(&quot;AVERAGE_QUERY&quot;,res_);
+			},
+			finallyError: function(error){
+				hasErrorIndex = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTP01-Parameters query.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			service:&#039;CONSULT_PARAMETERS&#039;,
+			data: {
+				parameterType: &quot;CDRB&quot;
+			},
+			success: rest_fnConsultParameters,
+			finallyError: function(error){
+				hasErrorIndex = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTK01-Get alerts.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			service:&#039;GET_ALERTS&#039;,
+			data: {
+				&quot;userScholar&quot;: scholar.personalData.username
+			},
+			error: function(err_a){console.error(&quot;GET_ALERTS&quot;,err_a)},
+			success: rest_fnAlerts
+		}},
+		/**
+		 * Function that contains the data to execute the service: MGBFTC02-Qualifications query.
+		 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+		 */
+		function(){return {
+			service:&#039;QUALIFICATION_QUERY&#039;,
+			data: {
+				studentID: scholar.studentID,
+			    scholarLevel: &quot;&quot;,
+			    schoolGrade : &quot;&quot;,
+			    schoolPeriod : &quot;&quot;
+			},
+			success: rest_fnQualificationQuery,
+			finallyError: function(error){
+				hasError = true;
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			},
+			finallySuccess: function(res_){
+				if(scholar.personalData.profilePicture.trim()){
+					rest_fnUploadedPhoto({
+						folio: scholar.personalData.profilePicture
+					},true);
+				}
+				writeLog(&quot;QUALIFICATION_QUERY&quot;,res_);
+				loadScholarHeader();
+				$(&quot;.index&quot;).removeAttr(&quot;style&quot;);
+				$(&quot;#&quot;+_modal.idModal).removeAttr(&quot;style&quot;);
+			}
+		}}
+    ]
+    do {
+    	restExec(listServicesRest[contListServicesRest]());
+    	contListServicesRest++;
+    }while(!hasErrorIndex &amp;&amp; contListServicesRest&lt;listServicesRest.length);
+    $(&quot;#secLoading&quot;).remove();
+    if(hasErrorIndex){$(&quot;#&quot;+SCONFIG.getMessage(&#039;error&#039;).idModal).find(&quot;button&quot;).on(&quot;click&quot;,logout);}
+    $(&quot;.exitarea &gt; a&quot;).click(function (event) {
+    	event.preventDefault();
+    	logout();
+	});
+    
+  //********************************Home   ********************************//
+
+    $(&quot;#btnHome&quot;).click(function (event) {
+    	event.preventDefault();
+        $(&quot;#btnMisCalificaciones, #btnMisDatos, #btnMisTutores, #btnMiBeca&quot;).removeClass(&quot;active&quot;);
+        loadIndex();
+	});
+
+    //********************************Mi Beca ********************************//
+
+    $(&quot;#btnMiBeca&quot;).click(function (event) {
+    	event.preventDefault();
+        $(&quot;#btnMiBeca&quot;).addClass(&quot;active&quot;);
+        $(&quot;#btnMisCalificaciones, #btnMisDatos, #btnMisTutores&quot;).removeClass(&quot;active&quot;);
+        loadTemplate(&quot;templateInicio&quot;, templates.miBeca, {
+            name : scholar.personalData.name ,
+            schoolGrade : scholar.statusQualifications.schoolGrade,
+            program : scholar.scholarship.programName,
+            actLevel : scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel,
+            status : scholar.scholarship.statusDispersion,
+            programStatus: scholar.program[0].status,
+            program: scholar.scholarship.programName,
+            modality: scholar.scholarship.modalityParticipation,
+            state: scholar.personalData.originState,
+            municipality: scholar.personalData.originMunicipality,
+            region: scholar.personalData.originRegion
+        });
+    });
+
+
+    //********************************Mis Calificaciones ********************************//
+
+    $(&quot;#btnMisCalificaciones&quot;).click(function (event) {
+    	event.preventDefault();
+        $(&quot;#btnMisCalificaciones&quot;).addClass(&quot;active&quot;);
+        $(&quot;#btnMiBeca, #btnMisDatos, #btnMisTutores&quot;).removeClass(&quot;active&quot;);
+        loadTemplate(&quot;templateInicio&quot;, templates.misCalificaciones, {
+            name : scholar.personalData.name ,
+            schoolGrade : scholar.statusQualifications.schoolGrade,
+            program : scholar.scholarship.programName,
+            actLevel : scholar.statusQualifications.schoolLevels[scholar.statusQualifications.schoolLevels.length-1].scholarLevel
+        });
+    });
+
+    //*************************************Mis Datos ***********************************//
+
+    $(&quot;#btnMisDatos&quot;).click(function (event) {
+    	event.preventDefault();
+    	var hasErrorQ=false;
+	    var cont = 0;
+	    var listCombos = [
+            /**
+             * Function that contains the data to execute the service: MGBFTP01-Parameters query(gender).
+             * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+             */
+				function(){return {
+					service:&#039;CONSULT_PARAMETERS&#039;,
+					data: {
+						parameterType: &quot;SX&quot;
+					},
+					success: rest_fnConsultParameters,
+					finallyError: function(error){
+						hasErrorQ = true;
+					}
+				}},
+			/**
+			 * Function that contains the data to execute the service: MGBFTP01-Parameters query(kindship).
+			 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+			 */
+				function(){return {
+					service:&#039;CONSULT_PARAMETERS&#039;,
+					data: {
+						parameterType: &quot;PAREN&quot;
+					},
+					success: rest_fnConsultParameters,
+					finallyError: function(error){
+						hasErrorQ = true;
+					}
+				}},
+			/**
+			 * Function that contains the data to execute the service: MGBFTP01-Parameters query(type of viality).
+			 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+			 */
+				function(){return {
+					service:&#039;CONSULT_PARAMETERS&#039;,
+					data: {
+						parameterType: &quot;TPVIA&quot;
+					},
+					success: rest_fnConsultParameters,
+					finallyError: function(error){
+						hasErrorQ = true;
+					}
+				}},
+			/**
+			 * Function that contains the data to execute the service: listState.
+			 * @returns {object} Returns an object with the name of service to execute, the data to be sent, and what it does when executed correctly or failed.
+			 */
+				function(){return {
+					service:&#039;GET_STATES&#039;,
+					data: {},
+					success: rest_fnStates,
+					finallyError: function(error){
+						hasErrorQ = true;
+					},
+					finallySuccess: function(){
+						$(&quot;#waitModal&quot;).modal(&quot;hide&quot;);
+						}
+					}}
+				 ];
+	    if(combos.gender == &quot;&quot; || combos.typeOfViality == &quot;&quot; || combos.kindship == &quot;&quot; || !statesTransactions.length){
+	    	showModals(&quot;Cargando tu información&quot;,&quot;Espera un momento&quot;,SCONFIG.getMessage(&#039;wait&#039;).idModal);
+	    	setTimeout(function () {
+	        	 do {
+	        	    	restExec(listCombos[cont]());
+	        	    	cont++;
+	        	    } while(!hasErrorQ &amp;&amp; cont&lt;listCombos.length);
+	        	 loadMisDatos();
+	        	 fn_afterMisDatos();
+	        	 fn_afterMisDatos = fn_nothing;
+	        },400);
+    	}else {
+    		loadMisDatos();
+    		fn_afterMisDatos();
+    		fn_afterMisDatos = fn_nothing;
+    	}
+	});
+});</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

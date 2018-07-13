@@ -1,0 +1,6 @@
+<aspectj>
+<aspects>
+<aspect name="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ValidGrantingTicketImpl"/>
+</aspects>
+</aspectj>
+

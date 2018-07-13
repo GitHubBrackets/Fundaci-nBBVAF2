@@ -1,0 +1,21 @@
+ -----
+ The Site
+ -----
+ The Maven Team
+ -----
+
+Maven Site para su proyecto
+
+ Este es el site autogenerado mediante Maven por la Arquitectura Blue Spring para este proyecto.
+ 
+ Para m\xe1s informaci\xf3n sobre c\xf3mo configurar el site, acceda a los siguientes recursos:
+	
+	* {{{http://maven.apache.org/plugins/maven-site-plugin/}Maven Site}}
+	
+	* Men\xfa de la izquierda
+
++-----+
+
+mvn site
+
++-----+

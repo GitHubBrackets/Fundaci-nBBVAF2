@@ -1,0 +1,458 @@
+<div class="page-layout-1column mis-datos">
+	<main>
+		<div class="container columns">
+	        <div class="column sidebar"></div>
+				<div class="column main">
+					<div class="container">
+						<div class="card">
+							<div class="card-header">
+								<h4>Mis datos</h4>
+							</div>
+							<div id="accordion" class="card-block accordion" role="tablist" aria-multiselectable="true">
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-1">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
+                                            <span class="icon icon-161"></span> Datos personales
+                                        </a>
+									</div>
+									<div id="collapse-1" class="collapse" role="tabpanel" aria-labelledby="heading-1">
+										<div class="card-block">
+											<form action="#" class="form-inline-center validate-form" method="post">
+												<dl class="data-table">
+													<dt><label>Nombres(s)</label></dt>
+													<dd><label>${scholarName}</label></dd>
+													<dt><label>Apellido paterno</label></dt>
+													<dd><label>${lastName}</label></dd>
+													<dt><label>Apellido materno</label>
+                                                          <small>Opcional para becarios nacidos en EUA y que no cuenten con apellido materno</small>
+                                                    </dt>
+													<dd>${secondLastName}</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Regi&oacute;n</label></dt>
+													<dd><label name="originRegion"></label>
+													</dd>
+													<dt><label>Estado de origen</label></dt>
+													<dd><label name="originState"></label>
+													</dd>
+													<dt><label>Municipio de origen</label></dt>
+													<dd><label name="originMunicipality"></label></dd>
+													<dt><label>CURP</label></dt>
+													<dd>
+														<div class="form-group">
+                                                            <input class="form-control letrasCurp" name="curp" id="curp2" placeholder="Ingresa CURP" type="text" onkeyup="this.value=this.value.toUpperCase()" required>
+                                                                <a href="https://consultas.curp.gob.mx" data-toggle="tooltip" data-placement="top" title="" data-original-title="¿No sabes cuál es tu CURP?" target="_blank" id="seccCurp">
+                                                                    <i class="icon icon-200"></i>
+                                                                </a>
+														</div>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Fecha de nacimiento</label></dt>
+													<dd>
+														<div class="form-group">
+															<div class='input-group date'>
+                                                                <input type='text' class="form-control" name="birthdate">
+                                                                    <span class="input-group-addon">
+                                                                        <span class="icon icon-167"></span>
+                                                                    </span>
+															</div>
+														</div>
+													</dd>
+													<dt><label>Edad</label></dt>
+													<dd><label>${age} años</label></dd>
+													<dt><label>Sexo</label></dt>
+													<dd>
+														<select class="form-control" name="gender" required>
+                                                            <option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>CR Asignado</label></dt>
+													<dd><label>${cr}</label></dd>
+													<dt><label>Número de cuenta</label></dt>
+													<dd><label>${accountNumber}</label></dd>
+												</dl>
+												<div class="form-footer">
+													<input class="btn btn-success" name="btnSendInfo" type="submit" id="btnPersonalInformation" value="Guardar">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-2">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                            <span class="icon icon-49" id="becaAcordion"></span>Beca
+                                        </a>
+									</div>
+									<div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2">
+										<div class="card-block">
+                                            <div class="card">
+                                                <div class="card-header blue first">
+                                                    <h4>Estatus general</h4>
+                                                </div>
+                                                <div class="card-block">
+                                                    <dl class="data-table">
+                                                        <dt><label>Estatus de dispersi&oacute;n</label></dt>
+                                                        <dd><label class="status-${status}">${status}</label></dd>
+                                                        <dt><label>Estatus en el programa</label></dt>
+                                                        <dd><label>${programStatus}</label></dd>
+                                                        <dt><label>Programa de beca</label></dt>
+                                                        <dd><label>${program}</label></dd>
+                                                        <dt><label>Grado escolar</label></dt>
+                                                        <dd><label>${schoolGrade}</label></dd>
+                                                        <dt><label>Convenio/Alianza</label></dt>
+                                                        <dd><label>${modality}</label></dd>
+                                                        <dt><label>Regi&oacute;n</label></dt>
+                                                        <dd><label name="originRegion"></label></dd>
+                                                        <dt><label>Estado de origen</label></dt>
+                                                        <dd><label name="originState"></label></dd>
+                                                        <dt><label>Municipio de origen</label></dt>
+                                                        <dd><label name="originMunicipality">$</label></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+											<div id="depositosPendientes"></div>
+											<div class="card mt-3">
+												<div id="accordion-deposit" class="card-block accordion" role="tablist" aria-multiselectable="true">
+													<div class="card-header blue" id="detail-deposit" role="tab">
+														<a class="blue-dark" data-toggle="collapse" data-parent="#accordion-deposit" href="#collapse-deposit" aria-expanded="true" aria-controls="collapse-deposit">
+                                                            <span id="detalleDeposito">Detalle de depósitos</span>
+                                                        </a>
+													</div>
+													<div id="collapse-deposit" class="collapse show" role="tabpanel" aria-labelledby="detail-deposit">
+														<table id="tableConfirm" class="table table-bordered wrapper fix-width table-responsive mb-0">
+															<thead>
+																<tr>
+																	<th>Mes</th>
+																	<th>Depósito</th>
+																	<th>Estatus de la confirmación</th>
+																	<th class="col-6">Respuesta Fundación Bancomer</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr></tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-3">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
+                                            <span class="icon icon-92"></span> Datos Escolares
+                                        </a>
+									</div>
+									<div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3">
+										<div class="card-block">
+											<div class="card">
+												<div class="card-header blue first">
+													<h4>${actLevel}</h4>
+												</div>
+												<div class="card-block">
+													<dl class="data-table">
+														<dt><label>Nombre</label></dt>
+														<dd>
+															<label>${schoolName}</label>
+															<!-- <small><a href="#">Enlace módulo de ${actLevel}</a></small>  -->
+														</dd>
+														<dt><label>Domicilio</label></dt>
+														<dd>
+														    <label>${schoolDomicile}</label>
+												        </dd>
+														<dt><label>Tipo de escuela</label></dt>
+														<dd><label>${schoolType}</label></dd>
+														<dt><label>Siglas</label></dt>
+														<dd><label>${typeCareer}</label></dd>
+														<dt><label>Control</label></dt>
+														<dd><label>${control}</label></dd>
+														<dt><label>CCT</label></dt>
+														<dd><label>${cct}</label></dd>
+														<dt><label>Estado</label></dt>
+														<dd><label>${schoolState}</label></dd>
+														<dt><label>Municipio</label></dt>
+														<dd><label>${schoolMunicipality}</label></dd>
+														<dt><label>Turno</label></dt>
+														<dd><label>${turn}</label></dd>
+													</dl>
+												</div>
+											</div>
+											<div id="universityData"></div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-4">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                            <span class="icon icon-142"></span> Domicilio
+                                        </a>
+									</div>
+									<div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-4">
+										<div class="card-block">
+											<form action="#" class="form-inline-center validate-form" method="post">
+												<dl class="data-table">
+													<dt><label>Calle</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="street" maxlength="50" placeholder="Ingresa calle" required type="text" />
+														</div>
+													</dd>
+													<dt><label>N&uacute;mero exterior</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="numExterior" maxlength="10" placeholder="Ingresa n&uacute;mero exterior" required type="text" />
+														</div>
+													</dd>
+													<dt><label>N&uacute;mero interior</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="numInterior" maxlength="10" placeholder="Ingresa número interior" type="text" />
+														</div>
+													</dd>
+													<dt><label>C&oacute;digo postal</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="postalCode" maxlength="5" placeholder="Ingresa c&oacute;digo postal" required type="text"  />
+														</div>
+													</dd>
+													<dt><label>Estado</label></dt>
+													<dd>
+														<select class="form-control" name="stateHouse" required>
+                                                            <option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+													<dt><label>Municipio</label></dt>
+													<dd>
+														<select class="form-control" name="municipalityHouse" required>
+                                                            <option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+													<dt><label>Localidad</label></dt>
+													<dd><div class="form-group">
+															<input class="form-control" name="localityHouse" placeholder="Ingresa tu localidad" required type="text">
+														</div>
+													</dd>
+													<dt><label>Colonia</label></dt>
+													<dd><div class="form-group">
+															<input class="form-control" name="colonyHouse" placeholder="Ingresa tu colonia" required type="text">
+														</div>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Entre la calle</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="betweenStreet" maxlength="50" placeholder="Ingresa calle" required type="text" />
+														</div>
+													</dd>
+													<dt><label>Tipo de vialidad</label></dt>
+													<dd>
+														<select class="form-control" name="vialidad" id="road1" required>
+															<option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Y la calle</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="andTheStreet" maxlength="50" placeholder="Ingresa calle" required type="text" />
+														</div>
+													</dd>
+													<dt><label>Tipo de vialidad</label></dt>
+													<dd>
+														<select class="form-control" name="vialidad" id="road2" required>
+															<option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Calle de atr&aacute;s</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="behindStreet" maxlength="50" placeholder="Ingresa calle" required type="text" />
+														</div>
+													</dd>
+													<dt><label>Tipo de vialidad</label></dt>
+													<dd>
+														<select class="form-control" name="vialidad" id="road3" required>
+                                                            <option value="0">Selecciona</option>
+                                                        </select>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Referencias particulares</label></dt>
+													<dd>
+														<div class="form-group">
+															<textarea class="form-control" name="references" placeholder="Ingresa referencias" required ></textarea>
+															<a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Describe como es la entrada de tu casa o si existe algún comercio cerca de ella.">
+                                                              <i class="icon icon-200"></i>
+                                                            </a>
+														</div>
+													</dd>
+												</dl>
+												<div class="form-footer">
+													<input class="btn btn-success" name="btnSendInfo" id="btnSendDomicile" type="submit" value="Guardar">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-5">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                            <span class="icon icon-66"></span> Datos de contacto
+                                        </a>
+									</div>
+									<div id="collapse-5" class="collapse" role="tabpanel" aria-labelledby="heading-5">
+										<div class="card-block">
+											<form action="#" class="form-inline-center validate-form" method="post">
+												<dl class="data-table">
+													<dt><label>Tel&eacute;fono de casa</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control numeros intelefono" name="tCasa" maxlength="10" minlength="10" placeholder="Ingresa tel&eacute;fono" required type="tel">
+															<a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="10 dígitos">
+                                                              <i class="icon icon-200"></i>
+                                                            </a>
+														</div>
+													</dd>
+													<dt><label>Tel&eacute;fono celular</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control numeros intelefono" name="tCel" maxlength="10" minlength="10" placeholder="Ingresa tel&eacute;fono" required type="tel">
+															    <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="10 dígitos, sin 044">
+                                                                    <i class="icon icon-200"></i>
+                                                                </a>
+														</div>
+													</dd>
+													<dt><label>Teléfono para recados</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control numeros intelefono" name="tRecados" maxlength="10" minlength="10" placeholder="Ingresa tel&eacute;fono" required type="tel">
+														    	<a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="10 dígitos, sin 044">
+                                                                    <i class="icon icon-200"></i>
+                                                                </a>
+												        </div>
+													</dd>
+												</dl>
+												<dl class="data-table">
+													<dt><label>Correo electrónico de contacto principal</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name= "email1" placeholder="Ingresa correo electrónico" required type="email" id="principalEmail">
+														</div>
+													</dd>
+													<dt>
+                                                        <label>Correo electrónico adicional</label>
+                                                            <small>Opcional</small>
+                                                    </dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="email2" placeholder="Ingresa correo electrónico" type="email" id="firstOptionalEmail">
+														</div>
+													</dd>
+													<dt>
+                                                        <label>Correo electrónico adicional</label>
+                                                            <small>Opcional</small>
+                                                    </dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control" name="email3" placeholder="Ingresa correo electrónico" type="email" id="secondOptionalEmail">
+														</div>
+													</dd>
+												</dl>
+												<div class="form-footer">
+													<input class="btn btn-success" name="btnSendInfo" type="submit" value="Guardar" id="btnSaveContactInformation">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-6">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-6" aria-expanded="false" aria-controls="collapse-6">
+                                            <span class="icon icon-128"></span> Datos del tutor
+                                        </a>
+									</div>
+									<div id="collapse-6" class="collapse" role="tabpanel" aria-labelledby="heading-6">
+										<div class="card-block">
+											<form action="#" class="form-inline-center validate-form" method="post">
+												<dl class="data-table">
+													<dt><label>Nombre(s)</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control letras" name="tutorName" maxlength="50" placeholder="Ingresa nombre(s)" type="text" required/>
+														</div>
+													</dd>
+													<dt><label>Apellido paterno</label></dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control letras" name="tutorLastName" maxlenth="50" placeholder="Ingresa apellido" required type="text" />
+														</div>
+													</dd>
+													<dt>
+                                                        <label>Apellido materno</label>
+                                                            <small>Opcional para becarios nacidos en EUA y que no cuenten con apellido materno</small>
+                                                    </dt>
+													<dd>
+														<div class="form-group">
+															<input class="form-control letras" name="tutorSecondLastName" maxlength="50" placeholder="Ingresa apellido" type="text" />
+													    		<a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Opcional para becarios nacidos en EUA y que no cuenten con apellido materno">
+                                                                    <i class="icon icon-200"></i>
+                                                                </a>
+														</div>
+													</dd>
+													<dt><label>Parentesco</label></dt>
+													<dd>
+														<select class="form-control other-relation" name="relation" required>
+                                                            <option value="0">Selecciona</option>
+                                                           <!--<option class="other-relation-op" value="otro">Otro</option>-->
+                                                        </select>
+													</dd>
+													<dt class="other-relation-target" style="display:none">
+													    <label>Especificar parentesco</label>
+												    </dt>
+													<dd class="other-relation-target letras" style="display:none">
+                                                        <div class="form-group">
+													        <input class="form-control" name="relation_other" placeholder="Ingresa parentesco" type="text" required>
+                                                        </div>
+												    </dd>
+												</dl>
+												<div class="form-footer">
+													<input class="btn btn-success" name="btnSendInfo" id="btnSendTutorData" type="submit" value="Guardar">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" role="tab" id="heading-7">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-7" aria-expanded="false" aria-controls="collapse-7">
+                                            <span class="icon icon-145"></span> Configuración de cuenta
+                                        </a>
+									</div>
+									<div id="collapse-7" class="collapse" role="tabpanel" aria-labelledby="heading-7">
+										<div class="card-block">
+											<dl class="data-table">
+												<dt><label>Usuario</label></dt>
+												<dd><label>${user}</label></dd>
+											</dl>
+											<div class="text-center">
+												<a class="btn btn-primary" id="changePassword" href="#">Cambiar contraseña</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>

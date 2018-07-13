@@ -1,0 +1,87 @@
+<div class="card card-califications">
+    <div class="card-header blue first">
+        <h4 id="nivelEscolar">${actLevel}</h4>
+        <span class="average">Promedio <strong id="promedioAnual">${average}</strong></span>
+    </div>
+    <div id="accordion-1" class="card-block accordion" role="tablist" aria-multiselectable="true">
+        <form id="qualification" action="#" class="form-inline hlines validate-form" method="post">
+            <div class="card border-0">
+               <div id="calificacionA">
+                </div>
+            </div>
+            <div class="card-block">
+			    <div class="form-group"></div>
+			    <div class="form-footer">
+			        <input class="btn btn-success col-3" id="btnSaveDocs" type="submit" value="Guardar">
+			    </div>
+			</div>
+        </form>
+    </div>
+</div>
+<div class="modal show" id="uploadFiles" role="dialog" data-backdrop="static" data-keyboard="false" data-grade="" data-period="" data-document="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sube tu(s) archivo(s)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-danger col-12" role="alert" id="mssgErrorFile" style="display: none;">
+                <i class="icon icon-71"></i><span></span>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="" class="dropzone" id="upload-files">
+                            <input type="hidden" name="userId" value="">
+                            <input type="hidden" name="becaId" value="">
+                            <input type="hidden" name="fileId" value="">
+                            <input type="hidden" name="token" value="PONGA_AQUI_SU_TOKEN">
+                            <div class="title">Arrastra y suelta los archivos aquí</div>
+                            <div>(Hasta 2 archivos)</div>
+                            <div>
+                                <div class="icon-wrapper"><i class="icon icon-102"></i></div>
+                                <div class="icon-wrapper"><i class="icon icon-15"></i></div>
+                            </div>
+                            <div>O selecciona los archivos desde tu computadora.</div>
+                            <div>Puedes seleccionar varios archivos a la vez.</div>
+                            <div>
+                                <label class="btn btn-default col-12 col-md-6 mt-3" id="uplddFiles" >
+                                  Seleccionar archivos
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="template-preview-wrapper col-12 col-sm-6">
+                        <div>
+                            <div class="title">Revisa tus documentos</div>
+                            <div id="template-preview">
+                                <div class="dz-preview well dz-image-preview" id="dz-preview-template">
+                                    <div class="dz-image">
+                                        <img data-dz-thumbnail />
+                                    </div>
+                                    <div class="dz-details">
+                                        <div class="dz-filename"><span data-dz-name></span></div>
+                                        <div class="btn-delete-file">
+                                            Eliminar
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dz-btn-wrapper">
+                                <button class="btn btn-success" id="saveallFiles">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-options">
+                    <ul>
+                        <li> Imágenes en formato JPG o PDF
+                            <li>No deben exceder los 10MB
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

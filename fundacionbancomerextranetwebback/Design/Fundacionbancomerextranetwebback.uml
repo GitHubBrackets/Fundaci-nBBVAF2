@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_ijphiHXSEeKZEZenKE683g" name="Fundacionbancomerextranetwebback">
+  <packagedElement xmi:type="uml:Package" xmi:id="_ijphIHagEeKZEZenKE683g" name="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback"/>
+  <profileApplication xmi:id="_ijphiXXSEeKZEZenKE683g">
+    <eAnnotations xmi:id="_ijphinXSEeKZEZenKE683g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://ARQSPRING_PROFILES/types.profile.uml#_IGLtsLQGEdyD5fIBh14Avw"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://ARQSPRING_PROFILES/types.profile.uml#_BsfWkMUBEdqL1f35w3GLLw"/>
+  </profileApplication>
+  <profileApplication xmi:id="_ijphi3XSEeKZEZenKE683g">
+    <eAnnotations xmi:id="_ijphjHXSEeKZEZenKE683g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://ARQSPRING_PROFILES/ArqSpring.profile.uml#_H3UhARROEeGRR-D8Im-zYQ"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://ARQSPRING_PROFILES/ArqSpring.profile.uml#_nrD-4flfEdq0m870WJJuhQ"/>
+  </profileApplication>
+  <profileApplication xmi:id="_ijphjXXSEeKZEZenKE683g">
+    <eAnnotations xmi:id="_ijphjnXSEeKZEZenKE683g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://ARQSPRING_PROFILES/Persistence.profile.uml#_BTu3cD5IEd2gvfvyq2AafQ"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://ARQSPRING_PROFILES/Persistence.profile.uml#_EUr08MUOEdqEPMHe392Mew"/>
+  </profileApplication>
+  <profileApplication xmi:id="_ijphj3XSEeKZEZenKE683g">
+    <eAnnotations xmi:id="_ijphkHXSEeKZEZenKE683g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://ARQSPRING_PROFILES/JaxB.profile.uml#_bF_vEXXQEeKNpOboJRXdqA"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://ARQSPRING_PROFILES/JaxB.profile.uml#_t4CL8Da_EdugNq-sJ-H7dg"/>
+  </profileApplication>
+</uml:Model>

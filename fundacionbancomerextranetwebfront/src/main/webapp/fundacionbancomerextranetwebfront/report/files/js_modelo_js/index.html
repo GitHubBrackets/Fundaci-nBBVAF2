@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - js\modelo.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>js\modelo.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">63.27</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">554</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">54.28</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">7.25</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*Execution of services*/
+/**
+ * Function to execute services with post method.
+ * @param {object} restToExe Object that contains the service&#039;s name to be executed, data to be sent, asyncronusly(it&#039;s false byr default),and what it does when finally correctly or with error(show modal), and if you want to show a wait modal.
+ */
+function restExec(restToExe){
+	var secRestToExe = {
+		&quot;service&quot;: restToExe.service,
+		&quot;data&quot;: restToExe.data || {},
+		&quot;async&quot;: restToExe.async || false,
+		&quot;success&quot;: restToExe.success || rest_fnNothig,
+		&quot;error&quot;: restToExe.error || rest_fnShowError,
+		&quot;showWait&quot;: restToExe.showWait || false,
+		&quot;finallySuccess&quot;: restToExe.finallySuccess || rest_fnNothig,
+		&quot;finallyError&quot;: restToExe.finallyError || rest_fnNothig
+	};
+	var modal = secRestToExe.showWait?SCONFIG.getMessage(&#039;wait&#039;):undefined;
+	writeLog(&quot;datos a enviar: &quot;,secRestToExe.data);
+	writeLog(&quot;string &quot;,JSON.stringify(secRestToExe.data));
+    /**
+     * Function to execute AJAX service with POST method.
+     */
+	rest_execute = function(){
+		$.ajax({
+			type : &#039;POST&#039;,
+			dataType : &#039;json&#039;,
+			contentType : &quot;application/json; charset=utf-8&quot;,
+			url : SCONFIG.get(secRestToExe.service),
+			data : JSON.stringify(secRestToExe.data),
+			async: secRestToExe.async,
+			cache: false,
+			success : function(data) {
+				writeLog(&quot;RESPUESTA &quot;+secRestToExe.service, data);
+				if(secRestToExe.showWait){$(&quot;#&quot;+SCONFIG.getMessage(&#039;wait&#039;).idModal).modal(&#039;hide&#039;);}
+				secRestToExe.success(data);
+				secRestToExe.finallySuccess(data);
+			},
+			error : function(error) {
+				writeLog(&quot;ERROR EN SERVICIO &quot;+secRestToExe.service, error);
+				if(typeof error.responseText != &quot;undefined&quot; &amp;&amp; error.responseText.indexOf(&quot;&lt;title&gt;Login&lt;/title&gt;&quot;)!=-1){
+					location.reload();
+					return;
+				}
+				if(secRestToExe.showWait){$(&quot;#&quot;+SCONFIG.getMessage(&#039;wait&#039;).idModal).modal(&#039;hide&#039;);}
+				secRestToExe.error(error);
+				secRestToExe.finallyError(error);
+			}
+		});
+	}
+	if(secRestToExe.showWait){
+
+		$(&#039;#&#039;+modal.idModal).modal();
+		if(restToExe.customWait){
+			rest_fnShowWait({
+				idModal: modal.idModal,
+				title: restToExe.customWait.title,
+				message: restToExe.customWait.message
+			});
+		}else{
+			rest_fnShowWait(modal);
+		}
+		setTimeout(function () {
+	        rest_execute();
+	    }, 400);
+	}else{
+		writeLog(&quot;else&quot;);
+		rest_execute();
+	}
+	
+}
+
+/*General functions*/
+
+/**
+ * Function doesn&#039;t do anything.
+ * @param {object} obj Return nothing.
+ */
+var rest_fnNothig = function(obj){writeLog(&quot;nothing&quot;);return};
+
+/**
+ * Function to show error modal.
+ * @param {object} error Data of the error.
+ */
+var rest_fnShowError = function(error){
+	modal = SCONFIG.getMessage(&#039;error&#039;);
+	showModals(modal.title,modal.message,modal.idModal);
+	if(typeof error.responseJSON == &quot;undefined&quot;){
+		error[&quot;responseJSON&quot;]={&quot;message&quot;:&quot;SIN DETALLE DEL ERROR&quot;};
+	}
+	spn = $(&#039;&lt;small&gt;&lt;/small&gt;&#039;).text(error.responseJSON.message);
+	pAlert = $(&quot;#&quot;+modal.idModal).find(&quot;p.alert-danger&quot;);
+	if(pAlert.length==0){
+		$(&quot;#&quot;+modal.idModal)
+			.find(&quot;p&quot;)
+				.after($(&quot;&lt;p&gt;&lt;/p&gt;&quot;)
+						.addClass(&quot;alert alert-danger&quot;)
+						.append(spn)
+						);
+	}else{pAlert.html(spn);}
+	if(error.responseJSON.message==&quot;No tienes privilegios para accesar&quot;){
+		$(&quot;#&quot;+SCONFIG.getMessage(&#039;error&#039;).idModal).find(&quot;button&quot;).on(&quot;click&quot;,function(){
+			location.reload();
+		});
+	}
+	return;
+}
+
+/**
+ * Function to show wait modal.
+ * @param {object} modal Parameters like title, message and id.
+ */
+var rest_fnShowWait = function(modal){
+	showModals(modal.title,modal.message,modal.idModal);
+}
+
+/**
+ * Function that is executed when the service MGBFTC03-Average query response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTC03-Average query.
+ */
+var rest_fnAverageQuery = function(resp){
+	writeLog(&quot;Average Query&quot;);
+	writeLog(resp);
+	scholar.statusQualifications.averagesSchoolGrade = resp.averagesScholarLevel;
+	scholar.statusQualifications.constancyNextGrade = resp.constancyNextGrade;
+	scholar.statusQualifications.indicatorMissingConstancy = resp.indicatorMissingConstancy;
+}
+
+/**
+ * Function that is executed when the service MGBFTB04-Level and school grade query response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTB04-Level and school grade query.
+ */
+var rest_fnConsultLevelGrade = function(resp){
+	writeLog(&quot;Consult Level &amp; Grade&quot;);
+	scholar.statusQualifications.schoolLevels=resp.schoolLevels;
+}
+
+/**
+ * Function that is executed when the service MGBFTH02-Deposit modification response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTH02-Deposit modification.
+ */
+var rest_fnDepositModification = function(resp){
+	writeLog(&quot;Deposit Modification&quot;);
+    writeLog(resp);
+}
+
+/**
+ * Function that is executed when the service MGBFTH01-Deposit query response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTH01-Deposit query.
+ */
+var rest_fnDepositQuery = function(resp){
+	writeLog(&quot;Deposit Query&quot;);
+	writeLog(resp);
+	for(var i in resp.student[0].confirmDisp){
+		if(resp.student[0].confirmDisp[i].statusScholarshipReceived == &quot;Pendiente&quot;){
+			scholar.confirm.push({
+				idMonth: resp.student[0].confirmDisp[i].monthConfirm+&quot;&quot;+resp.student[0].confirmDisp[i].yearConfirm,
+	            month: resp.student[0].confirmDisp[i].monthConfirm,
+	            year: resp.student[0].confirmDisp[i].yearConfirm
+			});
+		} else {
+			scholar.scholarship.confirmDispersion.push(resp.student[0].confirmDisp[i]);
+		} 
+	}
+}
+
+/**
+ * Function that is executed when the service MGBFTB03-Detail scholar response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTB03-Detail scholar.
+ */
+var rest_fnDetailsScholar = function(resp){
+	writeLog(&quot;Detail Scholar&quot;);
+	writeLog(resp);
+	scholar.studentID = resp.student[0].studentID;
+	scholar.personalData.username = resp.userScholar;
+	scholar.personalData.name = resp.student[0].name;
+	scholar.personalData.lastName = resp.student[0].firstName;
+	scholar.personalData.secondLastName = resp.student[0].lastName;
+	scholar.personalData.originRegion = resp.student[0].originRegion;
+	scholar.personalData.originState = resp.student[0].originState;
+	scholar.personalData.cdOriginState = resp.student[0].cdOriginState;
+	scholar.personalData.originMunicipality = resp.student[0].originMunicipality;
+	scholar.personalData.cdOriginMunicipality = resp.student[0].cdOriginMunicipality;
+	scholar.personalData.curp = resp.student[0].CURP;
+	scholar.personalData.birthdate = resp.student[0].scholarBirthdate;
+	scholar.personalData.age = resp.student[0].age;
+	scholar.personalData.gender = resp.student[0].gender;
+	scholar.personalData.assignedCR = resp.student[0].assignedCR;
+	scholar.personalData.cdAssignedCR = resp.student[0].cdAssignedCR;
+	scholar.personalData.scholarNumber = resp.student[0].scholarNumber;
+	scholar.personalData.accountNumber = resp.student[0].accountNumber;
+	scholar.personalData.profilePicture = resp.student[0].folioPhoto;
+	
+	scholar.scholarship.statusDispersion = resp.student[0].statusDispersion;
+	scholar.scholarship.programName = resp.student[0].programName;
+	scholar.scholarship.programType = resp.student[0].programKey;
+	scholar.scholarship.modalityParticipation = resp.student[0].programScholar[0].modalityParticipation;
+	
+	scholar.schoolData.name = resp.student[0].schoolData[0].school[0].name;
+	scholar.schoolData.domicile = resp.student[0].schoolData[0].school[0].domicile;
+	scholar.schoolData.type = resp.student[0].schoolData[0].school[0].type;
+	scholar.schoolData.initials = resp.student[0].schoolData[0].school[0].initials;
+	scholar.schoolData.control = resp.student[0].schoolData[0].school[0].control;
+	scholar.schoolData.cct = resp.student[0].schoolData[0].school[0].CCT;
+	scholar.schoolData.state = resp.student[0].schoolData[0].school[0].state;
+	scholar.schoolData.cdState = resp.student[0].schoolData[0].school[0].cdState;
+	scholar.schoolData.municipality = resp.student[0].schoolData[0].school[0].municipality.trim();
+	scholar.schoolData.cdMunicipality = resp.student[0].schoolData[0].school[0].cdMunicipality;
+	scholar.schoolData.typeCareer = resp.student[0].schoolData[0].typeCareer;
+	scholar.schoolData.nameCareer = resp.student[0].schoolData[0].nameCareer;
+	scholar.schoolData.area = resp.student[0].schoolData[0].area;
+	scholar.schoolData.turn = resp.student[0].schoolData[0].turn;
+	scholar.schoolData.duration = resp.student[0].schoolData[0].duration;
+	
+	scholar.domicile = resp.student[0].domicile[0];
+	
+	scholar.contactData = resp.student[0].contactInf[0];
+	
+	scholar.statusQualifications.schoolGrade = resp.student[0].programScholar[0].schoolGrade;
+	scholar.statusQualifications.schoolCycle = resp.student[0].schoolCycle;
+	
+	scholar.tutorData.name = resp.student[0].tutorData[0].tutorName;
+	scholar.tutorData.lastName = resp.student[0].tutorData[0].firstNameTutor;
+	scholar.tutorData.secondLastName = resp.student[0].tutorData[0].lastaNameTutor;
+	scholar.tutorData.kinship = resp.student[0].tutorData[0].kinship;
+	scholar.tutorData.kinshipType = resp.student[0].tutorData[0].kinshipType;
+	scholar.program = resp.student[0].programScholar;
+}
+
+/**
+ * Function that is executed when the service MGBFTB02-Upload/Modification scholar response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTB02-Upload/Modification scholar.
+ */
+var rest_fnModifUploadScholar = function(resp){
+	writeLog(&quot;Modif &amp; Upload Scholar&quot;);
+	restExec({
+		service:&#039;DETAILS_SCHOLAR&#039;,
+		data: {
+			userScholar : scholar.personalData.username
+		},
+		success: rest_fnDetailsScholar
+	});
+}
+
+/**
+ * Function that is executed when the service MGBFTC02-Qualifications query response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTC02-Qualifications query.
+ */
+var rest_fnQualificationQuery = function(resp){
+	writeLog(&quot;Qualification Query&quot;,resp);
+	scholar.statusQualifications.averagesScholarLevel = [];
+	scholar.statusQualifications.schoolLevels.forEach(function(_schoolLevel){
+		_schoolLevel.scholarGrades.forEach(function(_actscholarGrade){
+			for(i=0;i&lt;20;i++){
+				if(resp.qualifications){
+					resp.qualifications.forEach(function(_qualification){
+						if(_qualification.scholarLevel==_schoolLevel.scholarLevel&amp;&amp;_actscholarGrade.scholarGrade == _qualification.schoolGrade &amp;&amp;_qualification.schoolPeriod.substring(0,i.toString().length)== i.toString()){
+							_qualification[&quot;isMissing&quot;]=false;
+							scholar.statusQualifications.averagesScholarLevel.push(_qualification);
+						}
+					});
+				}
+				if(resp.missingQualifications){
+					resp.missingQualifications.forEach(function(_missingQualification){
+						if(_missingQualification.scholarLevel==_schoolLevel.scholarLevel&amp;&amp;_actscholarGrade.scholarGrade == _missingQualification.schoolGrade &amp;&amp;  _missingQualification.schoolPeriod.substring(0,i.toString().length) == i.toString()){
+							_missingQualification[&quot;isMissing&quot;]=true;
+							_missingQualification[&quot;folio&quot;]=&quot;&quot;;
+							scholar.statusQualifications.averagesScholarLevel.push(_missingQualification);
+						}
+					});
+				}
+			}
+		});
+	});
+}
+
+/**
+ * Function that is executed when the service MGBFTC01-Upload qualifications response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTC01-Upload qualifications.
+ */
+var rest_fnUpdateQualification = function(resp){
+	writeLog(&quot;Update Qualification&quot;);
+	writeLog(resp);
+	scholar.statusQualifications.averageSchoolGrade=resp.qualification;
+}
+
+/**
+ * Function that is executed when the service MGBFTL01-Validate scholar qualifications response correctly(status code=200).
+ * @param {object} resp Response of service MGBFTL01-Validate scholar.
+ */
+var rest_fnValidationScholar = function(resp){
+	writeLog(&quot;Validation Scholar&quot;);
+	writeLog(resp);
+}
+
+/**
+ * Function that is executed when the service MGBFTP01-Parameters query response correctly(status code=200).
+ * @param {object} resp resp Response of service MGBFTP01-Parameters query.
+ */
+var rest_fnConsultParameters = function(resp){
+	writeLog(&quot;rest_fnConsultParameters&quot;,resp.parameters[0].parameterType);
+	switch(resp.parameters[0].parameterType){
+		case &quot;SX&quot;:
+			for(var i in resp.parameters){
+				combos.gender[i]=resp.parameters[i].parameterDescription;
+			}
+			break;
+		case &quot;PAREN&quot;:
+			for(var i in resp.parameters){
+				combos.kindship[i]=resp.parameters[i].parameterDescription;
+			}
+			break;
+		case &quot;TPVIA&quot;:
+			for(var i in resp.parameters){
+				combos.typeOfViality[i]=resp.parameters[i].parameterDescription;
+			}
+			break;
+		case &quot;CDRB&quot;:
+			writeLog(&quot;Entra a CDRB&quot;);
+			for(var i in resp.parameters){
+				combos.cdRB[i]=resp.parameters[i].parameterDescription;
+				writeLog(resp.parameters[i].parameterDescription);
+			}
+			break;
+	}
+}
+
+/**
+ * Funtion to query base64 of the profile picture.
+ * @param {object}   resp_photo Folio of profile picture.
+ * @param {boolean} _isInit Variable to know if scholar have a profile picture or not.
+ */
+var rest_fnUploadedPhoto = function(resp_photo, _isInit){
+	writeLog(&quot;rest_fnUploadedPhoto&quot;,resp_photo);//folio
+	restExec({
+		&quot;service&quot;:&#039;GET_DOCUMENT&#039;,
+		&quot;async&quot;: !_isInit,
+		&quot;data&quot;: {
+			 &quot;aplicationName&quot;: &quot;BECAS&quot;,
+			 &quot;listReferenceNumber&quot;: [
+             	resp_photo.folio
+			 ],
+			 &quot;features&quot;: [
+				{&quot;id&quot;:&quot;opcion&quot;,
+		         &quot;name&quot;:&quot;base64&quot;
+				}
+			 ]
+		 },
+		&quot;error&quot;: function(error_ph){
+			console.error(&quot;Error al consultar foto &quot;, error_ph);
+		},
+		&quot;success&quot;: function(resp_up_){
+			if((typeof resp_up_.listDocuments[0] != &quot;undefined&quot;) &amp;&amp; (typeof resp_up_.listDocuments[0].document != &quot;undefined&quot;) &amp;&amp; (typeof resp_up_.listDocuments[0].document.data != &quot;undefined&quot;)){
+				writeLog(&quot;GET_DOCUMENT&quot;,resp_up_);
+				scholar.personalData.base64ProfilePicture = &quot;data:image/jpeg;base64,&quot;+resp_up_.listDocuments[0].document.data;
+				if(!_isInit){fn_loadProfilePicture();}
+			}
+		}
+	});
+}
+
+/**
+ * Function to upload profile picture.
+ * @param {object} _data Data of picture to be sent.
+ */
+var pre_fnSendDocument = function(_data){
+	tDoc = _data.typeDocument.split(&quot;|&quot;);
+	restExec({
+		&quot;service&quot;:&#039;SEND_DOCUMENT&#039;,
+		&quot;showWait&quot;: true,
+		&quot;customWait&quot;: {
+			&quot;title&quot;: &quot;Guardando tu foto de perfil&quot;,
+			&quot;message&quot;: &quot;Espera un momento por favor&quot;
+		},
+		&quot;data&quot;: {
+			&quot;imagen&quot;: {
+				&quot;moduleIndicator&quot;: _data.moduleIndicator,
+				&quot;studentID&quot;: scholar.studentID,
+				&quot;programType&quot;: scholar.scholarship.programType,
+				&quot;typeDocument&quot;: _data.typeDocument,
+				&quot;schoolGrade&quot;: scholar.statusQualifications.schoolGrade,
+				&quot;schoolCycle&quot;: scholar.statusQualifications.schoolCycle,
+				&quot;schoolPeriod&quot;: &quot;&quot;,
+				&quot;userCurrent&quot;: scholar.studentID
+			},
+			&quot;archiving&quot;: {
+				&quot;aplicationName&quot;: &quot;becas&quot;,
+				&quot;features&quot;: [
+					{&quot;id&quot;: &quot;numeroCliente&quot;,&quot;name&quot;: scholar.personalData.scholarNumber},
+					{&quot;id&quot;: &quot;numeroCuenta&quot;,&quot;name&quot;: scholar.personalData.accountNumber+&quot;&quot;},
+					{&quot;id&quot;: &quot;cr&quot;,&quot;name&quot;: scholar.personalData.cdAssignedCR+&quot;&quot;},
+					{&quot;id&quot;: &quot;nombreBeca&quot;,&quot;name&quot;: scholar.scholarship.programType},
+					{&quot;id&quot;: &quot;nombreDoc&quot;,&quot;name&quot;: tDoc[1]},
+					{&quot;id&quot;: &quot;cveDoc&quot;,&quot;name&quot;: tDoc[0]},
+					{&quot;id&quot;: &quot;ciclo&quot;,&quot;name&quot;: scholar.statusQualifications.schoolCycle},
+					{&quot;id&quot;: &quot;extension&quot;,&quot;name&quot;: _data.ext},
+					{&quot;id&quot;: &quot;nombreArchivo&quot;,&quot;name&quot;: _data.filename},
+					{&quot;id&quot;: &quot;usuario&quot;,&quot;name&quot;: scholar.studentID+&quot;&quot;},
+					{&quot;id&quot;: &quot;primera&quot;,&quot;name&quot;: &quot;true&quot;},
+					{&quot;id&quot;: &quot;ultima&quot;,&quot;name&quot;: &quot;true&quot;}
+				],
+				&quot;document&quot;: {
+					&quot;data&quot;: _data.base64
+				}
+			}
+		},
+		&quot;success&quot;: function(r_photo){
+			rest_fnUploadedPhoto(r_photo, false);
+		},
+		&quot;finallyError&quot;: function (error){
+			writeLog(&quot;error &quot;,error);
+		},
+		&quot;finallySuccess&quot;: function(){
+			showModals(&quot;Tu foto se ha cargado satisfacotiamente&quot;,&quot;Gracias por la espera&quot;,&quot;savedFile&quot;);
+		}
+	});
+}
+
+/**
+ * Function to upload constancy of next grade or report card.
+ * @param {object} _data Information of document(s).
+ */
+var pre_fnSendMultiDocument = function(_data){
+	tDoc = _data.typeDocument.split(&quot;|&quot;);
+	restExec({
+		&quot;service&quot;:&#039;SEND_MULT_DOCUMENT&#039;,
+		&quot;data&quot;: {
+			&quot;aplicationName&quot;: &quot;becas&quot;,
+			&quot;features&quot;: [
+				{&quot;id&quot;: &quot;numeroCliente&quot;,&quot;name&quot;: scholar.personalData.scholarNumber},
+				{&quot;id&quot;: &quot;numeroCuenta&quot;,&quot;name&quot;: scholar.personalData.accountNumber+&quot;&quot;},
+				{&quot;id&quot;: &quot;cr&quot;,&quot;name&quot;: scholar.personalData.cdAssignedCR},
+				{&quot;id&quot;: &quot;nombreBeca&quot;,&quot;name&quot;: scholar.scholarship.programType},
+				{&quot;id&quot;: &quot;nombreDoc&quot;,&quot;name&quot;: tDoc[1]},
+				{&quot;id&quot;: &quot;cveDoc&quot;,&quot;name&quot;: tDoc[0]},
+				{&quot;id&quot;: &quot;ciclo&quot;,&quot;name&quot;: scholar.statusQualifications.schoolCycle},
+				{&quot;id&quot;: &quot;extension&quot;,&quot;name&quot;: _data.ext},
+				{&quot;id&quot;: &quot;nombreArchivo&quot;,&quot;name&quot;: _data.filename},
+				{&quot;id&quot;: &quot;usuario&quot;,&quot;name&quot;: scholar.studentID+&quot;&quot;},
+				{&quot;id&quot;: &quot;primera&quot;,&quot;name&quot;: _data.first},
+				{&quot;id&quot;: &quot;ultima&quot;,&quot;name&quot;: _data.last}
+			],
+			&quot;document&quot;: {
+				&quot;data&quot;: _data.base64
+			}
+		},
+		&quot;success&quot;: _data.success,
+		&quot;error&quot;: _data.error
+	});
+}
+
+/**
+ * Function to get URL of the constancy or report card and you can see it on iframe with IMAX visor.
+ * @param {string} folio Folio of document to show.
+ */
+var pre_fnloadFile = function(folio){
+	$(&#039;#show_file&#039;).attr(&#039;src&#039;,SCONFIG.getVisor(folio));
+	$(&quot;#consultFiles&quot;).modal(&#039;show&#039;);
+}
+
+/**
+ * Function to execute the service MGBFTC02-Qualifications query.
+ */
+var rest_reloadQualifications = function(){
+	restExec({
+		service:&#039;QUALIFICATION_QUERY&#039;,
+		async: false,
+		data: {
+			studentID: scholar.studentID,
+		    scholarLevel: &quot;&quot;,
+		    schoolGrade : &quot;&quot;,
+		    schoolPeriod : &quot;&quot;
+		},
+		success: rest_fnQualificationQuery,
+		error: rest_fnNothig
+	});
+}
+
+/**
+ * Function to execute the services MGBFTC03-Average query.
+ */
+var rest_averageQuery = function(){
+	restExec({
+		service:&#039;AVERAGE_QUERY&#039;,
+		async: false,
+		data: {
+			studentID: scholar.studentID,
+			scholarLevel:&quot;&quot;,
+			schoolGrade:&quot;&quot;
+		},
+		success: rest_fnAverageQuery
+	});
+}
+
+/**
+ * Function that save alerts on scholar object.
+ * @param {object} resp_alerts Response of service MGBFTK01-Alerts.
+ */
+var rest_fnAlerts = function(resp_alerts){
+	scholar.alerts=resp_alerts.alertMessages;
+	writeLog(&quot;guarda alertas: &quot;,resp_alerts.alertMessages);
+}
+
+/**
+ * Functiom to save states on statesTransactions object.
+ * @param {object} r_States Response of service listState.
+ */
+var rest_fnStates = function(r_States){
+	statesTransactions = r_States.stateTransactions;
+}
+
+/**
+ * Function to execute the service listMunicipality.
+ * @param {number} state_to_get Number of state that you want to know its municipalities.
+ */
+var rest_getMunicipality = function(state_to_get){
+	restExec({
+		service:&#039;GET_MUNICIPALITY&#039;,
+		showWait: true,
+		customWait: {
+			title: &quot;Consultando datos&quot;,
+			message: &quot;Por favor espera&quot;
+		},
+		data: {
+			state : state_to_get
+		},
+		success: fn_listMunicipality
+	});
+}
+
+/**
+ * Function that is executed when the service updatePasswordScholarshipUser response correctly(status code=200).
+ * @param {object} resp Response of service updatePasswordScholarshipUser.
+ */
+var rest_fnUpdatePassword = function(resp){
+	writeLog(&quot;rest_fnUpdatePassword&quot;);
+	writeLog(resp);
+		var errorM={
+				responseJSON:{
+					message:resp.statusDescription+&quot;.&quot;
+				},
+				serviceName:resp.statusCode
+			};
+		if(resp.statusCode == &quot;MDO_000&quot;){
+			showModals(&quot;Tu contrase\u00F1a se ha actualizado correctamente&quot;,&quot;&quot;,&quot;savedFile&quot;);
+			$(&quot;#btnCancelsChangePassword&quot;).click();
+		}else if(resp.statusCode == &quot;MDO_003&quot; ||
+				 resp.statusCode == &quot;MDO_008&quot; ||
+				 resp.statusCode == &quot;MDO_013&quot; ||
+				 resp.statusCode == &quot;MDO_015&quot; ||
+				 resp.statusCode == &quot;MDO_017&quot; ||
+				 resp.statusCode == &quot;MDO_020&quot; ||
+				 resp.statusCode == &quot;MDO_021&quot;)rest_fnShowError(errorM);
+		else rest_fnShowError(&quot;Ocurri\u00f3 un problema, por favor intentalo m\u00e1s tarde&quot;);
+}</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<aspectj>
+<aspects>
+<aspect name="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront.impl.ValidationAccessImpl"/>
+<aspect name="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebfront.ldap.impl.ValidationAccessLdapFrontImpl"/>
+</aspects>
+</aspectj>
+

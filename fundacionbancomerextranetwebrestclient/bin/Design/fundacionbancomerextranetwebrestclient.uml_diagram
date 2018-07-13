@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="470543d2-81f8-4de1-afa6-8b20676e994c" type="UML" measurementUnit="Pixel">
+  <styles xmi:type="notation:PageStyle" xmi:id="470543d2-81f8-4de1-afa6-8b20676e994c"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="470543d2-81f8-4de1-afa6-8b20676e994c"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="470543d2-81f8-4de1-afa6-8b20676e994c"/>
+  <element xmi:type="uml:Package" href="Fundacionbancomerextranetwebrestclient.uml#_ijphIHagEeKZEZenKE683g"/>
+</notation:Diagram>

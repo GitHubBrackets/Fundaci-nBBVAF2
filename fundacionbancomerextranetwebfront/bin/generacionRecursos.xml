@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<assembly>
+	<id>contenidosEstaticos</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/webapp/images</directory>
+			<outputDirectory>images</outputDirectory>    
+		</fileSet>
+		<fileSet>
+			<directory>src/main/webapp/styles</directory>
+			<outputDirectory>styles</outputDirectory>      
+    	</fileSet>
+		<fileSet>
+			<directory>src/main/webapp/jsArquitectura</directory>
+			<outputDirectory>jsArquitectura</outputDirectory>      
+    	</fileSet>
+    	<fileSet>
+			<directory>src/main/webapp/fundacionbancomerextranetwebfront/js</directory>
+			<outputDirectory>js</outputDirectory>      
+    	</fileSet>
+    	<fileSet>
+            <directory>src/main/webapp/fundacionbancomerextranetwebfront</directory>
+            <outputDirectory>fundacionbancomerextranetwebfront</outputDirectory>
+        </fileSet>
+	</fileSets> 
+</assembly>
