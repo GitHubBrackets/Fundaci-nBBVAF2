@@ -17,30 +17,54 @@ import com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebexception.Fund
 public class AsoUtils {
 	private static final Logger log = Logger.getLogger(AsoUtils.class);
 	
-
-	public static final int  INT_URL_CLIENT_GRANTINGTICKET = 1;				//GrantingTicket App74
-	public static final int  INT_URL_NOCLIENT_GRANTINGTICKET = 2;			//GrantingTicket App75
-	public static final int  INT_URL_VALIDATE_SCHOLAR = 3; 					//MGBFTL01
-	public static final int  INT_URL_MOD_UPLOAD_SCHOLAR= 4;					//MGBFTB02
-	public static final int  INT_URL_CONSULT_LEVEL_AND_GRADE_SCHOLAR= 5;	//MGBFTB04
-	public static final int  INT_URL_UPLOAD_QUALIFICATION= 6;				//MGBFTC01
-	public static final int  INT_URL_QUALIFICATION_QUERY= 7;				//MGBFTC02
-	public static final int  INT_URL_AVERAGES_QUERY= 8;						//MGBFTC03
-	public static final int  INT_URL_DETAIL_SCHOLAR= 9;						//MGBFTB03
-	public static final int  INT_URL_UPLOAD_IMAGE_FOLIO= 10;				//MGBFTD01
-	public static final int  INT_URL_DEPOSIT_QUERY= 11;						//MGFBTH01
-	public static final int  INT_URL_MODIF_DEPOSIT= 12;						//MGBFTH02	
-	public static final int  INT_URL_LIST_ARCHIVING_DOCUMENTS= 13;			//[Archiving Lista de documentos]
-	public static final int  INT_URL_SEND_ARCHIVING_DOCUMENTS= 14;          //[Archiving envio de documentos]
-	public static final int  INT_URL_CONSULT_PARAMETERS= 15;          		//MGBFTP01
-	public static final int  INT_URL_LIST_STATE= 16;         				//[Obtiene lista de estados]
-	public static final int  INT_URL_LIST_MUNICIPALITY= 27;					//[Obtiene lista de municipioa]
-	public static final int  INT_URL_ALERTS= 18;							//MGBFTK01
-	public static final int  URL_LDAP_CREATE_SCHOLAR= 19;					//[LDAP Crea becario con App 75]		
-	public static final int  URL_LDAP_GETSTATUS_SCHOLAR= 20;				//[LDAP obtiene estatus del becario con App 75]		
-	public static final int  URL_LDAP_REACTIVATION_SCHOLAR= 21;				//[LDAP Reactiva becario con App 75]			
-	public static final int  URL_LDAP_UPDATEPASSWORD_SCHOLAR= 22;			//[LDAP Crear Actualiza contrasenia del becario con App 75 y App 74]
-	public static final int  INT_URL_APPLICATION_CATALOGS= 23;
+	//GrantingTicket App74
+	public static final int  INT_URL_CLIENT_GRANTINGTICKET = 1;	
+	//GrantingTicket App75
+	public static final int  INT_URL_NOCLIENT_GRANTINGTICKET = 2;	
+	//MGBFTL01
+	public static final int  INT_URL_VALIDATE_SCHOLAR = 3; 	
+	//MGBFTB02
+	public static final int  INT_URL_MOD_UPLOAD_SCHOLAR= 4;		
+	//MGBFTB04
+	public static final int  INT_URL_CONSULT_LEVEL_AND_GRADE_SCHOLAR= 5;
+	//MGBFTC01
+	public static final int  INT_URL_UPLOAD_QUALIFICATION= 6;
+	//MGBFTC02
+	public static final int  INT_URL_QUALIFICATION_QUERY= 7;
+	//MGBFTC03
+	public static final int  INT_URL_AVERAGES_QUERY= 8;		
+	//MGBFTB03
+	public static final int  INT_URL_DETAIL_SCHOLAR= 9;			
+	//MGBFTD01
+	public static final int  INT_URL_UPLOAD_IMAGE_FOLIO= 10;		
+	//MGFBTH01
+	public static final int  INT_URL_DEPOSIT_QUERY= 11;		
+	//MGBFTH02
+	public static final int  INT_URL_MODIF_DEPOSIT= 12;			
+	//[Archiving Lista de documentos]
+	public static final int  INT_URL_LIST_ARCHIVING_DOCUMENTS= 13;	
+	//[Archiving envio de documentos]
+	public static final int  INT_URL_SEND_ARCHIVING_DOCUMENTS= 14; 
+	//MGBFTP01
+	public static final int  INT_URL_CONSULT_PARAMETERS= 15;    
+	//[Obtiene lista de estados]
+	public static final int  INT_URL_LIST_STATE= 16; 
+	//[Obtiene lista de municipioa]
+	public static final int  INT_URL_LIST_MUNICIPALITY= 17;	
+	//MGBFTK01
+	public static final int  INT_URL_ALERTS= 18;			
+	//[LDAP Crea becario con App 75]
+	public static final int  URL_LDAP_CREATE_SCHOLAR= 19;	
+	//[LDAP obtiene estatus del becario con App 75]        
+	public static final int  URL_LDAP_GETSTATUS_SCHOLAR= 20;	
+	//[LDAP Reactiva becario con App 75]
+	public static final int  URL_LDAP_REACTIVATION_SCHOLAR= 21;	
+	//[LDAP Crear Actualiza contrasenia del becario con App 75 y App 74]
+	public static final int  URL_LDAP_UPDATEPASSWORD_SCHOLAR= 22;
+	//Application Catalogs
+	public static final int  INT_URL_APPLICATION_CATALOGS= 23;    
+	//Update Biography
+	public static final int  INT_URL_UPDATE_BIOGRAPHY= 24;
 	
   	/**      
     *
@@ -129,6 +153,9 @@ public class AsoUtils {
 					break;
                 case INT_URL_APPLICATION_CATALOGS:
                     url = urlASOUtils.getUrlApplicationCatalogs();
+                    break;
+                case INT_URL_UPDATE_BIOGRAPHY:
+                    url = urlASOUtils.getUrlUpdateBiography();
                     break;
 				default:
 					break;

@@ -36,6 +36,7 @@ public class UrlASOUtilsDTO {
 	private String urlLdapReactivationScholar;
 	private String urlUpdatePasswordScholar;
 	private String urlApplicationCatalogs;
+	private String urlUpdateBiography;
 	
   	/**      
     *
@@ -565,6 +566,29 @@ public class UrlASOUtilsDTO {
     */
     public void setUrlApplicationCatalogs(String urlApplicationCatalogs) {
         this.urlApplicationCatalogs = urlApplicationCatalogs;
+    }
+
+    /**      
+    *
+    * Method getUrlUpdateBiography.
+    * Get the URL for the service (Update Biography)
+    * @return String value as parameter.
+    *
+    */
+    public String getUrlUpdateBiography() {
+        return urlUpdateBiography;
+    }
+
+    /**      
+    *
+    * Method setUrlUpdateBiography.
+    * Set the URL for the service (Update Biography)
+    * 
+    * @param String urlUpdateBiography
+    * 
+    */
+    public void setUrlUpdateBiography(String urlUpdateBiography) {
+        this.urlUpdateBiography = urlUpdateBiography;
     }	
 	
 	

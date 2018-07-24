@@ -53,6 +53,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
  		<property name="urlLdapReactivationScholar" value="${VAR.CONFIGURACION.URL.LDAP.REACTIVATION.SCHOLAR}"></property>
  		<property name="urlUpdatePasswordScholar" value="${VAR.CONFIGURACION.URL.LDAP.UPDATE.PASSWORD.SCHOLAR}"></property>
  		<property name="urlApplicationCatalogs" value="${VAR.CONFIGURACION.URL.APPLICATION.CATALOGS}"></property>
+ 		<property name="urlUpdateBiography" value="${VAR.CONFIGURACION.URL.UPDATE.BIOGRAPHY}"></property>
  	</bean> 
  		
  	
@@ -231,6 +232,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean name="AppliCatalogsServiceBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.ApplicationCatalogsBackImpl" scope="singleton"> </bean>
 	<bean name="AppliCatalogsServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialApplicationCatalogsServiceImpl" scope="singleton"> </bean>
+	
+	<!--U p d a t e  B i o g r a p h y -->
+	
+	<bean name="UpdateBiographyBack" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebback.impl.UpdateBiographtyBackImpl" scope="singleton"> </bean>
+	<bean name="UpdateBiographyServiceCli" class="com.bbva.arq.front.spring.mgbf.fundacionbancomerextranetwebrestclient.service.impl.InitialUpdateBiographyServiceImpl" scope="singleton"> </bean>
 	
 	<!--
 		Turn on AspectJ @Configurable support. As a result, any time you
